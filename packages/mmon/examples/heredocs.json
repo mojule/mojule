@@ -1,0 +1,9 @@
+[
+  {
+    "name": "heredocs",
+    "model": {
+      "description": "a heredoc syntax is supported for multiline strings",
+      "rhyme": "He thrusts his fists\n    against the\n  posts\n\nand\n        still\n  insists he\n            sees the ghosts\n"
+    }
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "name": "root",
+    "model": {
+      "foo": "properties which are children of a tag become properties of the node model"
+    }
+  },
+  [
+    {
+      "name": "types",
+      "model": {
+        "foo": "unquoted string with spaces is parsed as a single string",
+        "bar": "strings can also be quoted and contain \"escaped quotes\"",
+        "baz": 15,
+        "qux": "1.16",
+        "isFoo": true,
+        "isBar": false,
+        "optional": null,
+        "foofoo": "true",
+        "foos": [
+          "string1",
+          "string2",
+          "string3",
+          42,
+          true,
+          false,
+          null,
+          "Hello, World!"
+        ],
+        "large": [
+          "isNode",
+          "isValue",
+          "createRawNode",
+          "getChildren",
+          "getValue",
+          "setValue",
+          "remove",
+          "add",
+          "get",
+          "42",
+          42,
+          true,
+          "true",
+          false,
+          null,
+          "string with spaces"
+        ],
+        "nested": [
+          "isNode",
+          "isValue",
+          "createRawNode",
+          "getChildren",
+          "getValue",
+          "setValue",
+          "remove",
+          "add",
+          "get",
+          [
+            "string1",
+            "string2",
+            "string3"
+          ],
+          [
+            "getParent",
+            "lastChild",
+            "nextSibling",
+            "previousSibling",
+            "siblings",
+            "walk",
+            "walkUp",
+            "accepts",
+            "atPath",
+            "contains",
+            "find",
+            "findAll",
+            "getMeta",
+            "getPath",
+            "hasChild"
+          ],
+          {
+            "foo": true,
+            "bar": false
+          }
+        ],
+        "barbaz": {
+          "foo": true,
+          "bar": 3.1415
+        }
+      }
+    }
+  ]
+]

@@ -1,0 +1,20 @@
+heredocs>
+  description: a heredoc syntax is supported for multiline strings
+  /*
+He thrusts his fists
+   against the
+  posts
+and
+        still
+  insists he
+            sees the ghosts
+    */
+  rhyme$
+    He thrusts his fists
+        against the
+      posts
+
+    and
+            still
+      insists he
+                sees the ghosts

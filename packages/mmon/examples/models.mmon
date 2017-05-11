@@ -1,0 +1,42 @@
+root>
+  foo: properties which are children of a tag become properties of the node model
+  types>
+    // inline string syntax
+    foo: unquoted string with spaces is parsed as a single string
+    // quoted strings are the same as JSON strings
+    bar: "strings can also be quoted and contain \"escaped quotes\""
+    // numbers are unquoted
+    baz: 15
+    // if a string looks like a number, quote it
+    qux: "1.16"
+    // constants
+    isFoo: true
+    isBar: false
+    optional: null
+    // if a string looks like a constant, quote it
+    foofoo: "true"
+    /*
+      Inline arrays are space separated. Strings containing spaces must be
+      quoted
+    */
+    foos[] string1 string2 string3 42 true false null "Hello, World!"
+    /*
+      large arrays can be separated across multiple lines
+    */
+    large[]
+      isNode isValue createRawNode getChildren getValue setValue remove add get
+      "42" 42 true "true" false null "string with spaces"
+    // nested arrays and objects work the same way, but without identifiers
+    nested[]
+      isNode isValue createRawNode getChildren getValue setValue remove add get
+      [] string1 string2 string3
+      []
+        getParent lastChild nextSibling previousSibling siblings walk walkUp
+        accepts atPath contains find findAll getMeta getPath hasChild
+      {}
+        foo: true
+        bar: false
+    // object syntax
+    barbaz{}
+      foo: true
+      bar: 3.1415

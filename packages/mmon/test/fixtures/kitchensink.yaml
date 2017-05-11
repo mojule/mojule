@@ -1,0 +1,135 @@
+---
+- name: root
+  model:
+    foo: properties which are children of a tag become properties of the node model
+- - name: types
+    model:
+      foo: unquoted string with spaces is parsed as a single string
+      bar: strings can also be quoted and contain "escaped quotes"
+      baz: 15
+      qux: '1.16'
+      isFoo: true
+      isBar: false
+      optional:
+      foos:
+      - string1
+      - string2
+      - string3
+      - 42
+      - true
+      - false
+      -
+      - Hello, World!
+      barbaz:
+        foo: true
+        bar: 3.1415
+- - name: complex
+    model:
+      bars:
+      - foo
+      - ''
+      - bar
+      - baz
+      large:
+      - isNode
+      - isValue
+      - createRawNode
+      - getChildren
+      - getValue
+      - setValue
+      - remove
+      - add
+      - get
+      - getRoot
+      - map
+      - clone
+      - ancestors
+      - childAt
+      - closest
+      - descendants
+      - firstChild
+      - getParent
+      - lastChild
+      - nextSibling
+      - previousSibling
+      - siblings
+      - walk
+      - walkUp
+      - accepts
+      - atPath
+      - contains
+      - find
+      - findAll
+      - getMeta
+      - getPath
+      - hasChild
+      - hasChildren
+      - index
+      - isEmpty
+      - meta
+      - nodeType
+      - setMeta
+      - slug
+      - append
+      - empty
+      - insertAfter
+      - insertAt
+      - insertBefore
+      - prepend
+      - prune
+      - removeAt
+      - true
+      - replaceChild
+      - false
+      - unwrap
+      -
+      - value
+      - wrap
+      - foo
+      - bar
+      - baz
+      - qux
+      - Value with spaces
+      - helloWorld
+      - 42
+      nested:
+      - isNode
+      - isValue
+      - createRawNode
+      - getChildren
+      - getValue
+      - setValue
+      - remove
+      - add
+      - get
+      - - this is an inline nested array
+        - 1
+        - 2
+        - 3
+      - foo: 42
+        bar: '42'
+      - - getRoot
+        - map
+        - clone
+        - ancestors
+        - childAt
+        - closest
+        - descendants
+        - firstChild
+        - - foo
+          - bar
+          - baz
+        - foo: 42
+          bar: '42'
+- - name: heredocs
+    model:
+      description: a heredoc syntax is supported for multiline strings
+      rhyme: |
+        He thrusts his fists
+           against the
+          posts
+
+        and
+                still
+          insists he
+                    sees the ghosts
