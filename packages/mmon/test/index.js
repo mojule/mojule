@@ -49,4 +49,47 @@ describe( 'MMON', () => {
       assert.throws( () => MMON.parse( mmon ) )
     })
   })
+
+  describe( 'parse2', () => {
+    it( 'parses models', () =>
+      readFile( './test/fixtures/kitchensink.mmon', 'utf8' )
+      .then( mmon => MMON.parse2( mmon ) )
+      .then( obj => {
+        console.log( JSON.stringify( obj, null, 2 ) )
+
+        assert.deepEqual( expect, obj )
+      })
+    )
+
+    it( 'parses objects', () => {
+      const mmon = `{}
+        foo: 1
+        bar: abc
+      `
+      const expect = {
+        foo: 1,
+        bar: 'abc'
+      }
+
+      const obj = MMON.parse2( mmon )
+
+      assert.deepEqual( expect, obj )
+    })
+
+    it( 'bad nesting', () => {
+      const mmon = `
+          {}
+        foo: 1
+      `
+      assert.throws( () => MMON.parse2( mmon ) )
+    })
+
+    it( 'unexpected line', () => {
+      const mmon = `{}
+        foo
+      `
+
+      assert.throws( () => MMON.parse2( mmon ) )
+    })
+  })
 })
