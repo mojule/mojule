@@ -1,6 +1,6 @@
 {
   "name": "mojule",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Convenience package for mojule modules",
   "main": "index.js",
   "scripts": {
