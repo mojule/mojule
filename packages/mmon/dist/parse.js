@@ -5,219 +5,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 var StringTree = require('@mojule/string-tree');
 
 var parse = function parse(str) {
-  str = str.replace(patterns.comments, '\n');
+  str = str.replace(comments, '\n');
 
   var stringTree = StringTree.deserialize(str, { retainEmpty: true });
 
   return stringNodeToNode(null, stringTree);
 };
 
-var patterns = {
-  comments: /(\/\*[^*]*\*+([^/*][^*]*\*+)*\/)|(?:\/\/.*\n)/g,
-  tag: /^\s*\S+>\s*$/,
-  scalar: /^\s*(\S+):\s+(.*)$/,
-  inlineArray: /^\s*(\S+)\[]\s+(.+)$/,
-  objectProperty: /^\s*(\S+){}\s*$/,
-  arrayProperty: /^\s*(\S+)\[]\s*$/,
-  embedProperty: /^\s*(\S+)\$\s*$/,
-  arrayLiteral: /^\s*\[]\s*$/,
-  objectLiteral: /^\s*{}\s*$/,
-  inlineArrayLiteral: /^\s*\[]\s+(.+)$/,
-  quotedString: /"([^"\\\\]*|\\\\["\\\\bfnrt\/]|\\\\u[0-9a-f]{4})*"/,
-  quotedStringSplitter: /("(?:[^"\\\\]*|\\\\["\\\\bfnrt\/]|\\\\u[0-9a-f]{4})*")/
-};
-
-var createNode = function createNode(name) {
-  return [{ name: name, model: {} }];
-};
-
-var isTag = function isTag(str) {
-  return patterns.tag.test(str);
-};
-var isScalar = function isScalar(str) {
-  return patterns.scalar.test(str);
-};
-var isInlineArray = function isInlineArray(str) {
-  return patterns.inlineArray.test(str);
-};
-var isObjectProperty = function isObjectProperty(str) {
-  return patterns.objectProperty.test(str);
-};
-var isArrayProperty = function isArrayProperty(str) {
-  return patterns.arrayProperty.test(str);
-};
-var isEmbedProperty = function isEmbedProperty(str) {
-  return patterns.embedProperty.test(str);
-};
-var isArrayLiteral = function isArrayLiteral(str) {
-  return patterns.arrayLiteral.test(str);
-};
-var isObjectLiteral = function isObjectLiteral(str) {
-  return patterns.objectLiteral.test(str);
-};
-var isInlineArrayLiteral = function isInlineArrayLiteral(str) {
-  return patterns.inlineArrayLiteral.test(str);
-};
-
-var parseValue = function parseValue(value) {
-  try {
-    value = JSON.parse(value);
-  } catch (e) {}
-
-  return value;
-};
-
-var getScalar = function getScalar(str) {
-  var matches = patterns.scalar.exec(str);
-  var name = matches[1];
-  var value = parseValue(matches[2]);
-
-  return { name: name, value: value };
-};
-
-var toArray = function toArray(str) {
-  var segs = str.split(patterns.quotedStringSplitter);
-
-  var tokens = segs.reduce(function (t, seg) {
-    if (patterns.quotedString.test(seg)) {
-      t.push(seg);
-
-      return t;
-    }
-
-    seg = seg.trim();
-
-    if (seg !== '') {
-      var subsegs = seg.split(/\s+/);
-
-      t.push.apply(t, _toConsumableArray(subsegs));
-    }
-
-    return t;
-  }, []);
-
-  return tokens.map(parseValue);
-};
-
-var getInlineArray = function getInlineArray(str) {
-  var matches = patterns.inlineArray.exec(str);
-  var name = matches[1];
-  var value = toArray(matches[2]);
-
-  return { name: name, value: value };
-};
-
-var getObjectProperty = function getObjectProperty(stringNode) {
-  var str = stringNode.getValue();
-  var matches = patterns.objectProperty.exec(str);
-  var name = matches[1];
-  var value = {};
-
-  stringNode.getChildren().forEach(function (stringChild) {
-    addToObject(value, stringChild);
-  });
-
-  return { name: name, value: value };
-};
-
-var getArrayProperty = function getArrayProperty(stringNode) {
-  var str = stringNode.getValue();
-  var matches = patterns.arrayProperty.exec(str);
-  var name = matches[1];
-  var value = [];
-
-  stringNode.getChildren().forEach(function (stringChild) {
-    addToArray(value, stringChild);
-  });
-
-  return { name: name, value: value };
-};
-
-var getEmbedProperty = function getEmbedProperty(stringNode) {
-  var leading = stringNode.getMeta('indent') + 2;
-  var str = stringNode.getValue();
-  var matches = patterns.embedProperty.exec(str);
-  var name = matches[1];
-  var value = '';
-
-  stringNode.walk(function (current, parent, depth) {
-    if (current === stringNode) return;
-
-    var indent = current.getMeta('indent');
-    var indentation = ' '.repeat(indent - leading);
-    var str = current.getValue();
-
-    value += '' + indentation + str + '\n';
-  });
-
-  return { name: name, value: value };
-};
-
-var addToArray = function addToArray(arr, stringNode) {
-  var str = stringNode.getValue();
-
-  if (isArrayLiteral(str)) {
-    var arrLiteral = [];
-
-    stringNode.getChildren().forEach(function (stringChild) {
-      addToArray(arrLiteral, stringChild);
-    });
-
-    arr.push(arrLiteral);
-  } else if (isObjectLiteral(str)) {
-    var objLiteral = {};
-
-    stringNode.getChildren().forEach(function (stringChild) {
-      addToObject(objLiteral, stringChild);
-    });
-
-    arr.push(objLiteral);
-  } else if (isInlineArrayLiteral(str)) {
-    var matches = patterns.inlineArrayLiteral.exec(str);
-    var items = matches[1];
-
-    arr.push(toArray(items));
-  } else {
-    arr.push.apply(arr, _toConsumableArray(toArray(str)));
-  }
-};
-
-var addToObject = function addToObject(obj, stringNode) {
-  var str = stringNode.getValue();
-
-  var nameValue = void 0;
-
-  if (isScalar(str)) {
-    nameValue = getScalar(str);
-  } else if (isInlineArray(str)) {
-    nameValue = getInlineArray(str);
-  } else if (isObjectProperty(str)) {
-    nameValue = getObjectProperty(stringNode);
-  } else if (isArrayProperty(str)) {
-    nameValue = getArrayProperty(stringNode);
-  } else if (isEmbedProperty(str)) {
-    nameValue = getEmbedProperty(stringNode);
-  } else if (str.trim() === '') {
-    return;
-  } else {
-    throw new Error('Unexpected line in cdoc: ' + str);
-  }
-
-  var _nameValue = nameValue,
-      name = _nameValue.name,
-      value = _nameValue.value;
-
-
-  obj[name] = value;
-};
-
 var stringNodeToNode = function stringNodeToNode(parent, stringNode) {
-  var value = stringNode.getValue();
+  var raw = stringNode.getValue();
+  var syntaxNode = tokenize(raw);
 
-  if (isTag(value)) {
-    value = value.replace(/>/g, '');
-
-    var node = createNode(value);
+  if (syntaxNode.operator === '>') {
+    var node = createNode(syntaxNode.identifier);
 
     if (parent) parent.push(node);
 
@@ -237,6 +37,225 @@ var stringNodeToNode = function stringNodeToNode(parent, stringNode) {
   }
 
   addToObject(parent[0].model, stringNode);
+};
+
+var createNode = function createNode(name) {
+  return [{ name: name, model: {} }];
+};
+
+var addToArray = function addToArray(arr, stringNode) {
+  var raw = stringNode.getValue();
+
+  if (raw.trim() === '') return;
+
+  var syntaxNode = tokenize(raw);
+
+  if (syntaxNode.operator === '[]') {
+    var nested = [].concat(_toConsumableArray(syntaxNode.value));
+
+    stringNode.getChildren().forEach(function (stringChild) {
+      addToArray(nested, stringChild);
+    });
+
+    arr.push(nested);
+  } else if (syntaxNode.operator === '{}') {
+    var obj = {};
+
+    stringNode.getChildren().forEach(function (stringChild) {
+      addToObject(obj, stringChild);
+    });
+
+    arr.push(obj);
+  } else if (syntaxNode.operator === '$') {
+    arr.push(getMultiline(stringNode));
+  } else {
+    arr.push.apply(arr, _toConsumableArray(arrayValues(syntaxNode.value)));
+  }
+};
+
+var addToObject = function addToObject(obj, stringNode) {
+  var raw = stringNode.getValue();
+
+  if (raw.trim() === '') return;
+
+  var syntaxNode = tokenize(raw);
+  var operator = syntaxNode.operator;
+
+
+  var value = void 0;
+
+  if (operator === '$') {
+    value = getMultiline(stringNode);
+  } else if (operator === '{}') {
+    value = {};
+
+    stringNode.getChildren().forEach(function (stringChild) {
+      addToObject(value, stringChild);
+    });
+  } else if (operator === '[]') {
+    value = [].concat(_toConsumableArray(syntaxNode.value));
+
+    stringNode.getChildren().forEach(function (stringChild) {
+      addToArray(value, stringChild);
+    });
+  } else if (operator === ':') {
+    value = syntaxNode.value;
+  } else {
+    throw new Error('Unexpected object child: ' + raw);
+  }
+
+  obj[syntaxNode.identifier] = value;
+};
+
+var getMultiline = function getMultiline(stringNode) {
+  var leading = stringNode.getMeta('indent') + 2;
+
+  var value = '';
+
+  stringNode.walk(function (current, parent, depth) {
+    if (current === stringNode) return;
+
+    var indent = current.getMeta('indent');
+    var indentation = ' '.repeat(indent - leading);
+    var str = current.getValue();
+
+    value += '' + indentation + str + '\n';
+  });
+
+  return value;
+};
+
+var quotedString = /("(?:(?:(?=\\)\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))|[^"\\\0-\x1F\x7F]+)*")/;
+var assignment = /(>|:|\[]|{}|\$)/;
+var whitespace = /(\s+)/;
+var literal = /.+/;
+var comments = /(\/\*[^*]*\*+([^/*][^*]*\*+)*\/)|(?:\/\/.*\n)/g;
+
+var or = function or() {
+  for (var _len = arguments.length, regexen = Array(_len), _key = 0; _key < _len; _key++) {
+    regexen[_key] = arguments[_key];
+  }
+
+  return regexen.reduce(function (result, regex, i) {
+    if (i !== 0) result += '|';
+    result += regex.source;
+    return result;
+  }, '');
+};
+
+var line = function line(regex) {
+  return new RegExp('^' + regex.source + '$');
+};
+
+var tokens = new RegExp('(?:' + or(quotedString, assignment, whitespace) + ')');
+
+var patterns = {
+  quotedString: quotedString, assignment: assignment, whitespace: whitespace, literal: literal
+};
+
+var toString = function toString(values) {
+  return values.reduce(function (str, current) {
+    if (current.type === 'quotedString') {
+      str += JSON.parse(current.value);
+    } else {
+      str += current.value;
+    }
+
+    return str;
+  }, '');
+};
+
+var trimValues = function trimValues(values) {
+  var first = -1;
+  var last = values.length;
+
+  values.forEach(function (value, i) {
+    if (value.type !== 'whitespace') {
+      if (first === -1) {
+        first = i;
+      }
+      last = i;
+    }
+  });
+
+  if (first === -1) return [];
+
+  return values.slice(first, last + 1);
+};
+
+var parseValue = function parseValue(value) {
+  try {
+    value = JSON.parse(value);
+  } catch (e) {}
+
+  return value;
+};
+
+var arrayValues = function arrayValues(arr) {
+  return arr.reduce(function (newValue, current) {
+    if (current.type === 'whitespace') return newValue;
+
+    newValue.push(parseValue(current.value));
+
+    return newValue;
+  }, []);
+};
+
+var parameterlessOperators = ['>', '$', '{}'];
+
+var tokenize = function tokenize(str) {
+  var start = -1;
+  var assignment = -1;
+  var i = 0;
+
+  var segs = str.split(tokens).reduce(function (tokenized, seg) {
+    if (!seg) return tokenized;
+
+    var type = Object.keys(patterns).find(function (key) {
+      return line(patterns[key]).test(seg);
+    });
+
+    if (type === 'assignment' && assignment === -1) assignment = i;
+
+    if (type !== 'whitespace' && start === -1) start = i;
+
+    var value = seg;
+
+    tokenized.push({ type: type, value: value });
+
+    i++;
+
+    return tokenized;
+  }, []);
+
+  var type = assignment === -1 ? 'data' : 'assignment';
+
+  var node = { type: type };
+
+  if (type === 'assignment') {
+    var value = segs.slice(assignment + 1);
+
+    node.operator = segs[assignment].value;
+    node.identifier = toString(segs.slice(start, assignment));
+
+    if (node.operator === ':') {
+      value = trimValues(value);
+
+      if (value.length === 1) {
+        node.value = parseValue(value[0].value);
+      } else {
+        node.value = toString(value);
+      }
+    } else if (node.operator === '[]') {
+      node.value = arrayValues(value);
+    } else if (!parameterlessOperators.includes(node.operator)) {
+      node.value = value;
+    }
+  } else {
+    node.value = segs;
+  }
+
+  return node;
 };
 
 module.exports = parse;

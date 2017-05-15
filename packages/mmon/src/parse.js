@@ -3,198 +3,19 @@
 const StringTree = require( '@mojule/string-tree' )
 
 const parse = str => {
-  str = str.replace( patterns.comments, '\n' )
+  str = str.replace( comments, '\n' )
 
   const stringTree = StringTree.deserialize( str, { retainEmpty: true } )
 
   return stringNodeToNode( null, stringTree )
 }
 
-const patterns = {
-  comments: /(\/\*[^*]*\*+([^/*][^*]*\*+)*\/)|(?:\/\/.*\n)/g,
-  tag: /^\s*\S+>\s*$/,
-  scalar: /^\s*(\S+):\s+(.*)$/,
-  inlineArray: /^\s*(\S+)\[]\s+(.+)$/,
-  objectProperty: /^\s*(\S+){}\s*$/,
-  arrayProperty: /^\s*(\S+)\[]\s*$/,
-  embedProperty: /^\s*(\S+)\$\s*$/,
-  arrayLiteral: /^\s*\[]\s*$/,
-  objectLiteral: /^\s*{}\s*$/,
-  inlineArrayLiteral: /^\s*\[]\s+(.+)$/,
-  quotedString: /"([^"\\\\]*|\\\\["\\\\bfnrt\/]|\\\\u[0-9a-f]{4})*"/,
-  quotedStringSplitter: /("(?:[^"\\\\]*|\\\\["\\\\bfnrt\/]|\\\\u[0-9a-f]{4})*")/
-}
-
-const createNode = name => [
-  { name, model: {} }
-]
-
-const isTag = str => patterns.tag.test( str )
-const isScalar = str => patterns.scalar.test( str )
-const isInlineArray = str => patterns.inlineArray.test( str )
-const isObjectProperty = str => patterns.objectProperty.test( str )
-const isArrayProperty = str => patterns.arrayProperty.test( str )
-const isEmbedProperty = str => patterns.embedProperty.test( str )
-const isArrayLiteral = str => patterns.arrayLiteral.test( str )
-const isObjectLiteral = str => patterns.objectLiteral.test( str )
-const isInlineArrayLiteral = str => patterns.inlineArrayLiteral.test( str )
-
-const parseValue = value => {
-  try {
-    value = JSON.parse( value )
-  } catch( e ){}
-
-  return value
-}
-
-const getScalar = str => {
-  const matches = patterns.scalar.exec( str )
-  const name = matches[ 1 ]
-  const value = parseValue( matches[ 2 ] )
-
-  return { name, value }
-}
-
-const toArray = str => {
-  const segs = str.split( patterns.quotedStringSplitter )
-
-  const tokens = segs.reduce( ( t, seg ) => {
-    if( patterns.quotedString.test( seg ) ){
-      t.push( seg )
-
-      return t
-    }
-
-    seg = seg.trim()
-
-    if( seg !== '' ){
-      const subsegs = seg.split( /\s+/ )
-
-      t.push( ...subsegs )
-    }
-
-    return t
-  }, [] )
-
-  return tokens.map( parseValue )
-}
-
-const getInlineArray = str => {
-  const matches = patterns.inlineArray.exec( str )
-  const name = matches[ 1 ]
-  const value = toArray( matches[ 2 ] )
-
-  return { name, value }
-}
-
-const getObjectProperty = stringNode => {
-  const str = stringNode.getValue()
-  const matches = patterns.objectProperty.exec( str )
-  const name = matches[ 1 ]
-  const value = {}
-
-  stringNode.getChildren().forEach( stringChild => {
-    addToObject( value, stringChild )
-  })
-
-  return { name, value }
-}
-
-const getArrayProperty = stringNode => {
-  const str = stringNode.getValue()
-  const matches = patterns.arrayProperty.exec( str )
-  const name = matches[ 1 ]
-  const value = []
-
-  stringNode.getChildren().forEach( stringChild => {
-    addToArray( value, stringChild )
-  })
-
-  return { name, value }
-}
-
-const getEmbedProperty = stringNode => {
-  const leading = stringNode.getMeta( 'indent' ) + 2
-  const str = stringNode.getValue()
-  const matches = patterns.embedProperty.exec( str )
-  const name = matches[ 1 ]
-  let value = ''
-
-  stringNode.walk( ( current, parent, depth ) => {
-    if( current === stringNode ) return
-
-    const indent = current.getMeta( 'indent' )
-    const indentation = ' '.repeat( indent - leading )
-    const str = current.getValue()
-
-    value += `${ indentation }${ str }\n`
-  })
-
-  return { name, value }
-}
-
-const addToArray = ( arr, stringNode ) => {
-  const str = stringNode.getValue()
-
-  if( isArrayLiteral( str ) ){
-    const arrLiteral = []
-
-    stringNode.getChildren().forEach( stringChild => {
-      addToArray( arrLiteral, stringChild )
-    })
-
-    arr.push( arrLiteral )
-  } else if( isObjectLiteral( str ) ){
-    const objLiteral = {}
-
-    stringNode.getChildren().forEach( stringChild => {
-      addToObject( objLiteral, stringChild )
-    })
-
-    arr.push( objLiteral )
-  } else if( isInlineArrayLiteral( str ) ){
-    const matches = patterns.inlineArrayLiteral.exec( str )
-    const items = matches[ 1 ]
-
-    arr.push( toArray( items ) )
-  } else {
-    arr.push( ...toArray( str ) )
-  }
-}
-
-const addToObject = ( obj, stringNode ) => {
-  const str = stringNode.getValue()
-
-  let nameValue
-
-  if( isScalar( str ) ){
-    nameValue = getScalar( str )
-  } else if( isInlineArray( str ) ){
-    nameValue = getInlineArray( str )
-  } else if( isObjectProperty( str ) ){
-    nameValue = getObjectProperty( stringNode )
-  } else if( isArrayProperty( str ) ){
-    nameValue = getArrayProperty( stringNode )
-  } else if( isEmbedProperty( str ) ) {
-    nameValue = getEmbedProperty( stringNode )
-  } else if( str.trim() === '' ){
-    return
-  } else {
-    throw new Error( 'Unexpected line in cdoc: ' + str )
-  }
-
-  const { name, value } = nameValue
-
-  obj[ name ] = value
-}
-
 const stringNodeToNode = ( parent, stringNode ) => {
-  let value = stringNode.getValue()
+  const raw = stringNode.getValue()
+  const syntaxNode = tokenize( raw )
 
-  if( isTag( value ) ){
-    value = value.replace( />/g, '' )
-
-    const node = createNode( value )
+  if( syntaxNode.operator === '>' ){
+    const node = createNode( syntaxNode.identifier )
 
     if( parent )
       parent.push( node )
@@ -215,6 +36,223 @@ const stringNodeToNode = ( parent, stringNode ) => {
   }
 
   addToObject( parent[ 0 ].model, stringNode )
+}
+
+const createNode = name => [
+  { name, model: {} }
+]
+
+const addToArray = ( arr, stringNode ) => {
+  const raw = stringNode.getValue()
+
+  if( raw.trim() === '' )
+    return
+
+  const syntaxNode = tokenize( raw )
+
+  if( syntaxNode.operator === '[]' ){
+    const nested = [ ...syntaxNode.value ]
+
+    stringNode.getChildren().forEach( stringChild => {
+      addToArray( nested, stringChild )
+    })
+
+    arr.push( nested )
+  } else if( syntaxNode.operator === '{}' ){
+    const obj = {}
+
+    stringNode.getChildren().forEach( stringChild => {
+      addToObject( obj, stringChild )
+    })
+
+    arr.push( obj )
+  } else if( syntaxNode.operator === '$'){
+    arr.push( getMultiline( stringNode ) )
+  } else {
+    arr.push( ...arrayValues( syntaxNode.value ) )
+  }
+}
+
+const addToObject = ( obj, stringNode ) => {
+  const raw = stringNode.getValue()
+
+  if( raw.trim() === '' )
+    return
+
+  const syntaxNode = tokenize( raw )
+  const { operator } = syntaxNode
+
+  let value
+
+  if( operator === '$' ){
+    value = getMultiline( stringNode )
+  } else if( operator === '{}' ){
+    value = {}
+
+    stringNode.getChildren().forEach( stringChild => {
+      addToObject( value, stringChild )
+    })
+  } else if( operator === '[]' ) {
+    value = [ ...syntaxNode.value ]
+
+    stringNode.getChildren().forEach( stringChild => {
+      addToArray( value, stringChild )
+    })
+  } else if( operator === ':' ){
+    value = syntaxNode.value
+  } else {
+    throw new Error( 'Unexpected object child: ' + raw )
+  }
+
+  obj[ syntaxNode.identifier ] = value
+}
+
+const getMultiline = stringNode => {
+  const leading = stringNode.getMeta( 'indent' ) + 2
+
+  let value = ''
+
+  stringNode.walk( ( current, parent, depth ) => {
+    if( current === stringNode ) return
+
+    const indent = current.getMeta( 'indent' )
+    const indentation = ' '.repeat( indent - leading )
+    const str = current.getValue()
+
+    value += `${ indentation }${ str }\n`
+  })
+
+  return value
+}
+
+const quotedString = /("(?:(?:(?=\\)\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))|[^"\\\0-\x1F\x7F]+)*")/
+const assignment = /(>|:|\[]|{}|\$)/
+const whitespace = /(\s+)/
+const literal = /.+/
+const comments = /(\/\*[^*]*\*+([^/*][^*]*\*+)*\/)|(?:\/\/.*\n)/g
+
+const or = ( ...regexen ) =>
+  regexen.reduce( ( result, regex, i ) => {
+    if( i !== 0 ) result += '|'
+    result += regex.source
+    return result
+  }, '' )
+
+const line = regex => new RegExp( '^' + regex.source + '$' )
+
+const tokens = new RegExp(
+  '(?:' + or( quotedString, assignment, whitespace ) + ')'
+)
+
+const patterns = {
+  quotedString, assignment, whitespace, literal
+}
+
+const toString = values => values.reduce( ( str, current ) => {
+  if( current.type === 'quotedString' ){
+    str += JSON.parse( current.value )
+  } else {
+    str += current.value
+  }
+
+  return str
+}, '' )
+
+const trimValues = values => {
+  let first = -1
+  let last = values.length
+
+  values.forEach( ( value, i ) => {
+    if( value.type !== 'whitespace' ){
+      if( first === -1 ){
+        first = i
+      }
+      last = i
+    }
+  })
+
+  if( first === -1 )
+    return []
+
+  return values.slice( first, last + 1 )
+}
+
+const parseValue = value => {
+  try {
+    value = JSON.parse( value )
+  } catch( e ){}
+
+  return value
+}
+
+const arrayValues = arr =>
+  arr.reduce( ( newValue, current ) => {
+    if( current.type === 'whitespace' )
+      return newValue
+
+    newValue.push( parseValue( current.value ) )
+
+    return newValue
+  }, [] )
+
+const parameterlessOperators = [ '>', '$', '{}' ]
+
+const tokenize = str => {
+  let start = -1
+  let assignment = -1
+  let i = 0
+
+  const segs =
+    str.split( tokens ).reduce( ( tokenized, seg ) => {
+      if( !seg ) return tokenized
+
+      const type = Object.keys( patterns ).find(
+        key => line( patterns[ key ] ).test( seg )
+      )
+
+      if( type === 'assignment' && assignment === -1 )
+        assignment = i
+
+      if( type !== 'whitespace' && start === -1 )
+        start = i
+
+      const value = seg
+
+      tokenized.push( { type, value } )
+
+      i++
+
+      return tokenized
+    }, [] )
+
+  const type = assignment === -1 ? 'data' : 'assignment'
+
+  const node = { type }
+
+  if( type === 'assignment' ){
+    let value = segs.slice( assignment + 1 )
+
+    node.operator = segs[ assignment ].value
+    node.identifier = toString( segs.slice( start, assignment ) )
+
+    if( node.operator === ':' ){
+      value = trimValues( value )
+
+      if( value.length === 1 ){
+        node.value = parseValue( value[ 0 ].value )
+      } else {
+        node.value = toString( value )
+      }
+    } else if( node.operator === '[]' ){
+      node.value = arrayValues( value )
+    } else if( !parameterlessOperators.includes( node.operator ) ) {
+      node.value = value
+    }
+  } else {
+    node.value = segs
+  }
+
+  return node
 }
 
 module.exports = parse

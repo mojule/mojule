@@ -3,6 +3,8 @@
 */
 root>
   foo: properties which are children of a tag become properties of the node model
+  foo bar: property names can have spaces
+  "with \"quoted\" quotes": true
   types>
     // inline string syntax
     foo: unquoted string with spaces is parsed as a single string
@@ -42,6 +44,9 @@ root>
       index isEmpty meta nodeType setMeta slug append empty insertAfter insertAt
       insertBefore prepend prune removeAt true replaceChild false unwrap null
       value wrap foo bar baz qux "Value with spaces" helloWorld 42
+    mixed[] you can use a mix of inline
+      and
+      nested
     nested[]
       isNode isValue createRawNode getChildren getValue setValue remove add get
       /*
@@ -60,6 +65,16 @@ root>
         {}
           foo: 42
           bar: "42"
+      // nested multiline
+      $
+        He thrusts his fists
+           against the
+          posts
+
+        and
+                still
+          insists he
+                    sees the ghosts
   heredocs>
     description: a heredoc syntax is supported for multiline strings
     /*

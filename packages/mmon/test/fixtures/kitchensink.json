@@ -2,7 +2,9 @@
   {
     "name": "root",
     "model": {
-      "foo": "properties which are children of a tag become properties of the node model"
+      "foo": "properties which are children of a tag become properties of the node model",
+      "foo bar": "property names can have spaces",
+      "with \"quoted\" quotes": true
     }
   },
   [
@@ -106,6 +108,17 @@
           "helloWorld",
           42
         ],
+        "mixed": [
+          "you",
+          "can",
+          "use",
+          "a",
+          "mix",
+          "of",
+          "inline",
+          "and",
+          "nested"
+        ],
         "nested": [
           "isNode",
           "isValue",
@@ -144,7 +157,8 @@
               "foo": 42,
               "bar": "42"
             }
-          ]
+          ],
+          "He thrusts his fists\n   against the\n  posts\n\nand\n        still\n  insists he\n            sees the ghosts\n"
         ]
       }
     }
