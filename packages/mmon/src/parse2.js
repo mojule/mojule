@@ -51,7 +51,7 @@ const addToArray = ( arr, stringNode ) => {
   const syntaxNode = tokenize( raw )
 
   if( syntaxNode.operator === '[]' ){
-    const nested = [ ...syntaxNode.data ]
+    const nested = [ ...syntaxNode.value ]
 
     stringNode.getChildren().forEach( stringChild => {
       addToArray( nested, stringChild )
@@ -69,7 +69,7 @@ const addToArray = ( arr, stringNode ) => {
   } else if( syntaxNode.operator === '$'){
     arr.push( getMultiline( stringNode ) )
   } else {
-    arr.push( ...arrayValues( syntaxNode.values ) )
+    arr.push( ...arrayValues( syntaxNode.value ) )
   }
 }
 
@@ -80,17 +80,25 @@ const addToObject = ( obj, stringNode ) => {
     return
 
   const syntaxNode = tokenize( raw )
+  const { operator } = syntaxNode
+
   let value
 
-  if( syntaxNode.operator === '$' ){
+  if( operator === '$' ){
     value = getMultiline( stringNode )
-  } else if( syntaxNode.operator === '{}' ){
+  } else if( operator === '{}' ){
     value = {}
 
     stringNode.getChildren().forEach( stringChild => {
       addToObject( value, stringChild )
     })
-  } else if( syntaxNode.operator === ':' || syntaxNode.operator === '[]' ){
+  } else if( operator === '[]' ) {
+    value = [ ...syntaxNode.value ]
+
+    stringNode.getChildren().forEach( stringChild => {
+      addToArray( value, stringChild )
+    })
+  } else if( operator === ':' ){
     value = syntaxNode.value
   } else {
     throw new Error( 'Unexpected object child: ' + raw )
@@ -117,7 +125,7 @@ const getMultiline = stringNode => {
   return value
 }
 
-const quotedString = /("(?:((?=\\)\\(["\\\/bfnrt]|u[0-9a-fA-F]{4}))|[^"\\\0-\x1F\x7F]+)*")/
+const quotedString = /("(?:(?:(?=\\)\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4}))|[^"\\\0-\x1F\x7F]+)*")/
 const assignment = /(>|:|\[]|{}|\$)/
 const whitespace = /(\s+)/
 const literal = /.+/

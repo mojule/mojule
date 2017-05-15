@@ -55,8 +55,6 @@ describe( 'MMON', () => {
       readFile( './test/fixtures/kitchensink.mmon', 'utf8' )
       .then( mmon => MMON.parse2( mmon ) )
       .then( obj => {
-        console.log( JSON.stringify( obj, null, 2 ) )
-
         assert.deepEqual( expect, obj )
       })
     )
