@@ -1,0 +1,44 @@
+{
+  "name": "mojule",
+  "version": "0.0.1",
+  "description": "Convenience package for mojule modules",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp",
+    "test": "mocha",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
+  },
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mojule/mojule.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mojule/mojule/issues"
+  },
+  "homepage": "https://github.com/mojule/mojule#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "@mojule/dom-plugins": "^0.1.10",
+    "@mojule/is": "^0.1.2",
+    "@mojule/json-dom-plugins": "^0.1.5",
+    "@mojule/json-tree": "^0.5.4",
+    "@mojule/schema-tree": "^0.4.5",
+    "@mojule/string-tree": "^0.1.3",
+    "@mojule/templating": "^0.2.8",
+    "@mojule/transform": "^0.2.7",
+    "@mojule/tree": "^0.6.5",
+    "@mojule/tree-factory": "^0.5.7",
+    "@mojule/utils": "^0.1.10",
+    "@mojule/vdom": "^0.3.10",
+    "@mojule/vfs": "^0.1.4"
+  }
+}
