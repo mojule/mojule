@@ -1,6 +1,6 @@
 {
   "name": "@mojule/mmon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mojule Model Object Notation - a simple DSL for generating nested model nodes",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,6 @@
     "pify": "^2.3.0"
   },
   "dependencies": {
-    "@mojule/string-tree": "^0.1.3"
+    "@mojule/string-tree": "^0.1.4"
   }
 }
