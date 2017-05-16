@@ -1,0 +1,33 @@
+{
+  "name": "@mojule/grid",
+  "version": "0.0.1",
+  "description": "API for working with grid or grid-like data",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp",
+    "test": "mocha",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
+  },
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mojule/grid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mojule/grid/issues"
+  },
+  "homepage": "https://github.com/mojule/grid#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "@mojule/utils": "^0.1.11",
+    "lodash.chunk": "^4.2.0"
+  }
+}
