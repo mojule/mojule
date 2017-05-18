@@ -14,18 +14,23 @@ const columnHeaders = models =>
     return names
   }, [] )
 
-const toRows = models => {
-  const headers = columnHeaders( models )
-  const rows = models.map( model => headers.map( key => model[ key ] ) )
+const toState = models => {
+  const columnNames = columnHeaders( models )
+  const rowNames = null
+  const rows = models.map( model => columnNames.map( key => model[ key ] ) )
 
-  return [ headers, ...rows ]
+  return { rows, columnNames, rowNames }
 }
 
-const fromRows = ( rows, headers ) =>
-  rows.map( row => row.reduce( ( obj, value, x ) => {
-    obj[ headers[ x ] ] = value
+const fromGrid = api => {
+  const rows = api.rows()
+  const columnNames = api.columnNames()
+
+  return rows.map( row => row.reduce( ( obj, value, x ) => {
+    obj[ columnNames[ x ] ] = value
 
     return obj
   }, {} ) )
+}
 
-module.exports = { predicate, columnHeaders, toRows, fromRows }
+module.exports = { predicate, columnHeaders, toState, fromGrid }

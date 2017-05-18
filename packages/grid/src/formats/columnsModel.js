@@ -1,9 +1,6 @@
 'use strict'
 
 const is = require( '@mojule/is' )
-const columns = require( './columns' )
-
-const rowsToColumns = columns.fromRows
 
 const predicate = columnsModel =>
   is.object( columnsModel ) &&
@@ -11,18 +8,19 @@ const predicate = columnsModel =>
 
 const columnHeaders = columnsModel => Object.keys( columnsModel )
 
-const toRows = columnsModel => {
-  const headers = columnHeaders( columnsModel )
+const toState = columnsModel => {
+  const columnNames = columnHeaders( columnsModel )
+  const rowNames = null
 
-  const height = headers.reduce(
+  const height = columnNames.reduce(
     ( max, key ) => columnsModel[ key ].length > max ? columnsModel[ key ].length : max,
     0
   )
 
-  const rows = [ headers ]
+  const rows = []
 
   const getRow = y =>
-    headers.reduce( ( row, key ) => {
+    columnNames.reduce( ( row, key ) => {
       row.push( columnsModel[ key ][ y ] )
 
       return row
@@ -31,17 +29,18 @@ const toRows = columnsModel => {
   for( let y = 0; y < height; y++ )
     rows.push( getRow( y ) )
 
-  return rows
+  return { rows, columnNames, rowNames }
 }
 
-const fromRows = ( rows, headers ) => {
-  const columns = rowsToColumns( rows, headers )
+const fromGrid = api => {
+  const columns = api.columns()
+  const columnNames = api.columnNames()
 
   return columns.reduce( ( obj, col, x ) => {
-    obj[ headers[ x ] ] = col.slice( 1 )
+    obj[ columnNames[ x ] ] = col.slice()
 
     return obj
   }, {} )
 }
 
-module.exports = { predicate, columnHeaders, toRows, fromRows }
+module.exports = { predicate, columnHeaders, toState, fromGrid }

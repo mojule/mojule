@@ -1,8 +1,13 @@
 'use strict'
 
+require( './createState' )
+require( './grid' )
+require( './api' )
 require( './columns' )
-require( './models' )
 require( './columnsModel' )
+require( './models' )
 require( './noColumnHeaders' )
-require( './values' )
 require( './utils' )
+/*
+require( './array-to-table' )
+*/

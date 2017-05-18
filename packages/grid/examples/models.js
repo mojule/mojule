@@ -11,4 +11,6 @@ const data = [
 
 const grid = Grid( data )
 
+console.log( 'models' )
 console.log( JSON.stringify( grid.models() ) )
+console.log( '---' )

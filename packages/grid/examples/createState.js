@@ -9,8 +9,9 @@ const data = [
   [ 'Alex', 25, false ]
 ]
 
-const grid = Grid( data )
+const state = Grid.createState( data )
 
-console.log( 'columns' )
-console.log( JSON.stringify( grid.columns() ) )
+console.log( 'grid' )
+console.log( JSON.stringify( state.columnNames ) )
+console.log( JSON.stringify( state.rows ) )
 console.log( '---' )

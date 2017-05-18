@@ -10,5 +10,11 @@ const data = [
 ]
 
 const grid = Grid( data )
+const columnsModel = grid.columnsModel()
+const columnsModelGrid = Grid( columnsModel )
 
-console.log( JSON.stringify( grid.columnsModel() ) )
+console.log( 'columnsModel' )
+console.log( JSON.stringify( columnsModel ) )
+console.log( JSON.stringify( columnsModelGrid.columnNames() ) )
+console.log( JSON.stringify( columnsModelGrid.rows() ) )
+console.log( '---' )

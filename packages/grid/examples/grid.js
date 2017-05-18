@@ -11,4 +11,7 @@ const data = [
 
 const grid = Grid( data )
 
-console.log( JSON.stringify( grid.values() ) )
+console.log( 'grid' )
+console.log( JSON.stringify( grid.columnNames() ) )
+console.log( JSON.stringify( grid.rows() ) )
+console.log( '---' )
