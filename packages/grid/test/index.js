@@ -1,6 +1,7 @@
 'use strict'
 
 const assert = require( 'assert' )
+const is = require( '@mojule/is' )
 const utils = require( '@mojule/utils' )
 const Grid = require( '../src' )
 
@@ -238,7 +239,7 @@ describe( 'Grid', () => {
       })
     })
 
-    describe( 'Auto column headers (default)', () =>{
+    describe( 'Auto column headers (default)', () => {
       const grid = Grid( rows )
 
       it( 'columnNames', () => {
@@ -306,7 +307,6 @@ describe( 'Grid', () => {
         assert.equal( grid.getValue( 'Name', 0 ), 'Nik' )
       })
 
-      /*
       it( 'set value', () => {
         const newGrid = Grid( rows )
 
@@ -334,7 +334,125 @@ describe( 'Grid', () => {
         assert.equal( grid.getValue( 0, 0 ), 'Nik' )
         assert.equal( newGrid.getValue( 0, 0 ), 'nrknthuk' )
       })
-      */
+
+      it( 'schema', () => {
+        const expectSchema =   {
+          "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "Age": {
+              "type": "integer"
+            },
+            "Member": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Name",
+            "Age",
+            "Member"
+          ]
+        }
+
+        assert.deepEqual( grid.schema(), expectSchema )
+      })
+    })
+
+    describe( 'Data has no headers', () => {
+
+    })
+
+    describe( 'Data has row headers but not column headers', () => {
+
+    })
+
+    describe( 'Data has both column and row headers', () => {
+
+    })
+
+    describe( 'Column headers in data, but replace from options', () => {
+
+    })
+
+    describe( 'Row headers in data, but replace from options', () => {
+
+    })
+
+    describe( 'No column headers in data, but set with options', () => {
+
+    })
+
+    describe( 'No row headers in data, but set with options', () => {
+
+    })
+  })
+
+  describe( 'Factory', () => {
+    const { Factory } = Grid
+
+    const size = ( api, grid ) => {
+      return {
+        size: () => api.width() * api.height()
+      }
+    }
+
+    it( 'options', () => {
+      const Grid = Factory( { exposeState: true } )
+      const grid = Grid( rows )
+
+      assert.deepEqual( grid.state, { rows: rows.slice( 1 ), columnNames: headers, rowNames: null } )
+    })
+
+    it( 'plugins', () => {
+      const Grid = Factory( size )
+      const grid = Grid( rows )
+
+      assert.equal( grid.size(), 9 )
+    })
+
+    it( 'plugins array', () => {
+      const Grid = Factory( [ size ] )
+      const grid = Grid( rows )
+
+      assert.equal( grid.size(), 9 )
+    })
+
+    it( 'bad plugins', () => {
+      assert.throws( () => Factory( 'abc' ) )
+    })
+
+    it( 'formats', () => {
+      const Grid = Factory({
+        formats: {
+          size: {
+            predicate: size =>
+              is.object( size ) && is.number( size.width ) &&
+              is.number( size.height ),
+            toStateArgs: ( size, options ) => {
+              const { width, height } = size
+
+              const rows = new Array( height )
+
+              for( let y = 0; y < height; y++ ){
+                rows[ y ] = new Array( width )
+              }
+
+              return { rows, options }
+            },
+            fromGrid: api => ({
+              width: api.width(),
+              height: api.height()
+            })
+          }
+        }
+      })
+
+      const grid = Grid( { width: 4, height: 3 }, { hasColumnHeaders: false } )
+
+      assert.equal( grid.width(), 4 )
+      assert.equal( grid.height(), 3 )
+      assert.deepEqual( grid.size(), { width: 4, height: 3 } )
     })
   })
 

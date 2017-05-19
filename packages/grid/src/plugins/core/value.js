@@ -14,9 +14,7 @@ const value = ( api, grid ) => {
   const setValue = ( x, y, value ) => {
     x = api.normalizeColumnIndex( x )
 
-    const row = api.row( y )
-
-    row[ x ] = value
+    grid.rows[ y ][ x ] = value
 
     return value
   }

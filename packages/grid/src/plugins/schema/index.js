@@ -8,7 +8,11 @@ const infoToSchema = info => {
   const required = []
 
   const properties = info.names.reduce( ( props, name ) => {
-    if( info.values[ name ].length === info.count )
+    const defined = info.values[ name ].filter(
+      value => !is.undefined( value )
+    )
+
+    if( defined.length === info.count )
       required.push( name )
 
     const typeSet = info.values[ name ].reduce( ( set, value ) => {
@@ -39,16 +43,6 @@ const infoToSchema = info => {
 }
 
 const schema = api => {
-  const collectModelInfo = () => {
-    const info = {
-      count: api.height(),
-      names: api.columnNames(),
-      values: api.columnsModel()
-    }
-
-    return info
-  }
-
   return {
     schema: () => infoToSchema({
       count: api.height(),
