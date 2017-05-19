@@ -51,7 +51,7 @@ const defaultOptions = {
 }
 
 const statics = api => {
-  const $getColumn = ( rows, x = 0, startY = 0, endY = $getHeight( rows ) - 1 ) => {
+  const $getColumnFrom = ( rows, x = 0, startY = 0, endY = api.getHeight( rows ) - 1 ) => {
     const column = []
 
     for( let y = startY; y <= endY; y++ ){
@@ -62,28 +62,28 @@ const statics = api => {
     return column
   }
 
-  const $getRow = ( rows, y = 0, startX = 0, endX = $getWidth( rows ) - 1 ) => {
-    return rows[ y ].slice( startX, endX + 1 )
-  }
-
-  const $getRows = ( rows, startY = 0, endY = $getHeight( rows ) - 1, startX = 0, endX = $getWidth( rows ) - 1 ) => {
-    const result = []
-
-    for( let y = startY; y <= endY; y++ ){
-      result.push( $getRow( rows, y, startX, endX ) )
-    }
-
-    return result
-  }
-
-  const $getColumns = ( rows, startX = 0, endX = $getWidth( rows ) - 1, startY = 0, endY = $getHeight( rows ) - 1 ) => {
+  const $getColumnsFrom = ( rows, startX = 0, endX = api.getWidth( rows ) - 1, startY = 0, endY = api.getHeight( rows ) - 1 ) => {
     const columns = []
 
     for( let x = startX; x <= endX; x++ ){
-      columns.push( $getColumn( rows, x, startY, endY ) )
+      columns.push( api.getColumnFrom( rows, x, startY, endY ) )
     }
 
     return columns
+  }
+
+  const $getRowFrom = ( rows, y = 0, startX = 0, endX = api.getWidth( rows ) - 1 ) => {
+    return rows[ y ].slice( startX, endX + 1 )
+  }
+
+  const $getRowsFrom = ( rows, startY = 0, endY = api.getHeight( rows ) - 1, startX = 0, endX = api.getWidth( rows ) - 1 ) => {
+    const result = []
+
+    for( let y = startY; y <= endY; y++ ){
+      result.push( api.getRowFrom( rows, y, startX, endX ) )
+    }
+
+    return result
   }
 
   const $createState = ( rows, options = {} ) => {
@@ -96,7 +96,7 @@ const statics = api => {
 
       delete args.options.format
 
-      return $createState( args.rows, args.options )
+      return api.createState( args.rows, args.options )
     }
 
     if( !$isRows( rows ) ){
@@ -107,22 +107,22 @@ const statics = api => {
 
       const args = api.fromFormat( format, rows, options )
 
-      return $createState( args.rows, args.options )
+      return api.createState( args.rows, args.options )
     }
 
     let { columnNames, rowNames } = options
 
     const x = hasRowHeaders ? 1 : 0
     const y = hasColumnHeaders ? 1 : 0
-    const endY = $getHeight( rows ) - 1
+    const endY = api.getHeight( rows ) - 1
 
     if( hasColumnHeaders && is.null( columnNames ) )
-      columnNames = $getRow( rows, 0, x )
+      columnNames = api.getRowFrom( rows, 0, x )
 
     if( hasRowHeaders && is.null( rowNames ) )
-      rowNames = $getColumn( rows, 0, y )
+      rowNames = api.getColumnFrom( rows, 0, y )
 
-    rows = $getRows( rows, y, endY, x )
+    rows = api.getRowsFrom( rows, y, endY, x )
 
     return { rows, columnNames, rowNames }
   }
@@ -133,10 +133,10 @@ const statics = api => {
     $getWidth,
     $getHeight,
     $isRows,
-    $getColumn,
-    $getColumns,
-    $getRow,
-    $getRows,
+    $getColumnFrom,
+    $getColumnsFrom,
+    $getRowFrom,
+    $getRowsFrom,
     $createState
   }
 }

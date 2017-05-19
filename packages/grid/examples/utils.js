@@ -4,7 +4,8 @@ const Grid = require( '../src' )
 const log = require( './log' )
 
 const {
-  getWidth, getHeight, getColumn, getRow, getRows, getColumns, createState
+  getWidth, getHeight, getColumnFrom, getRowFrom, getRowsFrom, getColumnsFrom,
+  createState
 } = Grid
 
 const rows = [
@@ -27,10 +28,10 @@ log(
   'statics',
   'getWidth', getWidth( rows ),
   'getHeight', getHeight( rows ),
-  'getColumn', getColumn( rows ),
-  'getRow', getRow( rows ),
-  'getRows', getRows( rows ),
-  'getColumns', getColumns( rows ),
+  'getColumnFrom', getColumnFrom( rows ),
+  'getRowFrom', getRowFrom( rows ),
+  'getRowsFrom', getRowsFrom( rows ),
+  'getColumnsFrom', getColumnsFrom( rows ),
   'createState no headers', createState( rows, { hasColumnHeaders: false, hasRowHeaders: false } ),
   'createState column headers', createState( rows, { hasColumnHeaders: true, hasRowHeaders: false } ),
   'createState row headers', createState( rows, { hasColumnHeaders: false, hasRowHeaders: true } ),

@@ -1,0 +1,581 @@
+
+> @mojule/grid@0.0.2 examples C:\Users\Nik Coughlin\Documents\GitHub\grid
+> node ./examples
+
+API
+---
+Grid
+  [
+    "columnIndexToName",
+    "columnNameToIndex",
+    "getWidth",
+    "getHeight",
+    "isRows",
+    "getColumnFrom",
+    "getColumnsFrom",
+    "getRowFrom",
+    "getRowsFrom",
+    "createState",
+    "getFormat",
+    "isFormat",
+    "formatFor",
+    "fromFormat",
+    "formatNames",
+    "isState",
+    "getStateKey",
+    "onCreate",
+    "Factory"
+  ]
+grid
+  [
+    "columnIndexToName",
+    "columnNameToIndex",
+    "getWidth",
+    "getHeight",
+    "isRows",
+    "getColumnFrom",
+    "getColumnsFrom",
+    "getRowFrom",
+    "getRowsFrom",
+    "createState",
+    "normalizeColumnIndex",
+    "normalizeRowIndex",
+    "getColumn",
+    "setColumn",
+    "column",
+    "getColumns",
+    "setColumns",
+    "columns",
+    "getRow",
+    "setRow",
+    "row",
+    "getRows",
+    "setRows",
+    "rows",
+    "getColumnName",
+    "setColumnName",
+    "columnName",
+    "hasColumnNames",
+    "getColumnNames",
+    "setColumnNames",
+    "columnNames",
+    "getRowName",
+    "setRowName",
+    "rowName",
+    "hasRowNames",
+    "getRowNames",
+    "setRowNames",
+    "rowNames",
+    "getValue",
+    "setValue",
+    "value",
+    "getValues",
+    "setValues",
+    "values",
+    "width",
+    "height",
+    "getRowsWithHeaders",
+    "schema",
+    "models",
+    "columnsModel",
+    "csv",
+    "getFormat",
+    "isFormat",
+    "formatFor",
+    "fromFormat",
+    "formatNames"
+  ]
+
+columns
+---
+columns
+  [
+    [
+      "Nik",
+      "Andy",
+      "Alex"
+    ],
+    [
+      36,
+      21,
+      25
+    ],
+    [
+      true,
+      true,
+      false
+    ]
+  ]
+
+columnsModel
+---
+value
+  {
+    "Name": [
+      "Nik",
+      "Andy",
+      "Alex"
+    ],
+    "Age": [
+      36,
+      21,
+      25
+    ],
+    "Member": [
+      true,
+      true,
+      false
+    ]
+  }
+columnNames
+  [
+    "Name",
+    "Age",
+    "Member"
+  ]
+rows
+  [
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+
+createState
+---
+columnNames
+  [
+    "Name",
+    "Age",
+    "Member"
+  ]
+rows
+  [
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+
+csv
+---
+columnNames
+  [
+    "Name",
+    "Age",
+    "Member"
+  ]
+rows
+  [
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+round trip
+  "Name,Age,Member\nNik,36,TRUE\nAndy,21,TRUE\nAlex,25,FALSE\n"
+
+grid
+---
+columnNames
+  [
+    "Name",
+    "Age",
+    "Member"
+  ]
+rows
+  [
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+
+models
+---
+value
+  [
+    {
+      "Name": "Nik",
+      "Age": 36,
+      "Member": true
+    },
+    {
+      "Name": "Andy",
+      "Age": 21,
+      "Member": true
+    },
+    {
+      "Name": "Alex",
+      "Age": 25,
+      "Member": false
+    }
+  ]
+
+no column headers
+---
+columnsModel
+  {
+    "A": [
+      "Nik",
+      "Andy",
+      "Alex"
+    ],
+    "B": [
+      36,
+      21,
+      25
+    ],
+    "C": [
+      true,
+      true,
+      false
+    ]
+  }
+
+rowsWithHeaders
+---
+with column headers
+  [
+    [
+      "Name",
+      "Age",
+      "Member"
+    ],
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+with row headers
+  [
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+with neither
+  [
+    [
+      36,
+      true
+    ],
+    [
+      21,
+      true
+    ],
+    [
+      25,
+      false
+    ]
+  ]
+with both
+  [
+    [
+      "",
+      "Age",
+      "Member"
+    ],
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+
+schema
+---
+JSON schema
+  {
+    "properties": {
+      "Name": {
+        "type": "string"
+      },
+      "Age": {
+        "type": "integer"
+      },
+      "Member": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "Name",
+      "Age",
+      "Member"
+    ]
+  }
+
+specify headers
+---
+columnNames
+  [
+    "Name",
+    "Age",
+    "Member"
+  ]
+rows
+  [
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+
+statics
+---
+getWidth
+  3
+getHeight
+  4
+getColumnFrom
+  [
+    "Name",
+    "Nik",
+    "Andy",
+    "Alex"
+  ]
+getRowFrom
+  [
+    "Name",
+    "Age",
+    "Member"
+  ]
+getRowsFrom
+  [
+    [
+      "Name",
+      "Age",
+      "Member"
+    ],
+    [
+      "Nik",
+      36,
+      true
+    ],
+    [
+      "Andy",
+      21,
+      true
+    ],
+    [
+      "Alex",
+      25,
+      false
+    ]
+  ]
+getColumnsFrom
+  [
+    [
+      "Name",
+      "Nik",
+      "Andy",
+      "Alex"
+    ],
+    [
+      "Age",
+      36,
+      21,
+      25
+    ],
+    [
+      "Member",
+      true,
+      true,
+      false
+    ]
+  ]
+createState no headers
+  {
+    "rows": [
+      [
+        "Name",
+        "Age",
+        "Member"
+      ],
+      [
+        "Nik",
+        36,
+        true
+      ],
+      [
+        "Andy",
+        21,
+        true
+      ],
+      [
+        "Alex",
+        25,
+        false
+      ]
+    ],
+    "columnNames": null,
+    "rowNames": null
+  }
+createState column headers
+  {
+    "rows": [
+      [
+        "Nik",
+        36,
+        true
+      ],
+      [
+        "Andy",
+        21,
+        true
+      ],
+      [
+        "Alex",
+        25,
+        false
+      ]
+    ],
+    "columnNames": [
+      "Name",
+      "Age",
+      "Member"
+    ],
+    "rowNames": null
+  }
+createState row headers
+  {
+    "rows": [
+      [
+        "Age",
+        "Member"
+      ],
+      [
+        36,
+        true
+      ],
+      [
+        21,
+        true
+      ],
+      [
+        25,
+        false
+      ]
+    ],
+    "columnNames": null,
+    "rowNames": [
+      "Name",
+      "Nik",
+      "Andy",
+      "Alex"
+    ]
+  }
+createState both headers
+  {
+    "rows": [
+      [
+        36,
+        true
+      ],
+      [
+        21,
+        true
+      ],
+      [
+        25,
+        false
+      ]
+    ],
+    "columnNames": [
+      "Age",
+      "Member"
+    ],
+    "rowNames": [
+      "Nik",
+      "Andy",
+      "Alex"
+    ]
+  }
+

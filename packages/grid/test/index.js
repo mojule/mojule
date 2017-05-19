@@ -65,10 +65,10 @@ describe( 'Grid', () => {
         getWidth,
         getHeight,
         isRows,
-        getColumn,
-        getColumns,
-        getRow,
-        getRows,
+        getColumnFrom,
+        getColumnsFrom,
+        getRowFrom,
+        getRowsFrom,
         createState,
         getFormat,
         isFormat,
@@ -103,56 +103,56 @@ describe( 'Grid', () => {
         assert( !isRows( {} ) )
       })
 
-      it( 'getColumn', () => {
-        const col = getColumn( rows, 1 )
+      it( 'getColumnFrom', () => {
+        const col = getColumnFrom( rows, 1 )
         const expectCol = expect.columns[ 1 ]
 
         assert.deepEqual( col, expectCol )
       })
 
-      describe( 'getColumns', () => {
+      describe( 'getColumnsFrom', () => {
         it( 'all', () => {
-          const cols = getColumns( rows )
+          const cols = getColumnsFrom( rows )
 
           assert.deepEqual( cols, expect.columns )
         })
 
         it( 'from', () => {
-          const cols = getColumns( rows, 1 )
+          const cols = getColumnsFrom( rows, 1 )
 
           assert.deepEqual( cols, expect.columns.slice( 1 ) )
         })
 
         it( 'from to', () => {
-          const cols = getColumns( rows, 0, 1 )
+          const cols = getColumnsFrom( rows, 0, 1 )
           const expectCols = expect.columns.slice( 0, 2 )
 
           assert.deepEqual( cols, expectCols )
         })
       })
 
-      it( 'getRow', () => {
-        const row = getRow( rows, 1 )
+      it( 'getRowFrom', () => {
+        const row = getRowFrom( rows, 1 )
         const expectRow = expect.rows[ 1 ]
 
         assert.deepEqual( row, expectRow )
       })
 
-      describe( 'getRows', () => {
+      describe( 'getRowsFrom', () => {
         it( 'all', () => {
-          const all = getRows( rows )
+          const all = getRowsFrom( rows )
 
           assert.deepEqual( all, expect.rows )
         })
 
         it( 'from', () => {
-          const from = getRows( rows, 1 )
+          const from = getRowsFrom( rows, 1 )
 
           assert.deepEqual( from, expect.rows.slice( 1 ) )
         })
 
         it( 'from to', () => {
-          const range = getRows( rows, 0, 1 )
+          const range = getRowsFrom( rows, 0, 1 )
           const expectRows = expect.rows.slice( 0, 2 )
 
           assert.deepEqual( range, expectRows )
