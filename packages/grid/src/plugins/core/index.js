@@ -4,7 +4,16 @@ const is = require( '@mojule/is' )
 const { range } = require( '@mojule/utils' )
 const chunk = require( 'lodash.chunk' )
 
+const getStatics = api => {
+  const { getColumn, getRow, getColumns, getRows } = api
+
+  return { getColumn, getRow, getColumns, getRows }
+}
+
 const core = ( api, grid ) => {
+  // save references to static
+  const statics = getStatics( api )
+
   const columnNameToIndex = name => grid.columnNames.indexOf( name )
   const rowNameToIndex = name => grid.rowNames.indexOf( name )
 
@@ -54,7 +63,7 @@ const core = ( api, grid ) => {
     return index
   }
 
-  const column = ( x, startY, endY ) => {
+  const getColumn = ( x, startY, endY ) => {
     /*
       allow column and row names to be used, but converts them to indices for
       the underlying static function - leaves any undefined values as is, so
@@ -65,15 +74,55 @@ const core = ( api, grid ) => {
     startY = normalizeRowIndex( startY )
     endY = normalizeRowIndex( endY )
 
-    return api.getColumn( grid.rows, x, startY, endY )
+    return statics.getColumn( grid.rows, x, startY, endY )
   }
 
-  const row = ( y, startX, endX ) => {
+  const setColumn = ( x = 0, y = 0, col = [] ) => {
+    x = normalizeColumnIndex( x )
+    y = normalizeRowIndex( y )
+
+    col.forEach( ( item, i ) => {
+      api.setValue( x, y + i, item )
+    })
+
+    return col
+  }
+
+  const column = ( ...args ) => {
+    const tail = args[ args.length - 1 ]
+
+    if( is.array( tail ) )
+      return api.setColumn( ...args )
+
+    return api.getColumn( ...args )
+  }
+
+  const getRow = ( y, startX, endX ) => {
     y = normalizeRowIndex( y )
     startX = normalizeColumnIndex( startX )
     endX = normalizeColumnIndex( endX )
 
-    return api.getRow( grid.rows, y, startX, endX )
+    return statics.getRow( grid.rows, y, startX, endX )
+  }
+
+  const setRow = ( y = 0, x = 0, row = [] ) => {
+    y = normalizeRowIndex( y )
+    x = normalizeColumnIndex( x )
+
+    row.forEach( ( item, i ) => {
+      api.setValue( x + i, y, item )
+    })
+
+    return row
+  }
+
+  const row = ( ...args ) => {
+    const tail = args[ args.length - 1 ]
+
+    if( is.array( tail ) )
+      return api.setRow( ...args )
+
+    return api.getRow( ...args )
   }
 
   const getRows = ( startX, endX, startY, endY ) => {
@@ -82,8 +131,37 @@ const core = ( api, grid ) => {
     startY = normalizeRowIndex( startY )
     endY = normalizeRowIndex( endY )
 
-    return api.getRows( grid.rows, startX, endX, startY, endY )
+    return statics.getRows( grid.rows, startX, endX, startY, endY )
   }
+
+  const getRowsWithHeaders = () => {
+    const hasColumnHeaders = api.hasColumnNames()
+    const hasRowHeaders = api.hasRowNames()
+
+    let rows = api.rows()
+
+    if( hasColumnHeaders ){
+      const headers = api.columnNames()
+      rows = [ headers, ...rows ]
+    }
+
+    if( hasRowHeaders ){
+      const headers = api.rowNames()
+      const y = hasColumnHeaders ? 1 : 0
+
+      rows = rows.map( ( row, i ) => {
+        if( hasColumnHeaders && i === 0 )
+          return [ '', ...row ]
+
+        return [ headers[ i - y ], ...row ]
+      })
+    }
+
+    return rows
+  }
+
+  const hasColumnNames = () => !is.null( grid.columnNames )
+  const hasRowNames = () => !is.null( grid.rowNames )
 
   const getColumns = ( startY, endY, startX, endX ) => {
     startY = normalizeRowIndex( startY )
@@ -91,7 +169,7 @@ const core = ( api, grid ) => {
     startX = normalizeColumnIndex( startX )
     endX = normalizeColumnIndex( endX )
 
-    return api.getColumns( grid.rows, startY, endY, startX, endX )
+    return statics.getColumns( grid.rows, startY, endY, startX, endX )
   }
 
   const getColumnNames = () => {
@@ -220,11 +298,17 @@ const core = ( api, grid ) => {
   }
 
   return {
-    width, height, column, row,
+    width, height,
+    getColumn, setColumn, column,
+    getRow, setRow, row,
+    getRows, getColumns,
     rows: getRows,
     columns: getColumns,
     columnNames: getColumnNames,
+    hasColumnNames,
+    hasRowNames,
     rowNames: getRowNames,
+    getRowsWithHeaders,
     getColumnName,
     setColumnName,
     columnName,

@@ -1,8 +1,9 @@
 'use strict'
 
-const Vdom = require( '@mojule/vdom' )
-const Grid = require( '../src' )
 const is = require( '@mojule/is' )
+const Vdom = require( '@mojule/vdom' )
+const log = require( './log' )
+const Grid = require( '../src' )
 
 const { table, tr, th, td, text } = Vdom.h
 

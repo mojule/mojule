@@ -8,16 +8,15 @@ const predicate = columnsModel =>
 
 const columnHeaders = columnsModel => Object.keys( columnsModel )
 
-const toState = columnsModel => {
+const toStateArgs = columnsModel => {
   const columnNames = columnHeaders( columnsModel )
-  const rowNames = null
 
   const height = columnNames.reduce(
     ( max, key ) => columnsModel[ key ].length > max ? columnsModel[ key ].length : max,
     0
   )
 
-  const rows = []
+  const rows = [ columnNames ]
 
   const getRow = y =>
     columnNames.reduce( ( row, key ) => {
@@ -29,7 +28,11 @@ const toState = columnsModel => {
   for( let y = 0; y < height; y++ )
     rows.push( getRow( y ) )
 
-  return { rows, columnNames, rowNames }
+  const options = {
+    hasColumnNames: true
+  }
+
+  return { rows, options }
 }
 
 const fromGrid = api => {
@@ -43,4 +46,4 @@ const fromGrid = api => {
   }, {} )
 }
 
-module.exports = { predicate, columnHeaders, toState, fromGrid }
+module.exports = { predicate, toStateArgs, fromGrid }

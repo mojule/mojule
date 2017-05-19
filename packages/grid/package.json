@@ -6,6 +6,7 @@
   "scripts": {
     "build": "gulp",
     "test": "mocha",
+    "examples": "node ./examples",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "keywords": [],
@@ -31,6 +32,8 @@
     "@mojule/api-factory": "^0.5.1",
     "@mojule/is": "^0.1.2",
     "@mojule/utils": "^0.1.11",
+    "csv-parse": "^1.2.0",
+    "csv-stringify": "^1.0.4",
     "lodash.chunk": "^4.2.0"
   }
 }

@@ -6,9 +6,15 @@ const defaultPlugins = require( '../plugins' )
 const formats = require( '../formats' )
 const FormatPlugins = require( './format-plugins' )
 
+const isRows = rows => is.array( rows ) && rows.every( is.array )
+
+const isNames = value => is.null( value ) || is.array( value )
+
 const defaultOptions = {
   formats,
-  isState: state => is.object( state )
+  isState: state =>
+    is.object( state ) && isRows( state.rows ) &&
+    isNames( state.columnNames ) && isNames( state.rowNames )
 }
 
 const GridFactory = ( ...plugins ) => {

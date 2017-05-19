@@ -51,12 +51,7 @@ const defaultOptions = {
 }
 
 const statics = api => {
-  const assertRows = rows => {
-    if( !api.isRows( rows ) )
-      throw new Error( 'Expected rows to be an array of arrays' )
-  }
-
-  const $getColumn = ( rows, x = 0, startY = 0, endY = api.getHeight( rows ) - 1 ) => {
+  const $getColumn = ( rows, x = 0, startY = 0, endY = $getHeight( rows ) - 1 ) => {
     const column = []
 
     for( let y = startY; y <= endY; y++ ){
@@ -67,25 +62,25 @@ const statics = api => {
     return column
   }
 
-  const $getRow = ( rows, y = 0, startX = 0, endX = api.getWidth( rows ) - 1 ) => {
+  const $getRow = ( rows, y = 0, startX = 0, endX = $getWidth( rows ) - 1 ) => {
     return rows[ y ].slice( startX, endX + 1 )
   }
 
-  const $getRows = ( rows, startY = 0, endY = api.getHeight( rows ) - 1, startX = 0, endX = api.getWidth( rows ) - 1 ) => {
+  const $getRows = ( rows, startY = 0, endY = $getHeight( rows ) - 1, startX = 0, endX = $getWidth( rows ) - 1 ) => {
     const result = []
 
     for( let y = startY; y <= endY; y++ ){
-      result.push( api.getRow( rows, y, startX, endX ) )
+      result.push( $getRow( rows, y, startX, endX ) )
     }
 
     return result
   }
 
-  const $getColumns = ( rows, startX = 0, endX = api.getWidth( rows ) - 1, startY = 0, endY = api.getHeight( rows ) - 1 ) => {
+  const $getColumns = ( rows, startX = 0, endX = $getWidth( rows ) - 1, startY = 0, endY = $getHeight( rows ) - 1 ) => {
     const columns = []
 
     for( let x = startX; x <= endX; x++ ){
-      columns.push( api.getColumn( rows, x, startY, endY ) )
+      columns.push( $getColumn( rows, x, startY, endY ) )
     }
 
     return columns
@@ -97,31 +92,37 @@ const statics = api => {
     const { hasColumnHeaders, hasRowHeaders, format } = options
 
     if( is.string( format ) ){
-      return api.fromFormat( format, rows )
+      const args = api.fromFormat( format, rows, options )
+
+      delete args.options.format
+
+      return $createState( args.rows, args.options )
     }
 
-    if( !api.isRows( rows ) ){
+    if( !$isRows( rows ) ){
       const format = api.formatFor( rows )
 
       if( is.undefined( format ) )
         throw new Error( 'Expected rows or a known format' )
 
-      return api.fromFormat( format, rows )
+      const args = api.fromFormat( format, rows, options )
+
+      return $createState( args.rows, args.options )
     }
 
     let { columnNames, rowNames } = options
 
     const x = hasRowHeaders ? 1 : 0
     const y = hasColumnHeaders ? 1 : 0
-    const endY = api.getHeight( rows ) - 1
+    const endY = $getHeight( rows ) - 1
 
     if( hasColumnHeaders && is.null( columnNames ) )
-      columnNames = api.getRow( rows, 0, x )
+      columnNames = $getRow( rows, 0, x )
 
     if( hasRowHeaders && is.null( rowNames ) )
-      rowNames = api.getColumn( rows, 0, y )
+      rowNames = $getColumn( rows, 0, y )
 
-    rows = api.getRows( rows, y, endY, x )
+    rows = $getRows( rows, y, endY, x )
 
     return { rows, columnNames, rowNames }
   }

@@ -18,6 +18,7 @@ const expect = {
     [ "Age", 36, 21, 25 ],
     [ "Member", true, true, false ]
   ],
+  csv: 'Name,Age,Member\nNik,36,TRUE\nAndy,21,TRUE\nAlex,25,FALSE\n',
   models: [
     {
       "Name": "Nik",
@@ -51,7 +52,7 @@ const expect = {
 
 const headers = expect.rows[ 0 ]
 
-const formatNames = [ 'columnsModel', 'models' ]
+const formatNames = [ 'columnsModel', 'models', 'csv' ]
 
 const { rows } = expect
 
@@ -377,7 +378,7 @@ describe( 'Grid', () => {
       })
 
       it( 'unknown format', () => {
-        assert.throws( () => Grid( 'abc' ) )
+        assert.throws( () => Grid( 123 ) )
       })
     })
 
@@ -386,8 +387,7 @@ describe( 'Grid', () => {
         it( name, () => {
           const state = Grid.fromFormat( name, expect[ name ] )
 
-          assert.deepEqual( state.columnNames, rows[ 0 ] )
-          assert.deepEqual( state.rows, rows.slice( 1 ) )
+          assert.deepEqual( state.rows, rows.slice() )
         })
       })
     })
@@ -397,8 +397,7 @@ describe( 'Grid', () => {
         it( name, () => {
           const state = Grid.fromFormat( expect[ name ] )
 
-          assert.deepEqual( state.columnNames, rows[ 0 ] )
-          assert.deepEqual( state.rows, rows.slice( 1 ) )
+          assert.deepEqual( state.rows, rows.slice() )
         })
       })
     })

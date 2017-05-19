@@ -1,6 +1,7 @@
 'use strict'
 
 const Grid = require( '../src' )
+const log = require( './log' )
 
 const data = [
   [ 'Name', 'Age', 'Member' ],
@@ -13,8 +14,9 @@ const grid = Grid( data )
 const columnsModel = grid.columnsModel()
 const columnsModelGrid = Grid( columnsModel )
 
-console.log( 'columnsModel' )
-console.log( JSON.stringify( columnsModel ) )
-console.log( JSON.stringify( columnsModelGrid.columnNames() ) )
-console.log( JSON.stringify( columnsModelGrid.rows() ) )
-console.log( '---' )
+log(
+  'columnsModel',
+  'value', columnsModel,
+  'columnNames', columnsModelGrid.columnNames(),
+  'rows', columnsModelGrid.rows()
+)

@@ -10,10 +10,10 @@ const data = [
   [ 'Alex', 25, false ]
 ]
 
-const state = Grid.createState( data )
+const grid = Grid( data, { columnNames: data[ 0 ] } )
 
 log(
-  'createState',
-  'columnNames', state.columnNames,
-  'rows', state.rows
+  'specify headers',
+  'columnNames',  grid.columnNames(),
+  'rows', grid.rows()
 )

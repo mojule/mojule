@@ -14,12 +14,18 @@ const columnHeaders = models =>
     return names
   }, [] )
 
-const toState = models => {
+const toStateArgs = models => {
   const columnNames = columnHeaders( models )
-  const rowNames = null
-  const rows = models.map( model => columnNames.map( key => model[ key ] ) )
+  const rows = [
+    columnNames,
+    ...models.map( model => columnNames.map( key => model[ key ] ) )
+  ]
 
-  return { rows, columnNames, rowNames }
+  const options = {
+    hasColumnNames: true
+  }
+
+  return { rows, options }
 }
 
 const fromGrid = api => {
@@ -33,4 +39,4 @@ const fromGrid = api => {
   }, {} ) )
 }
 
-module.exports = { predicate, columnHeaders, toState, fromGrid }
+module.exports = { predicate, toStateArgs, fromGrid }

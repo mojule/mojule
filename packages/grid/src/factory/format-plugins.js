@@ -19,7 +19,7 @@ const FormatPlugins = formats => {
       name => api.getFormat( name ).predicate( value )
     )
 
-    const $fromFormat = ( name, value ) => {
+    const $fromFormat = ( name, value, options ) => {
       if( is.undefined( value ) ){
         value = name
         name = api.formatFor( value )
@@ -30,7 +30,7 @@ const FormatPlugins = formats => {
       if( is.undefined( format ) )
         throw new Error( 'Unexpected format ' + format )
 
-      return format.toState( value )
+      return format.toStateArgs( value, options )
     }
 
     const $formatNames = () => Object.keys( formats )

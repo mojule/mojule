@@ -1,6 +1,7 @@
 'use strict'
 
 const Grid = require( '../src' )
+const log = require( './log' )
 
 const data = [
   [ 'Name', 'Age', 'Member' ],
@@ -11,7 +12,8 @@ const data = [
 
 const grid = Grid( data )
 
-console.log( 'API' )
-console.log( 'Grid', Object.keys( Grid ) )
-console.log( 'grid', Object.keys( grid ) )
-console.log( '---' )
+log(
+  'API',
+  'Grid', Object.keys( Grid ),
+  'grid', Object.keys( grid )
+)

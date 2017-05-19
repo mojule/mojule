@@ -1,6 +1,7 @@
 'use strict'
 
 const Grid = require( '../src' )
+const log = require( './log' )
 
 const data = [
   [ 'Nik', 36, true ],
@@ -10,4 +11,8 @@ const data = [
 
 const grid = Grid( data, { hasColumnHeaders: false } )
 
-console.log( JSON.stringify( grid.columnsModel() ) )
+log(
+  'no column headers',
+  'columnsModel', grid.columnsModel()
+)
+
