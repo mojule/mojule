@@ -9,6 +9,7 @@ require( './grid' )
 require( './models' )
 require( './noColumnHeaders' )
 require( './rowsWithHeaders' )
+require( './schema' )
 require( './specifyHeaders' )
 require( './utils' )
 
