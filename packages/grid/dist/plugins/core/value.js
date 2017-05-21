@@ -14,9 +14,7 @@ var value = function value(api, grid) {
   var setValue = function setValue(x, y, value) {
     x = api.normalizeColumnIndex(x);
 
-    var row = api.row(y);
-
-    row[x] = value;
+    grid.rows[y][x] = value;
 
     return value;
   };

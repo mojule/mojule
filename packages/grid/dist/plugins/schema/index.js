@@ -8,7 +8,11 @@ var infoToSchema = function infoToSchema(info) {
   var required = [];
 
   var properties = info.names.reduce(function (props, name) {
-    if (info.values[name].length === info.count) required.push(name);
+    var defined = info.values[name].filter(function (value) {
+      return !is.undefined(value);
+    });
+
+    if (defined.length === info.count) required.push(name);
 
     var typeSet = info.values[name].reduce(function (set, value) {
       var name = typenames.find(function (typename) {
@@ -37,16 +41,6 @@ var infoToSchema = function infoToSchema(info) {
 };
 
 var schema = function schema(api) {
-  var collectModelInfo = function collectModelInfo() {
-    var info = {
-      count: api.height(),
-      names: api.columnNames(),
-      values: api.columnsModel()
-    };
-
-    return info;
-  };
-
   return {
     schema: function schema() {
       return infoToSchema({
