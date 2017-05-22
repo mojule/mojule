@@ -20,7 +20,7 @@ var rows = function rows(api, grid) {
     y = api.normalizeRowIndex(y);
 
     rows.forEach(function (row, i) {
-      api.setRow(y + i, x, row);
+      api.setRow(row, y + i, x);
     });
 
     return rows;

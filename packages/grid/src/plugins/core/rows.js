@@ -17,7 +17,7 @@ const rows = ( api, grid ) => {
     y = api.normalizeRowIndex( y )
 
     rows.forEach( ( row, i ) => {
-      api.setRow( y + i, x, row )
+      api.setRow( row, y + i, x  )
     })
 
     return rows

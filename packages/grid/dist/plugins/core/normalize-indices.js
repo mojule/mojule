@@ -6,12 +6,17 @@ var normalizeIndices = function normalizeIndices(api, grid) {
   var normalizeColumnIndex = function normalizeColumnIndex(value) {
     if (is.integer(value) || is.undefined(value)) return value;
 
-    var index = value;
+    var index = undefined;
 
     if (is.string(value)) {
-      if (!is.null(grid.columnNames)) index = grid.columnNames.indexOf(value);
-
-      if (is.undefined(index)) index = api.columnNameToIndex(value);
+      if (is.null(grid.columnNames)) {
+        index = api.columnNameToIndex(value);
+      } else {
+        index = grid.columnNames.indexOf(value);
+        if (index === -1) {
+          index = api.columnNameToIndex(value);
+        }
+      }
 
       if (is.undefined(index)) index = parseInt(value);
     }
@@ -24,12 +29,17 @@ var normalizeIndices = function normalizeIndices(api, grid) {
   var normalizeRowIndex = function normalizeRowIndex(value) {
     if (is.integer(value) || is.undefined(value)) return value;
 
-    var index = value;
+    var index = undefined;
 
-    if (is.string(index)) {
-      if (!is.null(grid.rowNames)) index = grid.rowNames.indexOf(index);
-
-      if (is.undefined(index)) index = parseInt(value);
+    if (is.string(value)) {
+      if (is.null(grid.rowNames)) {
+        index = parseInt(value);
+      } else {
+        index = grid.rowNames.indexOf(value);
+        if (index === -1) {
+          index = parseInt(value);
+        }
+      }
     }
 
     if (!is.integer(index)) throw new Error('Expected a row name or index');

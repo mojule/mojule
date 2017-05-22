@@ -17,7 +17,7 @@ const columns = ( api, grid ) => {
     y = api.normalizeRowIndex( y )
 
     columns.forEach( ( col, i ) => {
-      api.setColumn( x + i, y, col )
+      api.setColumn( col, x + i, y )
     })
 
     return columns
