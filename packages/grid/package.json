@@ -1,6 +1,6 @@
 {
   "name": "@mojule/grid",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "API for working with grid or grid-like data",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,7 @@
   "dependencies": {
     "@mojule/api-factory": "^0.5.1",
     "@mojule/is": "^0.1.2",
-    "@mojule/utils": "^0.1.11",
+    "@mojule/utils": "^0.1.13",
     "csv-parse": "^1.2.0",
     "csv-stringify": "^1.0.4",
     "lodash.chunk": "^4.2.0"

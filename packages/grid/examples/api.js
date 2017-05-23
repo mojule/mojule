@@ -14,6 +14,6 @@ const grid = Grid( data )
 
 log(
   'API',
-  'Grid', Object.keys( Grid ),
-  'grid', Object.keys( grid )
+  'Grid', Object.keys( Grid ).sort(),
+  'grid', Object.keys( grid ).sort()
 )
