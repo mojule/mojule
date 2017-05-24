@@ -45,11 +45,26 @@ console.log( JSON.stringify( grid.models(), null, 2 ) )
 ]
 ```
 
+## Options
+
+```javascript
+const defaultOptions = {
+  hasColumnHeaders: true,
+  hasRowHeaders: false,
+  columnNames: null,
+  rowNames: null
+}
+```
+
+
 ## API Reference
 
 ### Static API
 
+#### columnIndexToName
 
+Columns may be addressed by integer index, letter (i.e. 'A', 'B',...) or by name ( if options.hasColumnHeaders true named  ,
+Convert an integer column index to
 
 
 ```JSON
@@ -134,3 +149,5 @@ console.log( JSON.stringify( grid.models(), null, 2 ) )
     "width"
   ]}
 ```
+
+##
