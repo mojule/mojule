@@ -1,11 +1,10 @@
 'use strict'
+/// <reference path="../typings/index.d.ts"/>
 
 const assert = require( 'assert' )
 const is = require( '@mojule/is' )
-const utils = require( '@mojule/utils' )
 const Grid = require( '../src' )
 
-const { capitalizeFirstLetter } = utils
 
 const expect = {
   rows: [
@@ -15,39 +14,39 @@ const expect = {
     [ 'Alex', 25, false ]
   ],
   columns: [
-    [ "Name", "Nik", "Andy", "Alex" ],
-    [ "Age", 36, 21, 25 ],
-    [ "Member", true, true, false ]
+    [ 'Name', 'Nik', 'Andy', 'Alex' ],
+    [ 'Age', 36, 21, 25 ],
+    [ 'Member', true, true, false ]
   ],
   csv: 'Name,Age,Member\nNik,36,TRUE\nAndy,21,TRUE\nAlex,25,FALSE\n',
   models: [
     {
-      "Name": "Nik",
-      "Age": 36,
-      "Member": true
+      'Name': 'Nik',
+      'Age': 36,
+      'Member': true
     },
     {
-      "Name": "Andy",
-      "Age": 21,
-      "Member": true
+      'Name': 'Andy',
+      'Age': 21,
+      'Member': true
     },
     {
-      "Name": "Alex",
-      "Age": 25,
-      "Member": false
+      'Name': 'Alex',
+      'Age': 25,
+      'Member': false
     }
   ],
   columnsModel: {
-    "Name": [ "Nik", "Andy", "Alex" ],
-    "Age": [ 36, 21, 25 ],
-    "Member": [ true, true, false ]
+    'Name': [ 'Nik', 'Andy', 'Alex' ],
+    'Age': [ 36, 21, 25 ],
+    'Member': [ true, true, false ]
   },
   values: [
     3,
-    "Name", "Age", "Member",
-    "Nik", 36, true,
-    "Andy", 21, true,
-    "Alex", 25, false
+    'Name', 'Age', 'Member',
+    'Nik', 36, true,
+    'Andy', 21, true,
+    'Alex', 25, false
   ]
 }
 
@@ -160,6 +159,35 @@ describe( 'Grid', () => {
         } )
       } )
 
+      describe( 'formats', () => {
+        const defaultFormats = [ 'models', 'columnsModel', 'csv' ]
+        const csvData = 'a,b,c\n1,2,3'
+        const csvRows = [['a','b','c'],[1,2,3]]
+        it( 'gets format names', () => {
+          const names = formatNames()
+          assert.deepEqual( names, defaultFormats )
+        } )
+        it( 'gets named format', () => {
+          const format = getFormat(defaultFormats[2])
+          assert( format !== undefined )
+        } )
+        it( 'tests data is named format', () => {
+          const isCsv = isFormat(defaultFormats[2], csvData )
+          assert( isCsv )
+        } )
+        it( 'returns format name for data', () => {
+          let formatName = formatFor( csvData)
+          assert.equal( formatName, defaultFormats[2]  )
+          formatName = formatFor( null)
+          assert.equal( formatName, undefined  )
+        } ).only
+        it( 'returns rows from data', () => {
+          const rows = fromFormat( csvData ).rows
+          assert.deepEqual( rows, csvRows  )
+        } )
+
+      } )
+
       describe( 'createState', () => {
         const expectRowNames = [ 'Nik', 'Andy', 'Alex' ]
         const expectRowsWithRowHeaders = [
@@ -170,7 +198,6 @@ describe( 'Grid', () => {
 
         it( 'Auto column headers (default)', () => {
           const state = createState( rows )
-
           assert.deepEqual( state.rows, rows.slice( 1 ) )
           assert.deepEqual( state.columnNames, headers )
           assert.equal( state.rowNames, null )
@@ -284,29 +311,29 @@ describe( 'Grid', () => {
       } )
 
       it( 'set column', () => {
-        const newCol = [ "John", "Paul", "Ringo" ]
-        let newGrid = Grid( rows )
+        const newCol = [ 'John', 'Paul', 'Ringo' ]
+        const newGrid = Grid( rows )
         newGrid.column( newCol )
         assert.deepEqual( newGrid.getColumn( 0 ), newCol )
       } )
 
       it( 'set columns', () => {
-        const newCols = [ [ "John", "Paul", "Ringo" ], [ 11, 12, 13 ] ]
-        let newGrid = Grid( rows )
+        const newCols = [ [ 'John', 'Paul', 'Ringo' ], [ 11, 12, 13 ] ]
+        const newGrid = Grid( rows )
         newGrid.columns( newCols )
         assert.deepEqual( newGrid.getColumns( 0, 1 ), newCols )
       } )
 
       it( 'set row', () => {
-        const newRow = [ "Tom", 41, false ]
-        let newGrid = Grid( rows )
+        const newRow = [ 'Tom', 41, false ]
+        const newGrid = Grid( rows )
         newGrid.row( newRow )
         assert.deepEqual( newGrid.getRow( 0 ), newRow )
       } )
 
       it( 'set rows', () => {
-        const newRows = [ [ "Tom", 41, false ], [ "Dick", 42, true ] ]
-        let newGrid = Grid( rows )
+        const newRows = [ [ 'Tom', 41, false ], [ 'Dick', 42, true ] ]
+        const newGrid = Grid( rows )
         newGrid.rows( newRows )
         assert.deepEqual( newGrid.getRow( 0 ), newRows[ 0 ] )
         assert.deepEqual( newGrid.getRow( 1 ), newRows[ 1 ] )
@@ -386,24 +413,24 @@ describe( 'Grid', () => {
     describe( 'schema tests', () => {
       const newGrid = Grid( rows )
       newGrid.setValue( 0, 0, undefined )
-      newGrid.setValue( 1, 1, 21.5)
-      newGrid.setValue( 2, 1, "unexpected" )
+      newGrid.setValue( 1, 1, 21.5 )
+      newGrid.setValue( 2, 1, 'unexpected' )
       it( 'schema', () => {
         const expectSchema = {
-          "properties": {
-            "Name": {
-              "type": "string"
+          'properties': {
+            'Name': {
+              'type': 'string'
             },
-            "Age": {
-              "type": "number"
+            'Age': {
+              'type': 'number'
             },
-            "Member": {
-              "type": "any"
+            'Member': {
+              'type': 'any'
             }
           },
-          "required": [
-            "Age",
-            "Member"
+          'required': [
+            'Age',
+            'Member'
           ]
         }
         const schema = newGrid.schema()
@@ -413,7 +440,7 @@ describe( 'Grid', () => {
 
 
     describe( 'Data has no headers', () => {
-      let newGrid = Grid( rows, {
+      const newGrid = Grid( rows, {
         hasColumnHeaders: false
       } )
       it( 'tests invalid index options', () => {
@@ -441,7 +468,7 @@ describe( 'Grid', () => {
     } )
 
     describe( 'Test index options', () => {
-      let newGrid = Grid( rows, {
+      const newGrid = Grid( rows, {
         hasColumnHeaders: false
       } )
       it( 'invalid index options', () => {
@@ -459,7 +486,7 @@ describe( 'Grid', () => {
     } )
 
     describe( 'Data has row headers but not column headers', () => {
-      let newGrid = Grid( columns, {
+      const newGrid = Grid( columns, {
         hasColumnHeaders: false,
         hasRowHeaders: true
       } )
@@ -470,7 +497,7 @@ describe( 'Grid', () => {
     } )
 
     describe( 'Data has both column and row headers', () => {
-      let newGrid = Grid( rows, {
+      const newGrid = Grid( rows, {
         hasColumnHeaders: true,
         hasRowHeaders: true
       } )
@@ -489,14 +516,14 @@ describe( 'Grid', () => {
     } )
 
     describe( 'Column headers in data, but replace from options', () => {
-      let newGrid = Grid( rows )
+      const newGrid = Grid( rows )
       const newColNames = [ 'Tom', 'Dick', 'Harry' ]
       assert.deepEqual( newGrid.columnNames( newColNames ), newColNames )
       assert.deepEqual( newGrid.columnNames(), newColNames )
     } )
 
     describe( 'Row headers in data, but replace from options', () => {
-      let newGrid = Grid( columns, {
+      const newGrid = Grid( columns, {
         hasColumnHeaders: false,
         hasRowHeaders: true
       } )
@@ -515,7 +542,7 @@ describe( 'Grid', () => {
     } )
 
     describe( 'No row headers in data, but set with options', () => {
-      let newGrid = Grid( rows )
+      const newGrid = Grid( rows )
       assert.equal( newGrid.rowName( 1, 'Barry' ), 'Barry' )
       assert.equal( newGrid.rowName( 1 ), 'Barry' )
       const newRowNames = [ 'Tom', 'Dick', 'Harry' ]
