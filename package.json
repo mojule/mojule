@@ -1,6 +1,6 @@
 {
   "name": "mojule",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Convenience package for mojule modules",
   "main": "index.js",
   "scripts": {
@@ -27,14 +27,18 @@
     "mocha": "^3.2.0"
   },
   "dependencies": {
+    "@mojule/api-factory": "^0.5.1",
     "@mojule/dom-plugins": "^0.1.10",
+    "@mojule/flatten": "^0.1.3",
+    "@mojule/grid": "0.0.6",
+    "@mojule/html": "^0.2.4",
     "@mojule/is": "^0.1.2",
     "@mojule/json-dom-plugins": "^0.1.5",
     "@mojule/json-tree": "^0.5.4",
+    "@mojule/mmon": "^0.1.1",
     "@mojule/schema-tree": "^0.4.5",
     "@mojule/string-tree": "^0.1.3",
-    "@mojule/templating": "^0.2.8",
-    "@mojule/transform": "^0.2.7",
+    "@mojule/templating": "^0.3.1",
     "@mojule/tree": "^0.6.5",
     "@mojule/tree-factory": "^0.5.7",
     "@mojule/utils": "^0.1.10",
