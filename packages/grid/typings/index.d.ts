@@ -120,16 +120,16 @@ declare module grid {
      */
     formatNames(): Array<string>;
 
-    /** Returns true if the passed value represents data in the named format
+    /** Returns true if the passed 'value' contains data in the named format
      * @param {string} formatName Checks 'value' is data in this format i.e. csv
      * @param {any} value Checked to see if matches format.
      * @returns {boolean} True of the contents of 'value' are in named format.
      */
     isFormat(formatName: string, value: any): boolean;
 
-    /** Returns the name of the format of the passed data in value.
+    /** Returns the name of the format of the passed data in 'value'.
      * @param {any} value Data to analyse for a format.
-     * @returns {string} Name of format of data in 'value' if any. Returns 'undefined' if data not in know format
+     * @returns {string} Name of format of data in 'value' if any. Returns 'undefined' if data not in known format
      */
     formatFor(value: any): string
 

@@ -180,7 +180,7 @@ describe( 'Grid', () => {
           assert.equal( formatName, defaultFormats[2]  )
           formatName = formatFor( null)
           assert.equal( formatName, undefined  )
-        } ).only
+        } )
         it( 'returns rows from data', () => {
           const rows = fromFormat( csvData ).rows
           assert.deepEqual( rows, csvRows  )
