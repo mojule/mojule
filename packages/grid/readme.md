@@ -63,9 +63,7 @@ const defaultOptions = {
 
 #### columnIndexToName
 
-Columns may be addressed by integer index, letter (i.e. 'A', 'B',...) or by name ( if options.hasColumnHeaders true named  ,
-Convert an integer column index to
-
+Columns may be addressed by integer index, letter (i.e. 'A', 'B',...) or by name
 
 ```JSON
 {
