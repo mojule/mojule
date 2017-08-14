@@ -2,17 +2,17 @@
 
 const is = require( '@mojule/is' )
 
-const columns = ( api, grid ) => {
-  const getColumns = ( startX, endX, startY, endY  ) => {
+const columns = ({ api, state, Api }) => {
+  api.getColumns = ( startX, endX, startY, endY  ) => {
     startY = api.normalizeRowIndex( startY )
     endY = api.normalizeRowIndex( endY )
     startX = api.normalizeColumnIndex( startX )
     endX = api.normalizeColumnIndex( endX )
 
-    return api.getColumnsFrom( grid.rows, startX, endX, startY, endY )
+    return Api.getColumnsFrom( state.rows, startX, endX, startY, endY )
   }
 
-  const setColumns = ( columns, x = 0, y = 0 ) => {
+  api.setColumns = ( columns, x = 0, y = 0 ) => {
     x = api.normalizeColumnIndex( x )
     y = api.normalizeRowIndex( y )
 
@@ -23,17 +23,13 @@ const columns = ( api, grid ) => {
     return columns
   }
 
-  const columns = ( ...args ) => {
+  api.columns = ( ...args ) => {
     const head = args[ 0 ]
 
     if( is.array( head ) )
       return api.setColumns( ...args )
 
     return api.getColumns( ...args )
-  }
-
-  return {
-    getColumns, setColumns, columns
   }
 }
 

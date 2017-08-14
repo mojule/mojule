@@ -2,9 +2,9 @@
 
 const is = require( '@mojule/is' )
 
-const $isRows = rows => is.array( rows ) && rows.every( is.array )
+const isRows = rows => is.array( rows ) && rows.every( is.array )
 
-const $columnIndexToName = index => {
+const columnIndexToName = index => {
   let name = ''
 
   while( index >= 0 ){
@@ -17,7 +17,7 @@ const $columnIndexToName = index => {
 
 const columnNamePattern = /[A-Z]+/
 
-const $columnNameToIndex = name => {
+const columnNameToIndex = name => {
   if( !columnNamePattern.test( name ) ){
     if( is.string( name ) )
       name = name.toUpperCase()
@@ -35,23 +35,22 @@ const $columnNameToIndex = name => {
   return index - 1
 }
 
-const $getWidth = rows =>
+const getWidth = rows =>
   rows.reduce(
     ( max, row ) => row.length > max ? row.length : max,
     0
   )
 
-const $getHeight = rows => rows.length
+const getHeight = rows => rows.length
 
-const defaultOptions = {
-  hasColumnHeaders: true,
-  hasRowHeaders: false,
-  columnNames: null,
-  rowNames: null
-}
+const statics = ({ statics }) => {
+  statics.isRows = isRows
+  statics.columnIndexToName = columnIndexToName
+  statics.columnNameToIndex = columnNameToIndex
+  statics.getWidth = getWidth
+  statics.getHeight = getHeight
 
-const statics = api => {
-  const $getColumnFrom = ( rows, x = 0, startY = 0, endY = api.getHeight( rows ) - 1 ) => {
+  statics.getColumnFrom = ( rows, x = 0, startY = 0, endY = statics.getHeight( rows ) - 1 ) => {
     const column = []
 
     for( let y = startY; y <= endY; y++ ){
@@ -62,82 +61,28 @@ const statics = api => {
     return column
   }
 
-  const $getColumnsFrom = ( rows, startX = 0, endX = api.getWidth( rows ) - 1, startY = 0, endY = api.getHeight( rows ) - 1 ) => {
+  statics.getColumnsFrom = ( rows, startX = 0, endX = statics.getWidth( rows ) - 1, startY = 0, endY = statics.getHeight( rows ) - 1 ) => {
     const columns = []
 
     for( let x = startX; x <= endX; x++ ){
-      columns.push( api.getColumnFrom( rows, x, startY, endY ) )
+      columns.push( statics.getColumnFrom( rows, x, startY, endY ) )
     }
 
     return columns
   }
 
-  const $getRowFrom = ( rows, y = 0, startX = 0, endX = api.getWidth( rows ) - 1 ) => {
+  statics.getRowFrom = ( rows, y = 0, startX = 0, endX = statics.getWidth( rows ) - 1 ) => {
     return rows[ y ].slice( startX, endX + 1 )
   }
 
-  const $getRowsFrom = ( rows, startY = 0, endY = api.getHeight( rows ) - 1, startX = 0, endX = api.getWidth( rows ) - 1 ) => {
+  statics.getRowsFrom = ( rows, startY = 0, endY = statics.getHeight( rows ) - 1, startX = 0, endX = statics.getWidth( rows ) - 1 ) => {
     const result = []
 
     for( let y = startY; y <= endY; y++ ){
-      result.push( api.getRowFrom( rows, y, startX, endX ) )
+      result.push( statics.getRowFrom( rows, y, startX, endX ) )
     }
 
     return result
-  }
-
-  const $createState = ( rows, options = {} ) => {
-    options = Object.assign( {}, defaultOptions, options )
-
-    const { hasColumnHeaders, hasRowHeaders, format } = options
-
-    if( is.string( format ) ){
-      const args = api.fromFormat( format, rows, options )
-
-      delete args.options.format
-
-      return api.createState( args.rows, args.options )
-    }
-
-    if( !$isRows( rows ) ){
-      const format = api.formatFor( rows )
-
-      if( is.undefined( format ) )
-        throw new Error( 'Expected rows or a known format' )
-
-      const args = api.fromFormat( format, rows, options )
-
-      return api.createState( args.rows, args.options )
-    }
-
-    let { columnNames, rowNames } = options
-
-    const x = hasRowHeaders ? 1 : 0
-    const y = hasColumnHeaders ? 1 : 0
-    const endY = api.getHeight( rows ) - 1
-
-    if( hasColumnHeaders && is.null( columnNames ) )
-      columnNames = api.getRowFrom( rows, 0, x )
-
-    if( hasRowHeaders && is.null( rowNames ) )
-      rowNames = api.getColumnFrom( rows, 0, y )
-
-    rows = api.getRowsFrom( rows, y, endY, x )
-
-    return { rows, columnNames, rowNames }
-  }
-
-  return {
-    $columnIndexToName,
-    $columnNameToIndex,
-    $getWidth,
-    $getHeight,
-    $isRows,
-    $getColumnFrom,
-    $getColumnsFrom,
-    $getRowFrom,
-    $getRowsFrom,
-    $createState
   }
 }
 

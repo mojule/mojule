@@ -1,38 +1,61 @@
 'use strict'
 
-const core = ( api, grid ) => {
-  const width = () => api.getWidth( grid.rows )
-  const height = () => api.getHeight( grid.rows )
+const is = require( '@mojule/is' )
 
-  const getRowsWithHeaders = () => {
-    const hasColumnHeaders = api.hasColumnNames()
-    const hasRowHeaders = api.hasRowNames()
+const defaultOptions = {
+  hasColumnHeaders: true,
+  hasRowHeaders: false,
+  columnNames: null,
+  rowNames: null
+}
 
-    let rows = api.rows()
+const isNames = value => is.null( value ) || is.array( value )
 
-    if( hasColumnHeaders ){
-      const headers = api.columnNames()
-      rows = [ headers, ...rows ]
+const core = ({ core, Api }) => {
+  core.createState = ( rows, options = {} ) => {
+    options = Object.assign( {}, defaultOptions, options )
+
+    const { hasColumnHeaders, hasRowHeaders, format } = options
+
+    if( is.string( format ) ){
+      const args = Api.fromFormat( format, rows, options )
+
+      delete args.options.format
+
+      return core.createState( args.rows, args.options )
     }
 
-    if( hasRowHeaders ){
-      const headers = api.rowNames()
-      const y = hasColumnHeaders ? 1 : 0
+    if( !Api.isRows( rows ) ){
+      const format = Api.formatFor( rows )
 
-      rows = rows.map( ( row, i ) => {
-        if( hasColumnHeaders && i === 0 )
-          return [ '', ...row ]
+      if( is.undefined( format ) )
+        throw new Error( 'Expected rows or a known format' )
 
-        return [ headers[ i - y ], ...row ]
-      })
+      const args = Api.fromFormat( format, rows, options )
+
+      return core.createState( args.rows, args.options )
     }
 
-    return rows
+    let { columnNames, rowNames } = options
+
+    const x = hasRowHeaders ? 1 : 0
+    const y = hasColumnHeaders ? 1 : 0
+    const endY = Api.getHeight( rows ) - 1
+
+    if( hasColumnHeaders && is.null( columnNames ) )
+      columnNames = Api.getRowFrom( rows, 0, x )
+
+    if( hasRowHeaders && is.null( rowNames ) )
+      rowNames = Api.getColumnFrom( rows, 0, y )
+
+    rows = Api.getRowsFrom( rows, y, endY, x )
+
+    return { rows, columnNames, rowNames }
   }
 
-  return {
-    width, height, getRowsWithHeaders
-  }
+  core.isState = state =>
+    is.object( state ) && Api.isRows( state.rows ) &&
+    isNames( state.columnNames ) && isNames( state.rowNames )
 }
 
 module.exports = core

@@ -42,14 +42,12 @@ const infoToSchema = info => {
   return { properties, required }
 }
 
-const schema = api => {
-  return {
-    schema: () => infoToSchema({
-      count: api.height(),
-      names: api.columnNames(),
-      values: api.columnsModel()
-    })
-  }
+const schema = ({ api }) => {
+  api.schema = () => infoToSchema({
+    count: api.height(),
+    names: api.columnNames(),
+    values: api.columnsModel()
+  })
 }
 
 module.exports = schema

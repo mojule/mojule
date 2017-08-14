@@ -1,9 +1,13 @@
 'use strict'
 
-const Factory = require( './factory' )
+const ApiFactory = require( '@mojule/api-factory' )
+const is = require( '@mojule/is' )
+const defaultPlugins = require( './plugins' )
+const formats = require( './formats' )
+const FormatPlugins = require( './plugins/format-plugins' )
 
-const Grid = Factory()
+const formatPlugins = FormatPlugins( formats )
 
-Object.assign( Grid, { Factory } )
+const Grid = ApiFactory( defaultPlugins, formatPlugins )
 
 module.exports = Grid

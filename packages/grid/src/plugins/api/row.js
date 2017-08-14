@@ -2,16 +2,16 @@
 
 const is = require( '@mojule/is' )
 
-const row = ( api, grid ) => {
-  const getRow = ( y, startX, endX ) => {
+const row = ({ api, state, Api }) => {
+  api.getRow = ( y, startX, endX ) => {
     y = api.normalizeRowIndex( y )
     startX = api.normalizeColumnIndex( startX )
     endX = api.normalizeColumnIndex( endX )
 
-    return api.getRowFrom( grid.rows, y, startX, endX )
+    return Api.getRowFrom( state.rows, y, startX, endX )
   }
 
-  const setRow = ( row, y = 0, x = 0 ) => {
+  api.setRow = ( row, y = 0, x = 0 ) => {
     y = api.normalizeRowIndex( y )
     x = api.normalizeColumnIndex( x )
 
@@ -22,17 +22,13 @@ const row = ( api, grid ) => {
     return row
   }
 
-  const row = ( ...args ) => {
+  api.row = ( ...args ) => {
     const head = args[ 0 ]
 
     if( is.array( head ) )
       return api.setRow( ...args )
 
     return api.getRow( ...args )
-  }
-
-  return {
-    getRow, setRow, row
   }
 }
 

@@ -5,7 +5,6 @@ const assert = require( 'assert' )
 const is = require( '@mojule/is' )
 const Grid = require( '../src' )
 
-
 const expect = {
   rows: [
     [ 'Name', 'Age', 'Member' ],
@@ -69,7 +68,6 @@ describe( 'Grid', () => {
         getColumnsFrom,
         getRowFrom,
         getRowsFrom,
-        createState,
         getFormat,
         isFormat,
         formatFor,
@@ -163,105 +161,31 @@ describe( 'Grid', () => {
         const defaultFormats = [ 'models', 'columnsModel', 'csv' ]
         const csvData = 'a,b,c\n1,2,3'
         const csvRows = [['a','b','c'],[1,2,3]]
+
         it( 'gets format names', () => {
-          const names = formatNames()
-          assert.deepEqual( names, defaultFormats )
+          assert.deepEqual( formatNames(), defaultFormats )
         } )
+
         it( 'gets named format', () => {
           const format = getFormat(defaultFormats[2])
           assert( format !== undefined )
         } )
+
         it( 'tests data is named format', () => {
           const isCsv = isFormat(defaultFormats[2], csvData )
           assert( isCsv )
         } )
+
         it( 'returns format name for data', () => {
           let formatName = formatFor( csvData)
           assert.equal( formatName, defaultFormats[2]  )
           formatName = formatFor( null)
           assert.equal( formatName, undefined  )
         } )
+
         it( 'returns rows from data', () => {
           const rows = fromFormat( csvData ).rows
           assert.deepEqual( rows, csvRows  )
-        } )
-
-      } )
-
-      describe( 'createState', () => {
-        const expectRowNames = [ 'Nik', 'Andy', 'Alex' ]
-        const expectRowsWithRowHeaders = [
-          [ 36, true ],
-          [ 21, true ],
-          [ 25, false ]
-        ]
-
-        it( 'Auto column headers (default)', () => {
-          const state = createState( rows )
-          assert.deepEqual( state.rows, rows.slice( 1 ) )
-          assert.deepEqual( state.columnNames, headers )
-          assert.equal( state.rowNames, null )
-        } )
-
-        it( 'No headers', () => {
-          const state = createState( rows, { hasColumnHeaders: false } )
-
-          assert.deepEqual( state.rows, rows )
-          assert.deepEqual( state.columnNames, null )
-          assert.equal( state.rowNames, null )
-        } )
-
-        it( 'row headers', () => {
-          const state = createState( rows.slice( 1 ), { hasColumnHeaders: false, hasRowHeaders: true } )
-
-          assert.deepEqual( state.rows, expectRowsWithRowHeaders )
-          assert.deepEqual( state.columnNames, null )
-          assert.deepEqual( state.rowNames, expectRowNames )
-        } )
-
-        describe( 'Provide headers', () => {
-          it( 'Override column headers', () => {
-            const state = createState( rows, { columnNames: [ 'ID', 'Wisdom', 'Awesome' ] } )
-
-            assert.deepEqual( state.rows, rows.slice( 1 ) )
-            assert.deepEqual( state.columnNames, [ 'ID', 'Wisdom', 'Awesome' ] )
-            assert.equal( state.rowNames, null )
-          } )
-
-          it( 'Set column headers', () => {
-            const state = createState( rows.slice( 1 ), {
-              hasColumnHeaders: false,
-              columnNames: [ 'ID', 'Wisdom', 'Awesome' ]
-            } )
-
-            assert.deepEqual( state.rows, rows.slice( 1 ) )
-            assert.deepEqual( state.columnNames, [ 'ID', 'Wisdom', 'Awesome' ] )
-            assert.equal( state.rowNames, null )
-          } )
-
-          it( 'Override row headers', () => {
-            const state = createState( rows.slice( 1 ), {
-              rowNames: [ 'John', 'Paul', 'Ringo' ],
-              hasColumnHeaders: false,
-              hasRowHeaders: true
-            } )
-
-            assert.deepEqual( state.rows, expectRowsWithRowHeaders )
-            assert.deepEqual( state.rowNames, [ 'John', 'Paul', 'Ringo' ] )
-            assert.equal( state.columnNames, null )
-          } )
-
-          it( 'Set row headers', () => {
-            const state = createState( expectRowsWithRowHeaders, {
-              rowNames: [ 'John', 'Paul', 'Ringo' ],
-              hasColumnHeaders: false,
-              hasRowHeaders: false
-            } )
-
-            assert.deepEqual( state.rows, expectRowsWithRowHeaders )
-            assert.deepEqual( state.rowNames, [ 'John', 'Paul', 'Ringo' ] )
-            assert.equal( state.columnNames, null )
-          } )
         } )
       } )
     } )
@@ -279,6 +203,13 @@ describe( 'Grid', () => {
 
       it( 'height', () => {
         assert.equal( grid.height(), rows.length - 1 )
+      } )
+
+      it( 'size', () => {
+        const { width, height } = grid.size()
+
+        assert.equal( width, headers.length )
+        assert.equal( height, rows.length - 1 )
       } )
 
       it( 'specify headers', () => {
@@ -527,8 +458,6 @@ describe( 'Grid', () => {
         hasColumnHeaders: false,
         hasRowHeaders: true
       } )
-      // const x = newGrid.setRowName( 'Age', 'Score' )
-      // const y = newGrid.getRowName( 1 )
       assert( newGrid.setRowName( 'Age', 'Score' ), 'Score' )
       assert( newGrid.getRowName( 1 ), 'Score' )
 
@@ -548,74 +477,6 @@ describe( 'Grid', () => {
       const newRowNames = [ 'Tom', 'Dick', 'Harry' ]
       assert.deepEqual( newGrid.rowNames( newRowNames ), newRowNames )
       assert.deepEqual( newGrid.rowNames(), newRowNames )
-    } )
-  } )
-
-  describe( 'Factory', () => {
-    const { Factory } = Grid
-
-    const size = ( api, grid ) => {
-      return {
-        size: () => api.width() * api.height()
-      }
-    }
-
-    it( 'options', () => {
-      const Grid = Factory( { exposeState: true } )
-      const grid = Grid( rows )
-
-      assert.deepEqual( grid.state, { rows: rows.slice( 1 ), columnNames: headers, rowNames: null } )
-    } )
-
-    it( 'plugins', () => {
-      const Grid = Factory( size )
-      const grid = Grid( rows )
-
-      assert.equal( grid.size(), 9 )
-    } )
-
-    it( 'plugins array', () => {
-      const Grid = Factory( [ size ] )
-      const grid = Grid( rows )
-
-      assert.equal( grid.size(), 9 )
-    } )
-
-    it( 'bad plugins', () => {
-      assert.throws(() => Factory( 'abc' ) )
-    } )
-
-    it( 'formats', () => {
-      const Grid = Factory( {
-        formats: {
-          size: {
-            predicate: size =>
-              is.object( size ) && is.number( size.width ) &&
-              is.number( size.height ),
-            toStateArgs: ( size, options ) => {
-              const { width, height } = size
-
-              const rows = new Array( height )
-
-              for( let y = 0; y < height; y++ ) {
-                rows[ y ] = new Array( width )
-              }
-
-              return { rows, options }
-            },
-            fromGrid: api => ( {
-              width: api.width(),
-              height: api.height()
-            } )
-          }
-        }
-      } )
-
-      const grid = Grid( { width: 4, height: 3 }, { hasColumnHeaders: false } )
-
-      assert.equal( grid.width(), 4 )
-      assert.equal( grid.height(), 3 )
-      assert.deepEqual( grid.size(), { width: 4, height: 3 } )
     } )
   } )
 

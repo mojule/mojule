@@ -2,8 +2,8 @@
 
 const is = require( "@mojule/is" )
 
-const value = ( api, grid ) => {
-  const getValue = ( x, y ) => {
+const value = ({ api, state }) => {
+  api.getValue = ( x, y ) => {
     x = api.normalizeColumnIndex( x )
 
     const row = api.row( y )
@@ -11,22 +11,20 @@ const value = ( api, grid ) => {
     return row[ x ]
   }
 
-  const setValue = ( x, y, value ) => {
+  api.setValue = ( x, y, value ) => {
     x = api.normalizeColumnIndex( x )
 
-    grid.rows[ y ][ x ] = value
+    state.rows[ y ][ x ] = value
 
     return value
   }
 
-  const value = ( x, y, value ) => {
+  api.value = ( x, y, value ) => {
     if( is.undefined( value ) )
       return api.getValue( x, y )
 
     return api.setValue( x, y, value )
   }
-
-  return { getValue, setValue, value }
 }
 
 module.exports = value
