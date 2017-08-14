@@ -5,13 +5,13 @@ const StringTree = require( '@mojule/string-tree' )
 const parse = str => {
   str = str.replace( comments, '\n' )
 
-  const stringTree = StringTree.deserialize( str, { retainEmpty: true } )
+  const stringTree = StringTree.parse( str, { retainEmpty: true } )
 
   return stringNodeToNode( null, stringTree )
 }
 
 const stringNodeToNode = ( parent, stringNode ) => {
-  const raw = stringNode.getValue()
+  const raw = stringNode.value
   const syntaxNode = tokenize( raw )
 
   if( syntaxNode.operator === '>' ){
@@ -20,7 +20,7 @@ const stringNodeToNode = ( parent, stringNode ) => {
     if( parent )
       parent.push( node )
 
-    stringNode.getChildren().forEach( stringChild => {
+    stringNode.childNodes.forEach( stringChild => {
       stringNodeToNode( node, stringChild )
     })
 
@@ -43,7 +43,7 @@ const createNode = name => [
 ]
 
 const addToArray = ( arr, stringNode ) => {
-  const raw = stringNode.getValue()
+  const raw = stringNode.value
 
   if( raw.trim() === '' )
     return
@@ -53,7 +53,7 @@ const addToArray = ( arr, stringNode ) => {
   if( syntaxNode.operator === '[]' ){
     const nested = [ ...syntaxNode.value ]
 
-    stringNode.getChildren().forEach( stringChild => {
+    stringNode.childNodes.forEach( stringChild => {
       addToArray( nested, stringChild )
     })
 
@@ -61,7 +61,7 @@ const addToArray = ( arr, stringNode ) => {
   } else if( syntaxNode.operator === '{}' ){
     const obj = {}
 
-    stringNode.getChildren().forEach( stringChild => {
+    stringNode.childNodes.forEach( stringChild => {
       addToObject( obj, stringChild )
     })
 
@@ -74,7 +74,7 @@ const addToArray = ( arr, stringNode ) => {
 }
 
 const addToObject = ( obj, stringNode ) => {
-  const raw = stringNode.getValue()
+  const raw = stringNode.value
 
   if( raw.trim() === '' )
     return
@@ -89,13 +89,13 @@ const addToObject = ( obj, stringNode ) => {
   } else if( operator === '{}' ){
     value = {}
 
-    stringNode.getChildren().forEach( stringChild => {
+    stringNode.childNodes.forEach( stringChild => {
       addToObject( value, stringChild )
     })
   } else if( operator === '[]' ) {
     value = [ ...syntaxNode.value ]
 
-    stringNode.getChildren().forEach( stringChild => {
+    stringNode.childNodes.forEach( stringChild => {
       addToArray( value, stringChild )
     })
   } else if( operator === ':' ){
@@ -108,16 +108,16 @@ const addToObject = ( obj, stringNode ) => {
 }
 
 const getMultiline = stringNode => {
-  const leading = stringNode.getMeta( 'indent' ) + 2
+  const leading = stringNode.meta.indent + 2
 
   let value = ''
 
-  stringNode.walk( ( current, parent, depth ) => {
+  stringNode.subNodes.forEach( current => {
     if( current === stringNode ) return
 
-    const indent = current.getMeta( 'indent' )
+    const { indent } = current.meta
     const indentation = ' '.repeat( indent - leading )
-    const str = current.getValue()
+    const str = current.value
 
     value += `${ indentation }${ str }\n`
   })
