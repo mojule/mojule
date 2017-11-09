@@ -13,8 +13,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mojule/is.git"
+    "url": "https://github.com/mojule/mojule.git"
   },
+  "bugs": {
+    "url": "https://github.com/mojule/mojule/issues"
+  },
+  "homepage": "https://github.com/mojule/mojule/packages/is#readme",
   "devDependencies": {
     "mocha": "^4.0.1",
     "nyc": "^11.3.0"
