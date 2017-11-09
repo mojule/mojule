@@ -25,6 +25,5 @@
   "devDependencies": {
     "mocha": "^4.0.1",
     "nyc": "^11.3.0"
-  },
-  "dependencies": {}
+  }
 }
