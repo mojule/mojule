@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "Nik Coughlin <nrkn.com@gmail.com>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mojule/mojule.git"
