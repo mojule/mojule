@@ -27,11 +27,11 @@ const b0 = get( obj, '/b/0' ) // 2
 
 const oldValue = set( obj, '/a', -1 ) // 1
 
-set( obj, '/b/-', 5 )
+set( obj, '/b/-', 5 ) // b is now [ 2, 3, 4, 5 ]
 
 const pointers = compile( '/b/0' ) // [ '', 'b', '0' ]
 
-set( obj, pointers, -2 )
+set( obj, pointers, -2 ) // b is now [ -2, 3, 4, 5 ]
 
 /*
   {
@@ -50,6 +50,9 @@ const expanded = expand( flat )
 const flat2 = {
   '/c': 6
 }
+
+// adds values from flat2 to obj
+expand( flat2, obj )
 ```
 
 ## license
