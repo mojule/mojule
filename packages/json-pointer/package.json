@@ -1,0 +1,20 @@
+{
+  "name": "@mojule/json-pointer",
+  "version": "0.1.0",
+  "description": "JSON Pointer implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha"
+  },
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@mojule/is": "^0.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
+  }
+}

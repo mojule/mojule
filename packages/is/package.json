@@ -1,0 +1,23 @@
+{
+  "name": "@mojule/is",
+  "version": "0.2.0",
+  "description": "Duck typing utility",
+  "main": "index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha"
+  },
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mojule/is.git"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
+  },
+  "dependencies": {}
+}
