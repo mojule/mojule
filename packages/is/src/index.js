@@ -12,12 +12,11 @@ const Is = ( predicates = defaultPredicates ) => {
 
   const t = T( predicates )
 
-  return t.types().reduce(( is, name ) => {
+  return t.types().reduce( ( is, name ) => {
     is[ name ] = value => t.is( value, name )
 
     return is
   }, t )
-
 }
 
 const T = typePredicates => {
@@ -35,7 +34,7 @@ const T = typePredicates => {
   const every = ( subject, ...typenames ) =>
     typenames.every( typename => is( subject, typename ) )
 
-  const of = subject =>
+  const _of = subject =>
     keys.find( key => is( subject, key ) )
 
   const allOf = subject =>
@@ -43,10 +42,9 @@ const T = typePredicates => {
 
   const types = () => keys.slice()
 
-  return { is, isOnly, some, every, of, allOf, types }
+  return { is, isOnly, some, every, of: _of, allOf, types }
 }
 
 Object.assign( Is, Is() )
 
 module.exports = Is
-

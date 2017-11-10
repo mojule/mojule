@@ -12,7 +12,7 @@ const setter = ( obj, parts, value ) => {
   const { length } = parts
 
   for( let i = 1; i < length; ) {
-    target = unescape(parts[i++])
+    target = unescape( parts[ i++ ] )
     hasNext = length > i
 
     if( is.undefined( obj[ target ] ) ){
@@ -38,7 +38,7 @@ const setter = ( obj, parts, value ) => {
   const oldValue = obj[ target ]
 
   if( is.undefined( value ) ){
-    delete obj[target]
+    delete obj[ target ]
   } else {
     obj[ target ] = value
   }
@@ -64,7 +64,7 @@ const get = ( obj, pointer ) => {
   if( typeof obj !== 'object' )
     throw Error( 'Invalid input object.' )
 
-  pointer = compilePointer(pointer)
+  pointer = compilePointer( pointer )
 
   const { length } = pointer
 
@@ -82,7 +82,7 @@ const set = ( obj, pointer, value ) => {
   if( typeof obj !== 'object' )
     throw Error( 'Invalid input object.' )
 
-  pointer = compilePointer(pointer)
+  pointer = compilePointer( pointer )
 
   if( pointer.length === 0 )
     throw Error( 'Invalid JSON pointer for set.' )
