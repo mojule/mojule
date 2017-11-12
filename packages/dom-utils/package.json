@@ -1,0 +1,37 @@
+{
+  "name": "@mojule/dom-utils",
+  "version": "0.1.4",
+  "description": "DOM traversal/query/manipulation functions",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha"
+  },
+  "typings": "./typings/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mojule/mojule.git"
+  },
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mojule/mojule/issues"
+  },
+  "homepage": "https://github.com/mojule/mojule/packages/dom-utils#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0",
+    "@mojule/document": "^0.1.1"
+  },
+  "dependencies": {
+    "@mojule/is": "^0.2.1",
+    "@mojule/node-utils": "^0.1.1"
+  }
+}
