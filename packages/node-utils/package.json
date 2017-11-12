@@ -1,0 +1,36 @@
+{
+  "name": "@mojule/node-utils",
+  "version": "0.1.0",
+  "description": "Tree node utilities",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha"
+  },
+  "typings": "./typings/index.d.ts",
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mojule/mojule.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mojule/mojule/issues"
+  },
+  "homepage": "https://github.com/mojule/mojule/packages/node-utils#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@mojule/node": "^0.1.0",
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
+  },
+  "dependencies": {
+    "@mojule/is": "^0.2.0"
+  }
+}

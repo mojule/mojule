@@ -1,0 +1,6 @@
+[ "root",
+  [ "left", [ "hello" ] ],
+  [ "right", [ "world" ] ],
+  [ "target a", [ "target b" ] ],
+  [ "c", [ "target c" ] ]
+]
