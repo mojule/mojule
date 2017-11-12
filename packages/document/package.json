@@ -1,12 +1,11 @@
 {
   "name": "@mojule/document",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Convenience wrapper for JSDOM document",
   "main": "index.js",
   "dependencies": {
     "jsdom": "^11.3.0"
   },
-  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   },
