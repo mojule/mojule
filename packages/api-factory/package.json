@@ -5,24 +5,27 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
+    "coverage": "nyc --reporter=html --reporter=text mocha"
   },
   "keywords": [],
   "author": "Nik Coughlin <nrkn.com@gmail.com>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mojule/api-factory.git"
+    "url": "https://github.com/mojule/mojule.git"
   },
   "bugs": {
-    "url": "https://github.com/mojule/api-factory/issues"
+    "url": "https://github.com/mojule/mojule/issues"
   },
-  "homepage": "https://github.com/mojule/api-factory#readme",
-  "devDependencies": {
-    "istanbul": "^0.4.5",
-    "mocha": "^3.2.0"
-  },
+  "homepage": "https://github.com/mojule/mojule/packages/api-factory#readme",
   "dependencies": {
-    "@mojule/is": "^0.1.2"
+    "@mojule/is": "^0.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
   }
 }
