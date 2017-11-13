@@ -7,6 +7,7 @@ monorepo for mojule
 - [json-pointer](packages/json-pointer) JSON Pointer implementation
 - [node](packages/node) generic tree node factory
 - [node-utils](packages/node-utils) utility functions for tree nodes
+- [path](packages/path) path module from node.js, for use in browser etc.
 
 ## license
 

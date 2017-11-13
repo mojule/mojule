@@ -1,0 +1,17 @@
+{
+  "name": "@mojule/path",
+  "version": "1.0.0",
+  "description": "path module from node.js for use in the browser etc",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mojule/mojule.git"
+  },
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mojule/mojule/issues"
+  },
+  "homepage": "https://github.com/mojule/mojule/packages/path#readme"
+}
