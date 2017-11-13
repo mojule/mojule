@@ -3,6 +3,7 @@
 monorepo for mojule
 - [document](packages/document) convenience package for JSDOM document instance
 - [dom-utils](packages/dom-utils) utility functions for DOM nodes
+- [element-meta](packages/element-meta) metadata about HTML elements
 - [is](packages/is) duck typing package
 - [json-pointer](packages/json-pointer) JSON Pointer implementation
 - [node](packages/node) generic tree node factory

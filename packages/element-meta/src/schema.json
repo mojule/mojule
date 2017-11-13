@@ -1,0 +1,134 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "html element meta data",
+    "description": "schema for html element meta data",
+    "type": "object",
+    "patternProperties": {
+        "^[a-z][a-z\\d]*$": {
+            "$ref": "#/definitions/elementDef"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "elementDef": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "$ref": "#/definitions/categoryArrayDef"
+                },
+                "content": {
+                    "$ref": "#/definitions/stringArrayDef"
+                },
+                "parent": {
+                    "$ref": "#/definitions/stringArrayDef"
+                },
+                "disallow": {
+                    "$ref": "#/definitions/stringArrayDef"
+                },
+                "ancestor": {
+                    "$ref": "#/definitions/stringArrayDef"
+                },
+                "position": {
+                    "$ref": "#/definitions/positionArrayDef"
+                },
+                "previous": {
+                    "$ref": "#/definitions/tagArrayDef"
+                },
+                "next": {
+                    "$ref": "#/definitions/tagArrayDef"
+                },
+                "states": {
+                    "$ref": "#/definitions/stateDef"
+                },
+                "nospec": {
+                    "$ref": "#/definitions/nospecDef"
+                },
+                "singular": {
+                    "type": "boolean"
+                },
+                "experimental": {
+                    "type": "boolean"
+                }
+            },
+            "additionalProperties": false
+        },
+        "stringArrayDef": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "uniqueItems": true
+        },
+        "tagArrayDef": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^<[a-z][a-z0-9]*>$"
+            },
+            "uniqueItems": true
+        },
+        "categoryArrayDef": {
+            "type": "array",
+            "items": {
+                "enum": [
+                    "embedded content",
+                    "flow content",
+                    "form-associated content",
+                    "heading content",
+                    "interactive content",
+                    "labelable",
+                    "listed",
+                    "metadata content",
+                    "palpable content",
+                    "phrasing content",
+                    "resettable",
+                    "sectioning content",
+                    "sectioning root",
+                    "submittable"
+                ]
+            },
+            "uniqueItems": true
+        },
+        "positionArrayDef": {
+            "type": "array",
+            "items": {
+                "enum": [
+                    "first",
+                    "last"
+                ]
+            },
+            "uniqueItems": true
+        },
+        "stateDef": {
+            "type": "object",
+            "patternProperties": {
+                "^[\\w\\d :=,<>\\(\\)\\[\\]]+$": {
+                    "type": "object",
+                    "properties": {
+                        "categories": {
+                            "$ref": "#/definitions/stringArrayDef"
+                        },
+                        "content": {
+                            "$ref": "#/definitions/stringArrayDef"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "nospecDef": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "enum": [
+                    "4.01",
+                    "5",
+                    "5.1",
+                    "LS"
+                ]
+            },
+            "uniqueItems": true
+        }
+    }
+}
