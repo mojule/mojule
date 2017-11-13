@@ -1,0 +1,33 @@
+{
+  "name": "@mojule/string-node",
+  "version": "0.1.0",
+  "description": "Tree nodes where the value is a string",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha"
+  },
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mojule/mojule.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mojule/mojule/issues"
+  },
+  "homepage": "https://github.com/mojule/mojule/packages/string-node#readme",
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0",
+    "@mojule/is": "^0.2.1"
+  },
+  "dependencies": {
+    "@mojule/node": "^0.1.1",
+    "@mojule/node-utils": "^0.1.1"
+  }
+}
