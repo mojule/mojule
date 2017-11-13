@@ -1,6 +1,6 @@
 {
   "name": "@mojule/element-meta",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/mojule/mojule/packages/element-meta#readme",
   "dependencies": {
-    "@mojule/utils": "^0.1.14"
+    "@mojule/utils": "^0.1.16"
   },
   "devDependencies": {
     "mocha": "^4.0.1",

@@ -1,6 +1,6 @@
 {
   "name": "@mojule/utils",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "Miscellaneous util functions for mojule",
   "main": "index.js",
   "typings": "./typings/index.d.ts",
