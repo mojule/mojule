@@ -1,0 +1,36 @@
+{
+  "name": "@mojule/templating",
+  "version": "2.3.0",
+  "description": "Templating using DOM nodes",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha"
+  },
+  "keywords": [],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mojule/mojule.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mojule/mojule/issues"
+  },
+  "homepage": "https://github.com/mojule/mojule/packages/templating#readme",
+  "dependencies": {
+    "@mojule/dom-utils": "^0.1.5",
+    "@mojule/json-pointer": "^0.1.1",
+    "@mojule/is": "^0.2.1",
+    "@mojule/path": "^1.0.2"
+  },
+  "devDependencies": {
+    "@mojule/document": "^0.1.1",
+    "@mojule/utils": "^0.1.11",
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
+  }
+}

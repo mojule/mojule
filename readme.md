@@ -8,6 +8,8 @@ monorepo for mojule
 - [node](packages/node) generic tree node factory
 - [node-utils](packages/node-utils) utility functions for tree nodes
 - [path](packages/path) path module from node.js, for use in browser etc.
+- [templating](packages/templating) DOM templating module
+- [utils](packages/utils) general purpose utility functions
 
 ## license
 

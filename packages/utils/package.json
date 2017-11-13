@@ -1,0 +1,34 @@
+{
+  "name": "@mojule/utils",
+  "version": "0.1.11",
+  "description": "Miscellaneous util functions for mojule",
+  "main": "index.js",
+  "typings": "./typings/index.d.ts",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc --reporter=html --reporter=text mocha"
+  },
+  "keywords": [
+    "utils"
+  ],
+  "author": "Nik Coughlin <nrkn.com@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mojule/mojule.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mojule/mojule/issues"
+  },
+  "homepage": "https://github.com/mojule/mojule/packages/utils#readme",
+  "dependencies": {
+    "lodash.range": "^3.2.0"
+  }
+}
