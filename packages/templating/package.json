@@ -1,6 +1,6 @@
 {
   "name": "@mojule/templating",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Templating using DOM nodes",
   "main": "index.js",
   "scripts": {
@@ -22,10 +22,10 @@
   },
   "homepage": "https://github.com/mojule/mojule/packages/templating#readme",
   "dependencies": {
-    "@mojule/dom-utils": "^0.1.5",
+    "@mojule/dom-utils": "^0.1.6",
     "@mojule/is": "^0.2.1",
     "@mojule/json-pointer": "^0.1.1",
-    "@mojule/path": "^1.0.2"
+    "@mojule/path": "^1.0.3"
   },
   "devDependencies": {
     "@mojule/document": "^0.1.1",

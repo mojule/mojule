@@ -1,6 +1,6 @@
 {
   "name": "@mojule/path",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "path module from node.js for use in the browser etc",
   "main": "index.js",
   "repository": {
