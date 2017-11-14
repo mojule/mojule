@@ -71,6 +71,21 @@ const filter = ( node, predicate ) => {
   return result
 }
 
+const findChild = ( node, predicate ) => {
+  let result
+  let current = node.firstChild
+
+  while( current && !result ){
+    if( predicate( current ) ){
+      result = current
+    } else {
+      current = current.nextSibling
+    }
+  }
+
+  return result
+}
+
 const findDescendants = ( node, predicate ) => {
   const result = []
 
@@ -136,9 +151,70 @@ const deserialize = ( Node, serialized, map = value => value ) => {
   return node
 }
 
+const root = node => {
+  let rootNode
+
+  walkUp( node, current => {
+    rootNode = current
+  })
+
+  return rootNode
+}
+
+const indexOf = node => {
+  if( node.parentNode === null ) return
+
+  let index = 0
+  let previous = node.previousSibling
+
+  while( previous ){
+    index++
+    previous = previous.previousSibling
+  }
+
+  return index
+}
+
+const slug = node => {
+  // nodes may expose a string property `slug`
+  if( is.string( node.slug ) ) return node.slug
+
+  if( node.parentNode === null ) return ''
+
+  // `node` package directly exposes index as a property
+  if( is.number( node.index ) ) return String( node.index )
+
+  return String( indexOf( node ) )
+}
+
+const path = node => {
+  const slugs = []
+
+  walkUp( node, current => {
+    slugs.unshift( slug( current ) )
+  })
+
+  return slugs.join( '/' )
+}
+
+const atPath = ( node, path = '' ) => {
+  let target = node
+  const slugs = path.split( '/' ).filter( s => s !== '' )
+
+  slugs.forEach( current => {
+    if( is.undefined( target ) )
+      return
+
+    target = findChild( target, child => slug( child ) === current )
+  })
+
+  return target
+}
+
 const utils = {
-  walk, walkUp, walkEvery, walkDescendants, find, filter, findDescendants,
-  removeAll, wrap, unwrap, serialize, deserialize
+  walk, walkUp, walkEvery, walkDescendants, find, filter, findChild,
+  findDescendants, removeAll, wrap, unwrap, serialize, deserialize, root,
+  indexOf, slug, path, atPath
 }
 
 module.exports = utils

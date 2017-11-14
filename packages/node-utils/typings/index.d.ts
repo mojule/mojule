@@ -40,6 +40,12 @@ export function findDescendants( node: Node, predicate: ( current: Node ) => boo
 export function find( node: Node, predicate: ( current: Node ) => boolean ): Node
 
 /**
+  Returns the first child of the provided node that satisfies the provided
+  predicate function. If no match is found it returns undefined.
+*/
+export function findChild( node: Node, predicate: ( current: Node ) => boolean ): Node
+
+/**
   Returns an array of all inclusive descendants of the provided node that
   satisfy the provided predicate function, searching in depth-first order.
 */
@@ -60,3 +66,33 @@ export function wrap( node: Node, wrapper: ParentNode ): Node
   Removes the provided node from the tree and replaces it with its children.
 */
 export function unwrap( node: Node ): Node
+
+/**
+  Returns the root of the current node
+*/
+export function root( node: Node ): Node
+
+/**
+  Returns the index of the provided node within its parent, or undefined if the
+  provided node has no parent
+*/
+export function indexOf( node: Node ): number
+
+/**
+  Returns a string for the current node which is guaranteed to be unique among
+  its siblings
+*/
+export function slug( node: Node ): string
+
+/**
+  Returns the path for the current node relative to the root of the tree. The
+  path is composed of all ancestors' slugs separated by /
+*/
+export function path( node: Node ): string
+
+/**
+  Returns the node at the indicated path, relative to the provided node, or
+  undefined if no node exists at that path. Use the root of the tree as the
+  provided node if using an absolute path
+*/
+export function atPath( node: Node, path: string ): Node
