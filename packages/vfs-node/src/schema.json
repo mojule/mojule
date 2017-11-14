@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "properties": {
+    "filename": {
+      "type": "string"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [ "file" ]
+        },
+        "encoding": {
+          "type": "string",
+          "enum": [
+            "ascii", "base64", "binary", "hex", "ucs2", "ucs-2", "utf16le",
+            "utf-16le", "utf8", "utf-8", "latin1"
+          ]
+        },
+        "data": {
+          "type": "string"
+        }
+      },
+      "required": [ "encoding", "data" ]
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [ "file" ]
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        }
+      },
+      "required": [ "data" ]
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [ "directory" ]
+        }
+      }
+    }
+  ],
+  "required": [ "filename", "type" ]
+}
