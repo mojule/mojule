@@ -1,6 +1,6 @@
 {
   "name": "@mojule/vfs-node",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Virtual File System node factory",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,7 @@
     "valid-filename": "^2.0.1"
   },
   "devDependencies": {
-    "@mojule/memory-fs": "^0.1.0",
+    "@mojule/memory-fs": "^0.1.1",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
     "tv4": "^1.3.0"
