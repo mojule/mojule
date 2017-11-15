@@ -3,6 +3,7 @@
 const schema = require( './src/schema.json' )
 const is = require( './src/is' )
 const actualize = require( './src/actualize' )
+const virtualize = require( './src/virtualize' )
 const tv4 = require( 'tv4' )
 const Node = require( '@mojule/node' )
 const { clone } = require( '@mojule/utils' )
@@ -102,5 +103,6 @@ VFSNode.createDirectory = filename => {
 }
 
 VFSNode.actualize = actualize
+VFSNode.virtualize = ( ...args ) => virtualize( VFSNode, ...args )
 
 module.exports = VFSNode

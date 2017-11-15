@@ -158,6 +158,46 @@ describe( 'VFS node', () => {
         assert.strictEqual( data.root.sub[ 'sub.txt' ].toString( 'utf8' ), 'XYZ' )
       })
     })
+
+    it( 'virtualizes', () => {
+      const fs = MemoryFS()
+
+      const directory = Node.createDirectory( 'root' )
+      const sub = Node.createDirectory( 'sub' )
+      const file = Node.createFile( 'test.txt', 'ABC' )
+      const subFile = Node.createFile( 'sub.txt', 'XYZ' )
+
+      directory.appendChild( file )
+      directory.appendChild( sub )
+      sub.appendChild( subFile )
+
+      Node.actualize( fs, directory, '/', err => {
+        Node.virtualize( fs, '/root', ( err, newDirectory ) => {
+          assert( !err )
+
+          assert.deepEqual( newDirectory.value, directory.value )
+
+          const newSub = Array.from( newDirectory.childNodes ).find(
+            current => current.type === 'directory'
+          )
+
+          assert( newSub )
+          assert.deepEqual( newSub.value, sub.value )
+
+          const newFile = Array.from( newDirectory.childNodes ).find(
+            current => current.type === 'file'
+          )
+
+          assert( newFile )
+          assert.deepEqual( newFile.value, file.value )
+
+          const newSubFile = newSub.firstChild
+
+          assert( newSubFile )
+          assert.deepEqual( newSubFile.value, subFile.value )
+        })
+      })
+    })
   })
 
   describe( 'schema', () => {

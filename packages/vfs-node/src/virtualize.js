@@ -1,47 +1,53 @@
 'use strict'
 
-const fs = require( 'fs' )
-const path = require( 'path' )
+const path = require( '@mojule/path' )
 const Mime = require( 'mime' )
 const pify = require( 'pify' )
 const is = require( './is' )
 
-const { stat, readdir, readFile } = pify( fs )
+const sourceSymbol = Symbol( 'source' )
 
-const getChildPaths = current => {
-  const ls = stats => stats.isDirectory() ? readdir( current ) : []
-  const toPath = filename => path.join( current, filename )
-  const toPaths = files => files.map( toPath )
+const virtualize = ( VFSNode, fs, rootPath, isTextExtension, callback ) => {
+  if( is.undefined( callback ) ){
+    callback = isTextExtension
+    isTextExtension = () => false
+  }
 
-  return stat( current ).then( ls ).then( toPaths )
-}
+  const { stat, readdir, readFile } = pify( fs )
 
-const virtualize = ({ statics, Api }) => {
+  const getChildPaths = current => {
+    const ls = stats => stats.isDirectory() ? readdir( current ) : []
+    const toPath = filename => path.join( current, filename )
+    const toPaths = files => files.map( toPath )
+
+    return stat( current ).then( ls ).then( toPaths )
+  }
+
   const createDirectory = source => {
     const parsed = path.parse( source )
     const { base } = parsed
 
-    const directory = Api.createDirectory( base )
+    const directory = VFSNode.createDirectory( base )
 
-    directory.meta.source = source
+    directory[ sourceSymbol ] = source
 
     return directory
   }
 
   const createNode = source => {
-    const mime = Mime.lookup( source )
+    const mime = Mime.getType( source )
     const parsed = path.parse( source )
     const { base, ext } = parsed
 
     let encoding
 
-    if( is.text( mime ) || Api.isTextExtension( ext ) )
+    if( is.text( mime ) || isTextExtension( ext ) )
       encoding = 'utf8'
 
     const createFile = data => {
-      const file = Api.createFile( base, data, encoding )
+      const file = VFSNode.createFile( base, data, encoding )
 
-      file.meta.source = source
+      file[ sourceSymbol ] = source
 
       return file
     }
@@ -62,17 +68,17 @@ const virtualize = ({ statics, Api }) => {
   const createRoot = rootPath => new Promise( ( resolve, reject ) => {
     const parsed = path.parse( rootPath )
     const { name } = parsed
-    const root = Api.createDirectory( name )
+    const root = VFSNode.createDirectory( name )
     const nodes = [ root ]
 
-    root.meta.source = rootPath
+    root[ sourceSymbol ] = rootPath
 
     const next = () => {
       if( !nodes.length )
         return resolve( root )
 
       const current = nodes.pop()
-      const { source } = current.meta
+      const source = current[ sourceSymbol ]
 
       getChildPaths( source )
       .then( childPathsToNodes )
@@ -90,8 +96,7 @@ const virtualize = ({ statics, Api }) => {
     next()
   })
 
-  statics.virtualize = ( rootPath, callback ) =>
-    stat( rootPath )
+  stat( rootPath )
     .then( stats =>
       stats.isDirectory() ?
         createRoot( rootPath ) :
