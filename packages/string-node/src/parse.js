@@ -1,6 +1,7 @@
 'use strict'
 
 const utils = require( './utils' )
+const metaSymbol = require( './meta-symbol' )
 
 const { normalizeEol, normalizeIndent, unescape, trimStart } = utils
 
@@ -8,8 +9,6 @@ const defaultOptions = {
   retainEmpty: false,
   deserializeMultiple: false
 }
-
-const metaSymbol = Symbol( 'mojule string node metadata' )
 
 const parse = ( Node, str, options ) => {
   options = Object.assign( {}, defaultOptions, options )

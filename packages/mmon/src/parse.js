@@ -1,11 +1,15 @@
 'use strict'
 
-const StringTree = require( '@mojule/string-tree' )
+const StringNode = require( '@mojule/string-node' )
+const metaSymbol = require( '@mojule/string-node/src/meta-symbol' )
+const nodeUtils = require( '@mojule/node-utils' )
+
+const { walk } = nodeUtils
 
 const parse = str => {
   str = str.replace( comments, '\n' )
 
-  const stringTree = StringTree.parse( str, { retainEmpty: true } )
+  const stringTree = StringNode.parse( str, { retainEmpty: true } )
 
   return stringNodeToNode( null, stringTree )
 }
@@ -20,7 +24,7 @@ const stringNodeToNode = ( parent, stringNode ) => {
     if( parent )
       parent.push( node )
 
-    stringNode.childNodes.forEach( stringChild => {
+    Array.from( stringNode.childNodes ).forEach( stringChild => {
       stringNodeToNode( node, stringChild )
     })
 
@@ -61,7 +65,7 @@ const addToArray = ( arr, stringNode ) => {
   } else if( syntaxNode.operator === '{}' ){
     const obj = {}
 
-    stringNode.childNodes.forEach( stringChild => {
+    Array.from( stringNode.childNodes ).forEach( stringChild => {
       addToObject( obj, stringChild )
     })
 
@@ -89,13 +93,13 @@ const addToObject = ( obj, stringNode ) => {
   } else if( operator === '{}' ){
     value = {}
 
-    stringNode.childNodes.forEach( stringChild => {
+    Array.from( stringNode.childNodes ).forEach( stringChild => {
       addToObject( value, stringChild )
     })
   } else if( operator === '[]' ) {
     value = [ ...syntaxNode.value ]
 
-    stringNode.childNodes.forEach( stringChild => {
+    Array.from( stringNode.childNodes ).forEach( stringChild => {
       addToArray( value, stringChild )
     })
   } else if( operator === ':' ){
@@ -108,14 +112,14 @@ const addToObject = ( obj, stringNode ) => {
 }
 
 const getMultiline = stringNode => {
-  const leading = stringNode.meta.indent + 2
+  const leading = stringNode[ metaSymbol ].indent + 2
 
   let value = ''
 
-  stringNode.subNodes.forEach( current => {
+  walk( stringNode, current => {
     if( current === stringNode ) return
 
-    const { indent } = current.meta
+    const { indent } = current[ metaSymbol ]
     const indentation = ' '.repeat( indent - leading )
     const str = current.value
 
