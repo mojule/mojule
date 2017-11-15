@@ -5,7 +5,7 @@ const tv4 = require( 'tv4' )
 const is = require( '../src/is' )
 const schema = require( '../src/schema.json' )
 const Node = require( '..' )
-const MemoryFileSystem = require( 'memory-fs' )
+const MemoryFS = require( '@mojule/memory-fs' )
 
 describe( 'VFS node', () => {
   describe( 'factory', () => {
@@ -133,13 +133,17 @@ describe( 'VFS node', () => {
       assert.deepEqual( file.value, value )
     })
 
-    it( 'actualize', () => {
-      const fs = new MemoryFileSystem()
+    it( 'actualizes', () => {
+      const fs = MemoryFS()
 
       const directory = Node.createDirectory( 'root' )
+      const sub = Node.createDirectory( 'sub' )
       const file = Node.createFile( 'test.txt', 'ABC' )
+      const subFile = Node.createFile( 'sub.txt', 'XYZ' )
 
       directory.appendChild( file )
+      directory.appendChild( sub )
+      sub.appendChild( subFile )
 
       Node.actualize( fs, directory, '/', err => {
         assert( !err )
@@ -147,8 +151,11 @@ describe( 'VFS node', () => {
         const { data } = fs
 
         assert( is.object( data.root ) )
+        assert( is.object( data.root.sub ) )
         assert( is.buffer( data.root[ 'test.txt' ] ) )
+        assert( is.buffer( data.root.sub[ 'sub.txt' ] ) )
         assert.strictEqual( data.root[ 'test.txt' ].toString( 'utf8' ), 'ABC' )
+        assert.strictEqual( data.root.sub[ 'sub.txt' ].toString( 'utf8' ), 'XYZ' )
       })
     })
   })
