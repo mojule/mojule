@@ -6,29 +6,30 @@
   "typings": "./dist/index.d.ts",
   "scripts": {
     "test": "mocha",
-    "examples": "node ./examples",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
+    "coverage": "nyc --reporter=html --reporter=text mocha"
   },
   "keywords": [],
   "author": "Nik Coughlin <nrkn.com@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mojule/grid.git"
+    "url": "https://github.com/mojule/mojule.git"
   },
   "bugs": {
-    "url": "https://github.com/mojule/grid/issues"
+    "url": "https://github.com/mojule/mojule/issues"
   },
-  "homepage": "https://github.com/mojule/grid#readme",
+  "homepage": "https://github.com/mojule/mojule/packages/grid#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
-    "@mojule/vdom": "^0.3.11",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.2.0"
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
   },
   "dependencies": {
-    "@mojule/api-factory": "^1.0.0",
-    "@mojule/is": "^0.1.2",
-    "@mojule/utils": "^0.1.13",
+    "@mojule/api-factory": "^1.0.1",
+    "@mojule/is": "^0.2.1",
+    "@mojule/utils": "^0.1.16",
     "csv-parse": "^1.2.0",
     "csv-stringify": "^1.0.4",
     "lodash.chunk": "^4.2.0"
