@@ -11,6 +11,8 @@ monorepo for mojule
 - [json-pointer](packages/json-pointer) JSON Pointer implementation
 - [memory-fs](packages/memory-fs) fork of [memory-fs](https://github.com/webpack/memory-fs)
   that doesn't require `bind` for promisifying methods
+- [mmon](packages/mmon) Mojule Model Object Notation - a simple DSL for
+  generating nested model nodes
 - [node](packages/node) generic tree node factory
 - [node-utils](packages/node-utils) utility functions for tree nodes
 - [path](packages/path) path module from node.js, for use in browser etc.
