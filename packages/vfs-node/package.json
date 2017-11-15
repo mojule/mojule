@@ -1,6 +1,6 @@
 {
   "name": "@mojule/vfs-node",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Virtual File System node factory",
   "main": "index.js",
   "scripts": {

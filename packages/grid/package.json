@@ -1,6 +1,6 @@
 {
   "name": "@mojule/grid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "API for working with grid or grid-like data",
   "main": "index.js",
   "typings": "./dist/index.d.ts",
