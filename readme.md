@@ -19,6 +19,7 @@ monorepo for mojule
 - [path](packages/path) path module from node.js, for use in browser etc.
 - [render-components](packages/render-components) render core
   for [components](packages/components)
+- [static](packages/static) static site generator using [components](packages/components)
 - [string-node](packages/string-node) tree node factory where values are strings
 - [templating](packages/templating) DOM templating module
 - [utils](packages/utils) general purpose utility functions

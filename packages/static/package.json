@@ -5,30 +5,33 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha"
+    "coverage": "nyc --reporter=html --reporter=text mocha"
   },
   "keywords": [],
   "author": "Nik Coughlin <nrkn.com@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mojule/static.git"
+    "url": "https://github.com/mojule/mojule.git"
   },
   "bugs": {
-    "url": "https://github.com/mojule/static/issues"
+    "url": "https://github.com/mojule/mojule/issues"
   },
-  "homepage": "https://github.com/mojule/static#readme",
+  "homepage": "https://github.com/mojule/mojule/packages/static#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
-    "istanbul": "^0.4.5",
-    "mocha": "^3.4.2"
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
   },
   "dependencies": {
-    "@mojule/components": "github:mojule/components#1.0.0",
-    "@mojule/is": "^0.1.9",
-    "@mojule/mmon": "github:mojule/mmon#1.0.0",
-    "@mojule/tree": "github:mojule/tree#1.0.0",
-    "@mojule/utils": "^0.1.14",
-    "@mojule/vfs": "github:mojule/vfs#1.0.0",
+    "@mojule/components": "^2.1.1",
+    "@mojule/is": "^0.2.1",
+    "@mojule/mmon": "^1.0.2",
+    "@mojule/node": "^0.1.2",
+    "@mojule/utils": "^0.1.16",
+    "@mojule/vfs-node": "^0.1.4",
     "pify": "^3.0.0",
     "rimraf": "^2.6.1"
   }

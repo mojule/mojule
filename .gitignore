@@ -1,3 +1,8 @@
+# Special
+
+packages/static/data
+packages/static/out
+
 # Logs
 logs
 *.log
