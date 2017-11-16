@@ -1,19 +1,17 @@
 'use strict'
 
 const assert = require( 'assert' )
+const document = require( '@mojule/document' )
 const domUtils = require( '@mojule/dom-utils' )
 const is = require( '@mojule/is' )
 const Mmon = require( '@mojule/mmon' )
-const Tree = require( '@mojule/tree' )
+const Node = require( '@mojule/node' )
+const nodeUtils = require( '@mojule/node-utils' )
 const jsdom = require( 'jsdom' )
 const Components = require( '../src' )
 
 const { stringify } = domUtils
 const { ReadComponents } = Components
-
-const { JSDOM } = jsdom
-const dom = new JSDOM( '<!doctype>' )
-const { document } = dom.window
 
 const options = { document }
 
@@ -51,7 +49,7 @@ document>
   footer>
     `
 
-    const modelTree = Tree.deserialize( Mmon.parse( mmon ) )
+    const modelTree = nodeUtils.deserialize( Node, Mmon.parse( mmon ) )
     const rendered = componentApi.render( modelTree )
     const html = stringify( rendered.node )
 
@@ -81,7 +79,7 @@ document>
     `
 
     const parsed = Mmon.parse( mmon )
-    const modelTree = Tree.deserialize( parsed )
+    const modelTree = nodeUtils.deserialize( Node, parsed )
     const rendered = componentApi.render( modelTree )
     const html = stringify( rendered.node )
 

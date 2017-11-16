@@ -51,7 +51,7 @@ describe( 'Node', () => {
   it( 'prepends child', () => {
     const parent = Node( 'parent' )
 
-    assert( !parent.hasChildren() )
+    assert( !parent.hasChildNodes() )
 
     const child1 = Node( 'child 1' )
     const child2 = Node( 'child 2' )
@@ -59,7 +59,7 @@ describe( 'Node', () => {
     parent.appendChild( child2 )
     parent.prependChild( child1 )
 
-    assert( parent.hasChildren() )
+    assert( parent.hasChildNodes() )
     assert.strictEqual( child1.parentNode, parent )
     assert.strictEqual( parent.firstChild, child1 )
     assert.strictEqual( parent.lastChild, child2 )
@@ -102,7 +102,7 @@ describe( 'Node', () => {
     parent.appendChild( child )
     child.remove()
 
-    assert( !parent.hasChildren() )
+    assert( !parent.hasChildNodes() )
   })
 
   it( 'removeChild', () => {
@@ -112,7 +112,7 @@ describe( 'Node', () => {
     parent.appendChild( child )
     parent.removeChild( child )
 
-    assert( !parent.hasChildren() )
+    assert( !parent.hasChildNodes() )
   })
 
   it( 'insertBefore', () => {

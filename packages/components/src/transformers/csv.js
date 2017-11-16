@@ -1,14 +1,14 @@
 'use strict'
 
 const Grid = require( '@mojule/grid' )
-const flatten = require( '@mojule/flatten' )
+const jsonPointer = require( '@mojule/json-pointer' )
 const is = require( '@mojule/is' )
 const markdown = require( 'commonmark' )
 
 const mdReader = new markdown.Parser()
 const mdWriter = new markdown.HtmlRenderer()
 
-const { expand } = flatten
+const { expand } = jsonPointer
 
 const gridToTableModel = grid => {
   const columnNames = grid.getColumnNames().map( name => ({ name }))

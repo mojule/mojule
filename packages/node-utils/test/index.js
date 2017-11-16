@@ -188,7 +188,7 @@ describe( 'node utils', () => {
       [ "c", [ "target c" ] ]
     ]
 
-    assert( !node.hasChildren() )
+    assert( !node.hasChildNodes() )
     assert.deepEqual( result, expect )
   })
 

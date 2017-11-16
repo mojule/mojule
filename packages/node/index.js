@@ -70,7 +70,7 @@ const Node = ( value, options = {} ) => {
     get index() {
       return tree.index( nodeValue )
     },
-    hasChildren: () => tree.hasChildren( nodeValue ),
+    hasChildNodes: () => tree.hasChildren( nodeValue ),
     remove: () => toApi( tree.remove( nodeValue ) ),
     removeChild: child => {
       ensureParent( child )

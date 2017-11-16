@@ -1,10 +1,10 @@
 'use strict'
 
-let path = require( 'path' )
+const nodeUtils = require( '@mojule/node-utils')
+const path = require( '@mojule/path' )
 const Transformers = require( './transformers' )
 
-// browserify just exports path, but it's equivalent
-path = path.posix || path
+const { find, filter } = nodeUtils
 
 const defaultOptions = {
   Transformers
@@ -18,8 +18,8 @@ const TransformComponents = options => {
 
   const transformComponents = vfs => {
     options.getStyle = name => {
-      const file = vfs.subNodes.find( current =>{
-        if( current.nodeName === '#directory' ) return false
+      const file = find( vfs, current => {
+        if( current.type === 'directory' ) return false
 
         const directory = current.parentNode
         const parsed = path.parse( current.filename )
@@ -33,11 +33,11 @@ const TransformComponents = options => {
 
     const result = {}
 
-    const files = vfs.subNodes.filter( current => current.nodeName === '#file' )
-    const rootPath = vfs.getPath()
+    const files = filter( vfs, current => current.type === 'file' )
+    const rootPath = nodeUtils.path( vfs )
 
     const getCategories = directory => {
-      const directoryPath = directory.getPath()
+      const directoryPath = nodeUtils.path( directory )
       const relative = path.relative( rootPath, directoryPath )
       const segs = relative.split( path.sep )
 
