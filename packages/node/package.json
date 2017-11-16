@@ -1,6 +1,6 @@
 {
   "name": "@mojule/node",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "DOM-like tree nodes backed by symbol-tree",
   "main": "index.js",
   "scripts": {
