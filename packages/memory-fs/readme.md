@@ -102,4 +102,6 @@ const fs = MemoryFS( {}, { api } )
 
 ## License
 
-MIT
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)
+
+This is a fork of [webpack/memory-fs](https://github.com/webpack/memory-fs/blob/master/LICENSE)

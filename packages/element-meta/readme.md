@@ -14,6 +14,6 @@ const data = Data()
 console.log( data.div )
 ```
 
-## license
+## License
 
-MIT
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

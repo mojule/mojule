@@ -200,8 +200,6 @@ const actualize = ( vfs, outpath, callback ) => {
   })
 }
 
-// read the routes first
-// generate a component for the routes
 const Static = ( inpath, outpath, options = {}, callback = err => { if( err ) throw err } ) => {
   if( is.function( options ) ){
     callback = options

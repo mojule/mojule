@@ -11,3 +11,7 @@ const document = require( '@mojule/document' )
 
 const div = document.createElement( 'div' )
 ```
+
+## License
+
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

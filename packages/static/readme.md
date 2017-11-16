@@ -6,9 +6,13 @@ prototype/experiments
 
 ## Install
 
-`npm install @mojule/xxx`
+`npm install @mojule/static`
 
 ## Example
 
 ```javascript
 ```
+
+## License
+
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

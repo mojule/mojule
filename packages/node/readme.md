@@ -14,3 +14,7 @@ const child = Node( 'child' )
 grandparent.appendChild( parent )
 parent.appendChild( child )
 ```
+
+## License
+
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

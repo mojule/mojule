@@ -121,8 +121,6 @@ const is1 = Is( { string4: subject => Is.string( subject ) && ( subject.length =
 is1.string4( 'abcd' ) // Returns true
 ```
 
-
-
 ## License
 
-MIT
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

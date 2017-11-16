@@ -111,7 +111,7 @@ const Node = ( value, options = {} ) => {
   nodeValue[ apiSymbol ] = api
 
   if( is.function( extend ) )
-    extend( api, nodeValue, tree, valueSymbol )
+    extend( api, nodeValue, tree, valueSymbol, apiSymbol )
 
   return api
 }

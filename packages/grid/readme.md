@@ -148,4 +148,6 @@ Columns may be addressed by integer index, letter (i.e. 'A', 'B',...) or by name
   ]}
 ```
 
-##
+## License
+
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

@@ -24,3 +24,7 @@ walk( div, current => {
 // '<div><p>Hello</p></div>'
 console.log( stringify( div ) )
 ```
+
+## License
+
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

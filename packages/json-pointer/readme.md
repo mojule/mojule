@@ -55,6 +55,6 @@ const flat2 = {
 expand( flat2, obj )
 ```
 
-## license
+## License
 
-MIT
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

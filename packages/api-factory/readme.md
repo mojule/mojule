@@ -301,3 +301,7 @@ const uncompleted = completed.visibility( 'SHOW_UNCOMPLETED' )
 
 uncompleted.log()
 ```
+
+## License
+
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)

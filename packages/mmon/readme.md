@@ -403,3 +403,7 @@ in several other editors as well -
 [the grammar can be found here](https://github.com/mojule/vscode-mmon)
 
 Note that there are still some issues with the highlighting!
+
+## License
+
+[MIT](https://github.com/mojule/mojule/blob/master/LICENSE)
