@@ -9,8 +9,8 @@ const tokens = require( './tokens' )
 const defaultOptions = {
   populators,
   tokens,
-  strict: true,
-  useCache: true,
+  strict: false,
+  useCache: false,
   removeTokens: true,
   excludeStrict: [],
   onInclude: () => {}

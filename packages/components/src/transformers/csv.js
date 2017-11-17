@@ -84,7 +84,11 @@ const formatNumberRows = grid => {
 const Csv = () => {
   const csv = str => {
     const grid = Grid( str )
-    const models = grid.models().map( model => expand( model ) )
+    /*
+    const gridModels = grid.models()
+    const models = gridModels.map( model => expand( model ) )
+    */
+    const models = grid.models()
     const values = grid.getValues()
 
     /*

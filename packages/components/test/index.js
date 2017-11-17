@@ -1,6 +1,7 @@
 'use strict'
 
 const assert = require( 'assert' )
+const fs = require( 'fs' )
 const document = require( '@mojule/document' )
 const domUtils = require( '@mojule/dom-utils' )
 const is = require( '@mojule/is' )
@@ -13,7 +14,7 @@ const Components = require( '../src' )
 const { stringify } = domUtils
 const { ReadComponents } = Components
 
-const options = { document }
+const options = { document, fs }
 
 const readComponents = ReadComponents( options )
 
