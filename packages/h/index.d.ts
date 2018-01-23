@@ -1,5 +1,5 @@
 interface IAttributeMap {
-  [ key: string ]: string | function
+  [ key: string ]: string | EventListener
 }
 
 type ElementArg = string | Node | IAttributeMap

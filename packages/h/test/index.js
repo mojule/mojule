@@ -10,7 +10,7 @@ describe( 'H', () => {
     const { element, textNode, comment, documentFragment, div } = h
 
     const dom = div(
-      div( { id: 'divId' },
+      div( { id: 'foo', click: e => { console.log( 'clicked foo' ) } },
         documentFragment(
           element( 'span', 'hello' ),
           ' ',
@@ -23,9 +23,15 @@ describe( 'H', () => {
     const html = dom.innerHTML
 
     const expect = `
-      <div id="divId"><span>hello</span> world<!--comment--></div>
+      <div id="foo"><span>hello</span> world<!--comment--></div>
     `.trim()
 
     assert.strictEqual( html, expect )
+  })
+
+  it( 'bad argument', () => {
+    const { div } = h
+
+    assert.throws( () => div( null ) )
   })
 })

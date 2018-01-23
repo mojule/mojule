@@ -22,10 +22,10 @@ const handleAttributes = ( document, el, attributes ) => {
   Object.keys( attributes ).forEach( key => {
     const value = attributes[ key ]
 
-    if( is.string( value ) ){
-      el.setAttribute( key, value )
-    } else if( is.function( value ) ){
+    if( is.function( value ) ){
       el.addEventListener( key, value )
+    } else {
+      el.setAttribute( key, value )
     }
   })
 }
@@ -39,6 +39,8 @@ const handleArg = ( document, el, arg ) => {
     el.appendChild( arg )
   } else if( is.attributeMap( arg ) ) {
     handleAttributes( document, el, arg )
+  } else {
+    throw Error( 'Unexpected argument' )
   }
 }
 
@@ -62,7 +64,7 @@ const H = document => {
     childNodes.forEach( node => {
       if( is.node( node ) ){
         fragment.appendChild( node )
-      } else if( is.string( node ) ){
+      } else {
         fragment.appendChild( document.createTextNode( node ) )
       }
     })
