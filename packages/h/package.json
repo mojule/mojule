@@ -1,9 +1,8 @@
 {
-  "name": "@mojule/is",
-  "version": "0.2.2",
-  "description": "Duck typing utility",
+  "name": "@mojule/h",
+  "version": "0.1.1",
+  "description": "API for creating DOM nodes, like hyperscript",
   "main": "index.js",
-  "typings": "./dist/index.d.ts",
   "scripts": {
     "test": "mocha",
     "coverage": "nyc --reporter=html --reporter=text mocha"
@@ -21,9 +20,14 @@
   "bugs": {
     "url": "https://github.com/mojule/mojule/issues"
   },
-  "homepage": "https://github.com/mojule/mojule/packages/is#readme",
+  "homepage": "https://github.com/mojule/mojule/packages/h#readme",
   "devDependencies": {
+    "@mojule/document": "^0.1.2",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0"
+  },
+  "dependencies": {
+    "@mojule/element-meta": "^0.1.4",
+    "@mojule/is": "^0.2.2"
   }
 }
