@@ -9,6 +9,7 @@ monorepo for mojule
 - [element-meta](packages/element-meta) metadata about HTML elements
 - [is](packages/is) duck typing package
 - [grid](packages/grid) API for working with grids or grid-like data
+- [h](packages/h) API for creating DOM nodes, like [hyperscript](https://github.com/hyperhype/hyperscript)
 - [json-pointer](packages/json-pointer) JSON Pointer implementation
 - [memory-fs](packages/memory-fs) fork of [memory-fs](https://github.com/webpack/memory-fs)
   that doesn't require `bind` for promisifying methods
