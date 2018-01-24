@@ -5,7 +5,7 @@ export interface IStringMap {
 export interface IAttributeMap {
   data?: IStringMap
   style?: IStringMap
-  [ key: string ]: string | EventListener | IStringMap
+  [ key: string ]: string | EventListener | IStringMap | undefined
 }
 
 export type ElementArg = string | Node | IAttributeMap
