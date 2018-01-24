@@ -1,5 +1,11 @@
+export interface IStringMap {
+  [ key: string ]: string
+}
+
 export interface IAttributeMap {
-  [ key: string ]: string | EventListener
+  data?: IStringMap
+  style?: IStringMap
+  [ key: string ]: string | EventListener | IStringMap
 }
 
 export type ElementArg = string | Node | IAttributeMap

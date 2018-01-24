@@ -2,16 +2,26 @@
 
 const elementMeta = require( '@mojule/element-meta' )
 const Is = require( '@mojule/is' )
+const camelCase = require( 'lodash.camelcase' )
 
 const meta = elementMeta()
 const tagNames = Object.keys( meta )
 
 const predicates = {
+  stringMap: value => Is.object( value ) && Object.keys( value ).every( key =>
+    Is.string( value[ key ] )
+  ),
   attributeMapValue: value => Is.string( value ) || Is.function( value ),
   attributeMap: value =>
-    Is.object( value ) && Object.keys( value ).every( key =>
-      predicates.attributeMapValue( value[ key ] )
-    ),
+    Is.object( value ) && Object.keys( value ).every( key => {
+      if( predicates.attributeMapValue( value[ key ] ) ) return true
+
+      if( key === 'data' || key === 'style' ){
+        return predicates.stringMap( value[ key ] )
+      }
+
+      return false
+    }),
   node: value =>
     value && Is.string( value.nodeName ) && Is.integer( value.nodeType )
 }
@@ -24,6 +34,14 @@ const handleAttributes = ( document, el, attributes ) => {
 
     if( is.function( value ) ){
       el.addEventListener( key, value )
+    } else if( key === 'data' && is.stringMap( value ) ) {
+      Object.assign( el.dataset, value )
+    } else if( key === 'style' && is.stringMap( value ) ) {
+      Object.keys( value ).forEach( name => {
+        const key = camelCase( name )
+
+        el.style[ key ] = value[ name ]
+      })
     } else {
       el.setAttribute( key, value )
     }

@@ -34,4 +34,42 @@ describe( 'H', () => {
 
     assert.throws( () => div( null ) )
   })
+
+  it( 'data', () => {
+    const { div } = h
+
+    const dom = div(
+      div({
+        data: {
+          firstName: 'Nik',
+          lastName: 'Coughlin'
+        }
+      })
+    )
+
+    const html = dom.innerHTML
+
+    const expect = '<div data-first-name="Nik" data-last-name="Coughlin"></div>'
+
+    assert.strictEqual( html, expect )
+  })
+
+  it( 'style', () => {
+    const { div } = h
+
+    const dom = div(
+      div({
+        style: {
+          'font-size': '16px',
+          'fontWeight': 'bold'
+        }
+      })
+    )
+
+    const html = dom.innerHTML
+
+    const expect = '<div style="font-size: 16px; font-weight: bold;"></div>'
+
+    assert.strictEqual( html, expect )
+  })
 })
