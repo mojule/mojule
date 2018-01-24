@@ -1,6 +1,6 @@
 {
   "name": "@mojule/h",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "API for creating DOM nodes, like hyperscript",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@mojule/element-meta": "^0.1.4",
-    "@mojule/is": "^0.2.2"
+    "@mojule/is": "^0.2.2",
+    "lodash.camelcase": "^4.3.0"
   }
 }
