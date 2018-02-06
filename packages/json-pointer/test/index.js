@@ -4,7 +4,7 @@ const is = require( '@mojule/is' )
 const assert = require( 'assert' )
 const pointer = require( '..' )
 
-const { get, set, compile, flatten, expand, pointers } = pointer
+const { get, set, compile, flatten, expand, pointers, glob } = pointer
 
 const Obj = () => ({
   a: 1,
@@ -257,7 +257,7 @@ describe( 'pointer', () => {
         b: [ 2, 3, 4 ]
       }
 
-      const expect = [ '/', '/a', '/b', '/b/0', '/b/1', '/b/2' ]
+      const expect = [ '', '/a', '/b', '/b/0', '/b/1', '/b/2' ]
 
       const p = pointers( obj )
 
@@ -270,7 +270,7 @@ describe( 'pointer', () => {
         { b: 2 }
       ]
 
-      const expect = [ '/', '/0', '/0/a', '/1', '/1/b' ]
+      const expect = [ '', '/0', '/0/a', '/1', '/1/b' ]
 
       const p = pointers( arr )
 
@@ -289,6 +289,34 @@ describe( 'pointer', () => {
       b.a = a
 
       assert.throws( () => pointers( a ) )
+    })
+  })
+
+  describe( 'glob', () => {
+    it( 'globs root properties', () => {
+      const obj = {
+        a: 1,
+        b: [ 2, 3, 4 ]
+      }
+
+      const properties = glob( obj, '/*' )
+
+      const expect = [ 1, [ 2, 3, 4 ] ]
+
+      assert.deepEqual( properties, expect )
+    })
+
+    it( 'globs array range', () => {
+      const obj = {
+        a: 1,
+        b: [ 2, 3, 4 ]
+      }
+
+      const properties = glob( obj, '/b/[1-2]' )
+
+      const expect = [ 3, 4 ]
+
+      assert.deepEqual( properties, expect )
     })
   })
 

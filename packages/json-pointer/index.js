@@ -1,6 +1,7 @@
 'use strict'
 
 const is = require( '@mojule/is' )
+const mm = require( 'micromatch' )
 
 const unescape = str => str.replace( /~1/g, '/' ).replace( /~0/g, '~' )
 const escape = str => str.replace( /~/g, '~0' ).replace( /\//g, '~1' )
@@ -193,7 +194,7 @@ const pointers = source => {
   const paths = []
 
   const route = ( current, prefix = '' ) => {
-    paths.push( prefix || '/' )
+    paths.push( prefix )
 
     if( is.array( current ) ){
       current.forEach( ( value, i ) => {
@@ -211,4 +212,12 @@ const pointers = source => {
   return paths
 }
 
-module.exports = { get, set, compile, flatten, expand, pointers }
+const glob = ( source, patterns, options ) => {
+  const paths = pointers( source )
+  const matches = mm( paths, patterns, options )
+  const result = matches.map( match => get( source, match ) )
+
+  return result
+}
+
+module.exports = { get, set, compile, flatten, expand, pointers, glob }

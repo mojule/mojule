@@ -4,7 +4,7 @@
 implementation for mojule
 
 Heavily based on [jsonpointer](https://github.com/janl/node-jsonpointer), with
-additional functions like `flatten`, `expand` and `pointers` added
+additional functions like `flatten`, `expand`, `pointers` and `glob` added
 
 `npm install @mojule/json-pointer`
 
@@ -13,7 +13,7 @@ additional functions like `flatten`, `expand` and `pointers` added
 
 const pointer = require( '@mojule/json-pointer' )
 
-const { get, set, compile, flatten, expand, pointers } = pointer
+const { get, set, compile, flatten, expand, pointers, glob } = pointer
 
 const obj = {
   a: 1,
@@ -54,6 +54,27 @@ const flat2 = {
 
 // adds values from flat2 to obj
 expand( flat2, obj )
+```
+
+## glob
+
+`glob` is just a thin wrapper over [micromatch](https://github.com/micromatch/micromatch)
+
+The first argument is the JSON object or array (other values will return an
+empty array), and the remaining arguments are passed directly to micromatch
+
+```
+glob( source, patterns[, options] )
+```
+
+```javascript
+const obj = {
+  a: 1,
+  b: [ 2, 3, 4 ]
+}
+
+const properties = glob( obj, '/*' ) // [ 1, [ 2, 3, 4 ] ]
+const subArr = glob( obj, '/b/[1-2]' ) // [ 3, 4 ]
 ```
 
 ## License
