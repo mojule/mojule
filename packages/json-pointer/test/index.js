@@ -4,7 +4,7 @@ const is = require( '@mojule/is' )
 const assert = require( 'assert' )
 const pointer = require( '..' )
 
-const { get, set, compile, flatten, expand } = pointer
+const { get, set, compile, flatten, expand, pointers } = pointer
 
 const Obj = () => ({
   a: 1,
@@ -247,6 +247,48 @@ describe( 'pointer', () => {
 
     it( 'throws on bad source', () => {
       assert.throws( () => expand( 'abc' ), inputError )
+    })
+  })
+
+  describe( 'pointers', () => {
+    it( 'gets pointers for an object', () => {
+      const obj = {
+        a: 1,
+        b: [ 2, 3, 4 ]
+      }
+
+      const expect = [ '/', '/a', '/b', '/b/0', '/b/1', '/b/2' ]
+
+      const p = pointers( obj )
+
+      assert.deepEqual( p, expect )
+    })
+
+    it( 'gets pointers for an array', () => {
+      const arr = [
+        { a: 1 },
+        { b: 2 }
+      ]
+
+      const expect = [ '/', '/0', '/0/a', '/1', '/1/b' ]
+
+      const p = pointers( arr )
+
+      assert.deepEqual( p, expect )
+    })
+
+    it( 'not an object or array', () => {
+      assert.deepEqual( pointers( 'foo' ), [] )
+    })
+
+    it( 'throws on bad JSON', () => {
+      const a = { foo: 'bar' }
+      const b = { baz: 'qux' }
+
+      a.b = b
+      b.a = a
+
+      assert.throws( () => pointers( a ) )
     })
   })
 

@@ -4,7 +4,7 @@
 implementation for mojule
 
 Heavily based on [jsonpointer](https://github.com/janl/node-jsonpointer), with
-additional functions like `flatten` and `expand` added
+additional functions like `flatten`, `expand` and `pointers` added
 
 `npm install @mojule/json-pointer`
 
@@ -13,13 +13,14 @@ additional functions like `flatten` and `expand` added
 
 const pointer = require( '@mojule/json-pointer' )
 
-const { get, set, compile, flatten, expand } = pointer
+const { get, set, compile, flatten, expand, pointers } = pointer
 
 const obj = {
   a: 1,
   b: [ 2, 3, 4 ]
 }
 
+const p = pointers( obj ) // [ '/', '/a', '/b', '/b/0', '/b/1', '/b/2' ]
 
 const a = get( obj, '/a' ) ) // 1
 
@@ -29,9 +30,9 @@ const oldValue = set( obj, '/a', -1 ) // 1
 
 set( obj, '/b/-', 5 ) // b is now [ 2, 3, 4, 5 ]
 
-const pointers = compile( '/b/0' ) // [ '', 'b', '0' ]
+const compiled = compile( '/b/0' ) // [ '', 'b', '0' ]
 
-set( obj, pointers, -2 ) // b is now [ -2, 3, 4, 5 ]
+set( obj, compiled, -2 ) // b is now [ -2, 3, 4, 5 ]
 
 /*
   {

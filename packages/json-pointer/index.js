@@ -178,4 +178,41 @@ const expand = ( source, target ) => {
   return target
 }
 
-module.exports = { get, set, compile, flatten, expand }
+const pointers = source => {
+  try {
+    source = clone( source )
+  } catch( e ){
+    throw Error( 'Expected JSON compatible value' )
+  }
+
+  const hasPaths = is.object( source ) || is.array( source )
+
+  if( !hasPaths )
+    return []
+
+  const paths = []
+
+  const route = ( current, prefix = '' ) => {
+    paths.push( prefix || '/' )
+
+    const isArray = is.array( current )
+
+    if( is.array( current ) ){
+      current.forEach( ( value, i ) => {
+        route( value, `${ prefix }/${ i }` )
+      })
+
+      return
+    }
+
+    Object.keys( current ).forEach( key => {
+      route( current[ key ], `${ prefix }/${ escape( key ) }` )
+    })
+  }
+
+  route( source )
+
+  return paths
+}
+
+module.exports = { get, set, compile, flatten, expand, pointers }
