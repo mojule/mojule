@@ -1,6 +1,6 @@
 {
   "name": "@mojule/json-pointer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "JSON Pointer implementation",
   "main": "index.js",
   "scripts": {

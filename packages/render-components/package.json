@@ -1,6 +1,6 @@
 {
   "name": "@mojule/render-components",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Render mojule components to DOM nodes",
   "main": "index.js",
   "keywords": [],
@@ -20,7 +20,7 @@
   "dependencies": {
     "@mojule/dom-utils": "^0.1.8",
     "@mojule/is": "^0.2.2",
-    "@mojule/templating": "^2.3.5",
+    "@mojule/templating": "^2.3.6",
     "@mojule/utils": "^0.1.17"
   }
 }
