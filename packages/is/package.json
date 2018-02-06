@@ -1,6 +1,6 @@
 {
   "name": "@mojule/is",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Duck typing utility",
   "main": "index.js",
   "typings": "./dist/index.d.ts",
