@@ -1,6 +1,6 @@
 {
   "name": "@mojule/static",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "static",
   "main": "index.js",
   "keywords": [],
@@ -18,20 +18,20 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mojule/document": "^0.1.4",
+    "@mojule/document": "^0.1.5",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
     "rimraf": "^2.6.1"
   },
   "dependencies": {
-    "@mojule/components": "^2.1.6",
-    "@mojule/dom-utils": "^0.1.10",
-    "@mojule/is": "^0.2.4",
-    "@mojule/mmon": "^1.0.5",
-    "@mojule/node": "^0.1.5",
-    "@mojule/node-utils": "^0.1.6",
+    "@mojule/components": "^2.1.7",
+    "@mojule/dom-utils": "^0.1.11",
+    "@mojule/is": "^0.2.5",
+    "@mojule/mmon": "^1.0.6",
+    "@mojule/node": "^0.1.6",
+    "@mojule/node-utils": "^0.1.7",
     "@mojule/path": "^1.0.3",
-    "@mojule/vfs-node": "^0.1.7",
+    "@mojule/vfs-node": "^0.1.8",
     "pify": "^3.0.0"
   }
 }
