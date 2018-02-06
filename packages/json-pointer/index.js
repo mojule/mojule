@@ -195,19 +195,15 @@ const pointers = source => {
   const route = ( current, prefix = '' ) => {
     paths.push( prefix || '/' )
 
-    const isArray = is.array( current )
-
     if( is.array( current ) ){
       current.forEach( ( value, i ) => {
         route( value, `${ prefix }/${ i }` )
       })
-
-      return
+    } else if( is.object( current ) ){
+      Object.keys( current ).forEach( key => {
+        route( current[ key ], `${ prefix }/${ escape( key ) }` )
+      })
     }
-
-    Object.keys( current ).forEach( key => {
-      route( current[ key ], `${ prefix }/${ escape( key ) }` )
-    })
   }
 
   route( source )
