@@ -1,6 +1,6 @@
 {
   "name": "@mojule/vfs-node",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Virtual File System node factory",
   "main": "index.js",
   "scripts": {
@@ -22,17 +22,17 @@
   },
   "homepage": "https://github.com/mojule/mojule/packages/vfs-node#readme",
   "dependencies": {
-    "@mojule/is": "^0.2.3",
-    "@mojule/node": "^0.1.4",
-    "@mojule/node-utils": "^0.1.5",
+    "@mojule/is": "^0.2.4",
+    "@mojule/node": "^0.1.5",
+    "@mojule/node-utils": "^0.1.6",
     "@mojule/path": "^1.0.3",
-    "@mojule/utils": "^0.1.18",
+    "@mojule/utils": "^0.1.19",
     "mime": "^2.0.3",
     "pify": "^3.0.0",
     "valid-filename": "^2.0.1"
   },
   "devDependencies": {
-    "@mojule/memory-fs": "^0.1.3",
+    "@mojule/memory-fs": "^0.1.4",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
     "tv4": "^1.3.0"

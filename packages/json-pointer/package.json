@@ -1,6 +1,6 @@
 {
   "name": "@mojule/json-pointer",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "JSON Pointer implementation",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/mojule/mojule/packages/json-pointer#readme",
   "dependencies": {
-    "@mojule/is": "^0.2.3",
+    "@mojule/is": "^0.2.4",
     "micromatch": "^3.1.5"
   },
   "devDependencies": {

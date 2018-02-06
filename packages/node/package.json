@@ -1,6 +1,6 @@
 {
   "name": "@mojule/node",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "DOM-like tree nodes backed by symbol-tree",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@mojule/is": "^0.2.3",
+    "@mojule/is": "^0.2.4",
     "symbol-tree": "^3.2.2"
   },
   "devDependencies": {
