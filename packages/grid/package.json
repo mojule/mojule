@@ -1,6 +1,6 @@
 {
   "name": "@mojule/grid",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "API for working with grid or grid-like data",
   "main": "index.js",
   "typings": "./dist/index.d.ts",
@@ -27,7 +27,7 @@
     "nyc": "^11.3.0"
   },
   "dependencies": {
-    "@mojule/api-factory": "^1.1.0",
+    "@mojule/api-factory": "^1.1.1",
     "@mojule/is": "^0.2.5",
     "@mojule/utils": "^0.2.0",
     "csv-parse": "^1.2.0",

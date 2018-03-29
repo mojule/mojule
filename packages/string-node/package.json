@@ -1,6 +1,6 @@
 {
   "name": "@mojule/string-node",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Tree nodes where the value is a string",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "nyc": "^11.3.0"
   },
   "dependencies": {
-    "@mojule/node": "^0.2.0",
-    "@mojule/node-utils": "^0.2.0"
+    "@mojule/node": "^0.2.1",
+    "@mojule/node-utils": "^0.2.1"
   }
 }
