@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 
 const columns = ({ api, state, Api }) => {
   api.getColumns = ( startX, endX, startY, endY  ) => {

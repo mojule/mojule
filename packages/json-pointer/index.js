@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 const mm = require( 'micromatch' )
 
 const unescape = str => str.replace( /~1/g, '/' ).replace( /~0/g, '~' )

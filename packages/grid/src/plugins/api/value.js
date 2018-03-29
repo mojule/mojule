@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( "@mojule/is" )
+const { is } = require( '@mojule/is' )
 
 const value = ({ api, state }) => {
   api.getValue = ( x, y ) => {

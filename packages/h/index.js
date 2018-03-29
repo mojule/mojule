@@ -8,12 +8,12 @@ const meta = elementMeta()
 const tagNames = Object.keys( meta )
 
 const predicates = {
-  stringMap: value => Is.object( value ) && Object.keys( value ).every( key =>
-    Is.string( value[ key ] )
+  stringMap: value => Is.is.object( value ) && Object.keys( value ).every( key =>
+    Is.is.string( value[ key ] )
   ),
-  attributeMapValue: value => Is.string( value ) || Is.function( value ),
+  attributeMapValue: value => Is.is.string( value ) || Is.is.function( value ),
   attributeMap: value =>
-    Is.object( value ) && Object.keys( value ).every( key => {
+    Is.is.object( value ) && Object.keys( value ).every( key => {
       if( predicates.attributeMapValue( value[ key ] ) ) return true
 
       if( key === 'data' || key === 'style' ){
@@ -23,10 +23,10 @@ const predicates = {
       return false
     }),
   node: value =>
-    value && Is.string( value.nodeName ) && Is.integer( value.nodeType )
+    value && Is.is.string( value.nodeName ) && Is.is.integer( value.nodeType )
 }
 
-const is = Is( predicates )
+const is = Is.extendDefaults( predicates )
 
 const handleAttributes = ( document, el, attributes ) => {
   Object.keys( attributes ).forEach( key => {

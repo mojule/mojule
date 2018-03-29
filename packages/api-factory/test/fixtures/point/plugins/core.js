@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 
 const core = ({ core }) => {
   core.createState = ( x, y ) => [ x, y ]

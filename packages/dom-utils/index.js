@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 const nodeUtils = require( '@mojule/node-utils' )
 
 const { walk, removeAll } = nodeUtils

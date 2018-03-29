@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 const parse = require( 'csv-parse/lib/sync' )
 const stringify = require( 'csv-stringify/lib/sync' )
 

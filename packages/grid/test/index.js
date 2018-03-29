@@ -2,7 +2,7 @@
 /// <reference path="../typings/index.d.ts"/>
 
 const assert = require( 'assert' )
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 const Grid = require( '../src' )
 
 const expect = {

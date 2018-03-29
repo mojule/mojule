@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require( 'assert' )
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 const ApiFactory = require( '../' )
 const Point = require( './fixtures/point' )
 

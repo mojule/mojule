@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 
 const row = ({ api, state, Api }) => {
   api.getRow = ( y, startX, endX ) => {

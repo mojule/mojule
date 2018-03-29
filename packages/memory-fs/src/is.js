@@ -1,12 +1,12 @@
 'use strict'
 
-const Is = require( '@mojule/is' )
+const { is, extendDefaults } = require( '@mojule/is' )
 
 const predicates = {
-  directoryNode: subject => Is.object( subject ) && subject[ '' ] === true,
-  fileNode: subject => Is.object( subject ) && !subject[ '' ]
+  directoryNode: subject => is.object( subject ) && subject[ '' ] === true,
+  fileNode: subject => is.object( subject ) && !subject[ '' ]
 }
 
-const is = Is( predicates )
+const memoryFsIs = extendDefaults( predicates )
 
-module.exports = is
+module.exports = memoryFsIs

@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require( 'assert' )
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 const nodeUtils = require( '@mojule/node-utils' )
 const Node = require( '..' )
 const biology = require( './fixtures/biology.json' )

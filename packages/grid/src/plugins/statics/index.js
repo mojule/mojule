@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 
 const isRows = rows => is.array( rows ) && rows.every( is.array )
 

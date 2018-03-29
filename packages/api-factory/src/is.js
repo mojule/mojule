@@ -1,11 +1,11 @@
 'use strict'
 
-const Is = require( '@mojule/is' )
+const { is, extendDefaults } = require( '@mojule/is' )
 
-const plugin = plugin => Is.array( plugin ) && plugin.every( Is.function )
+const plugin = plugin => is.array( plugin ) && plugin.every( is.function )
 
 const plugins = plugins => {
-  if( !Is.object( plugins ) ) return false
+  if( !is.object( plugins ) ) return false
 
   const { core = [], statics = [], api = [], privates = [] } = plugins
 
@@ -16,6 +16,6 @@ const plugins = plugins => {
 }
 
 const predicates = { plugin, plugins }
-const is = Is( predicates )
+const apiFactoryIs = extendDefaults( predicates )
 
-module.exports = is
+module.exports = apiFactoryIs

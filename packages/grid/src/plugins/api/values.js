@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( "@mojule/is" )
+const { is } = require( '@mojule/is' )
 const chunk = require( 'lodash.chunk' )
 
 const values = ({ api, state }) => {

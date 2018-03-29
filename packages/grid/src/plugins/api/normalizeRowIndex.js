@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 
 const normalizeRowIndex = ({ api, state }) => {
   api.normalizeRowIndex = value => {

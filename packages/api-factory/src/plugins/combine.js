@@ -1,6 +1,5 @@
 'use strict'
 
-const is = require( '../is' )
 const normalize = require( './normalize' )
 
 const combine = ( ...pluginSets ) => {

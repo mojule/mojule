@@ -177,7 +177,7 @@ The plugins that end up being exposed to the end consumer of your API code
 You can use api factory in a redux like style:
 
 ```javascript
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 
 const isTodo = target =>
   is.object( target ) && is.string( target.text ) &&

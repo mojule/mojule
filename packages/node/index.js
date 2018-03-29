@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 const SymbolTree = require( 'symbol-tree' )
 
 const tree = new SymbolTree( 'Mojule node' )

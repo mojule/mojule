@@ -1,6 +1,6 @@
 'use strict'
 
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 
 const typenames = [ 'string', 'integer', 'number', 'boolean', 'array', 'object' ]
 

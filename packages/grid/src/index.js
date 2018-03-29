@@ -1,7 +1,7 @@
 'use strict'
 
 const ApiFactory = require( '@mojule/api-factory' )
-const is = require( '@mojule/is' )
+const { is } = require( '@mojule/is' )
 const defaultPlugins = require( './plugins' )
 const formats = require( './formats' )
 const FormatPlugins = require( './plugins/format-plugins' )
