@@ -1,6 +1,6 @@
 {
   "name": "@mojule/node-utils",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Tree node utilities",
   "main": "index.js",
   "directories": {
@@ -26,8 +26,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mojule/document": "^0.1.5",
-    "@mojule/node": "^0.1.6",
+    "@mojule/document": "^0.2.0",
+    "@mojule/node": "^0.2.0",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0"
   },
