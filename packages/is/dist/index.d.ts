@@ -9,7 +9,7 @@ declare const Is: {
         null: (subject: any) => subject is null;
         undefined: (subject: any) => subject is undefined;
         function: (subject: any) => subject is (...args: any[]) => any;
-        object: (subject: any) => subject is object;
+        object: (subject: any) => subject is any;
         empty: (subject: any) => subject is {};
     };
     extendDefaults: (predicates: Predicates) => Predicates;
