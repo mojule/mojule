@@ -151,3 +151,15 @@ export function rename( document: HTMLDocument, node: HTMLElement, tagName: stri
   Removes all the children of the provided element and returns them in an array
 */
 export function empty( node: HTMLParentElement ) : Node[]
+
+/**
+  calls ParentNode.querySelector and either throws if no result or returns the
+  node
+*/
+export function strictSelect( el: Element | Document | DocumentFragment, selector: string ): Node
+
+/**
+  calls Element.getAttribute and either throws if no result or returns the
+  string value
+*/
+export function strictGetAttribute( el: Element, attributeName: string ): string

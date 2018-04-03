@@ -235,10 +235,30 @@ const empty = node => {
   return removed
 }
 
+export const strictSelect = ( el, selector ) => {
+  const result = el.querySelector( selector )
+
+  if( !result )
+    throw Error( `Expected ${ el.nodeName } to have a descendant matching ${ selector }` )
+
+  return result
+}
+
+export const strictGetAttribute = ( el, attributeName ) => {
+  const result = el.getAttribute( attributeName )
+
+  if( !result )
+    throw Error( `Expected ${ el.nodeName } to have an attribute called ${ attributeName }` )
+
+  return result
+}
+
+
 const domUtils = {
   select, selectAll, isWhitespaceNode, removeWhitespace, normalizeWhitespace,
   parse, parseDocument, stringify, getAttributes, setAttributes,
-  createEmptyDocument, serialize, deserialize, eachAttribute, rename, empty
+  createEmptyDocument, serialize, deserialize, eachAttribute, rename, empty,
+  strictSelect, strictGetAttribute
 }
 
 const utils = Object.assign( {}, nodeUtils, domUtils )
