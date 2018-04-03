@@ -32,7 +32,7 @@ const isFunction = ( subject: any ): subject is Fn =>
   typeof subject === 'function'
 
 // I think you can exclude array, null etc with Diff<T, U> in TS 2.8, look into
-const isObject = ( subject: any ): subject is object =>
+const isObject = ( subject: any ): subject is any =>
   typeof subject === 'object' && !isNull( subject ) && !isArray( subject )
 
 const isEmpty = ( subject: any ): subject is {} =>
