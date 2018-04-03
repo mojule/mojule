@@ -150,7 +150,7 @@ export function rename( document: HTMLDocument, node: HTMLElement, tagName: stri
 /**
   Removes all the children of the provided element and returns them in an array
 */
-export function empty( node: HTMLParentElement ) : Node[]
+export function empty( node: ParentNode ) : Node[]
 
 /**
   calls ParentNode.querySelector and either throws if no result or returns the
