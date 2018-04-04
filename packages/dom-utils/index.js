@@ -235,7 +235,7 @@ const empty = node => {
   return removed
 }
 
-export const strictSelect = ( el, selector ) => {
+const strictSelect = ( el, selector ) => {
   const result = el.querySelector( selector )
 
   if( !result )
@@ -244,7 +244,7 @@ export const strictSelect = ( el, selector ) => {
   return result
 }
 
-export const strictGetAttribute = ( el, attributeName ) => {
+const strictGetAttribute = ( el, attributeName ) => {
   const result = el.getAttribute( attributeName )
 
   if( !result )
