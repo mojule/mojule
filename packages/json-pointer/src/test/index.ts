@@ -1,12 +1,8 @@
-'use strict'
+import { is } from '@mojule/is'
+import * as assert from 'assert'
+import { get, set, compile, flatten, expand, pointers, glob, pointerValueArray, pointerValueArrayToPointerMap, diff, newFromDiff, oldFromDiff } from '..'
 
-const { is } = require( '@mojule/is' )
-const assert = require( 'assert' )
-const pointer = require( '..' )
-
-const { get, set, compile, flatten, expand, pointers, glob } = pointer
-
-const Obj = () => ({
+const Obj = () => ( {
   a: 1,
   b: {
     c: 2
@@ -14,7 +10,27 @@ const Obj = () => ({
   d: {
     e: [ { a: 3 }, { b: 4 }, { c: 5 } ]
   }
+} )
+
+const DiffLeft = () => ({
+  unchanged: [ [], {} ],
+  changed: 0,
+  unchangedArray: [ 1, 2, 3 ],
+  changedArray: [ 4, 5, 6 ],
+  moved: 7,
+  movedAndChanged: 8,
+  removed: 9
 })
+
+const DiffRight = () => ( {
+  unchanged: [ [], {} ],
+  changed: 9,
+  unchangedArray: [ 1, 2, 3 ],
+  changedArray: [ 6, 4, 5 ],
+  movedAndChanged: 11,
+  moved: 7,
+  added: 8
+} )
 
 const Arr = () => [ 'a', 'b', 'c' ]
 
@@ -35,7 +51,7 @@ describe( 'pointer', () => {
       assert.equal( get( obj, '/d/e/0/a' ), 3 )
       assert.equal( get( obj, '/d/e/1/b' ), 4 )
       assert.equal( get( obj, '/d/e/2/c' ), 5 )
-    })
+    } )
 
     it( 'gets from array', () => {
       const arr = Arr()
@@ -45,31 +61,31 @@ describe( 'pointer', () => {
       assert.equal( get( arr, '/2' ), 'c' )
       assert.equal( get( arr, '/3' ), undefined )
       assert.equal( get( arr, '/-' ), undefined )
-    })
+    } )
 
     it( 'gets root value', () => {
       const obj = Obj()
 
       assert.equal( get( obj, '' ), obj )
-    })
+    } )
 
     it( 'returns "undefined" when path extends beyond any existing objects', () => {
       const obj = Obj()
 
       assert.strictEqual( get( obj, '/x/y/z' ), undefined )
-    })
+    } )
 
     it( 'throws on bad paths', () => {
       const obj = Obj()
 
       assert.throws( () => get( obj, 'a' ), pointerError )
       assert.throws( () => get( obj, 'a/' ), pointerError )
-    })
+    } )
 
     it( 'throws on bad input value', () => {
       assert.throws( () => get( 'bad', '/0' ), inputError )
-    })
-  })
+    } )
+  } )
 
   describe( 'set', () => {
     it( 'set returns old values', () => {
@@ -85,14 +101,14 @@ describe( 'pointer', () => {
       assert.equal( get( obj, '/d/e/0/a' ), 4 )
       assert.equal( get( obj, '/d/e/1/b' ), 5 )
       assert.equal( get( obj, '/d/e/2/c' ), 6 )
-    })
+    } )
 
     it( 'sets nested values', () => {
       const obj = Obj()
 
       assert.equal( set( obj, '/f/g/h/i', 6 ), undefined )
       assert.equal( get( obj, '/f/g/h/i' ), 6 )
-    })
+    } )
 
     it( 'sets an array', () => {
       const obj = Obj()
@@ -103,7 +119,7 @@ describe( 'pointer', () => {
 
       assert( Array.isArray( arrValue ) )
       assert.equal( arrValue[ 0 ], 'test' )
-    })
+    } )
 
     it( 'sets "null" as a value', () => {
       const obj = Obj()
@@ -114,7 +130,7 @@ describe( 'pointer', () => {
       assert.strictEqual( get( obj, '/f/g/h/foo/0' ), null )
       assert.equal( set( obj, '/b/c', null ), 2 )
       assert.strictEqual( get( obj, '/b/c' ), null )
-    })
+    } )
 
     it( 'can unset values with "undefined"', () => {
       const obj = Obj()
@@ -123,16 +139,16 @@ describe( 'pointer', () => {
       assert.strictEqual( get( obj, '/a' ), undefined )
       set( obj, '/d/e/1', undefined )
       assert.strictEqual( get( obj, '/d/e/1' ), undefined )
-    })
+    } )
 
     it( 'throws on bad input value', () => {
       assert.throws( () => set( 'bad', '/0', 'B' ), inputError )
-    })
+    } )
 
     it( 'throws on bad compiled pointer', () => {
       assert.throws( () => set( [], [], 'Bad' ), pointerError )
-    })
-  })
+    } )
+  } )
 
   describe( 'compile', () => {
     it( 'compiles pointer', () => {
@@ -143,12 +159,12 @@ describe( 'pointer', () => {
       assert.equal( ptr.set( a, 'test' ), 'bar' )
       assert.equal( ptr.get( a ), 'test' )
       assert.deepEqual( a, { foo: 'test' } )
-    })
+    } )
 
     it( 'throws on bad pointer', () => {
-      assert.throws( () => compile( {} ), pointerError )
-    })
-  })
+      assert.throws( () => (<any>compile)( {} ), pointerError )
+    } )
+  } )
 
   describe( 'flatten', () => {
     it( 'flattens object', () => {
@@ -163,7 +179,7 @@ describe( 'pointer', () => {
       const flattened = flatten( obj )
 
       assert.deepEqual( flattened, expect )
-    })
+    } )
 
     it( 'flattens array', () => {
       const arr = Arr()
@@ -175,24 +191,24 @@ describe( 'pointer', () => {
       const flattened = flatten( arr )
 
       assert.deepEqual( flattened, expect )
-    })
+    } )
 
     it( 'only flattens when flattenable', () => {
       const str = 'a'
       const result = flatten( str )
 
       assert.strictEqual( str, result )
-    })
+    } )
 
     it( 'throws on bad JSON input', () => {
-      const a = {}
+      const a: any = {}
       const b = { a }
 
       a.b = b
 
       assert.throws( () => flatten( a ), jsonError )
-    })
-  })
+    } )
+  } )
 
   describe( 'expand', () => {
     it( 'expands object', () => {
@@ -201,7 +217,7 @@ describe( 'pointer', () => {
       const result = expand( flattened )
 
       assert.deepEqual( result, expect )
-    })
+    } )
 
     it( 'expands array', () => {
       const expect = Arr()
@@ -210,21 +226,21 @@ describe( 'pointer', () => {
 
       assert( is.array( result ) )
       assert.deepEqual( result, expect )
-    })
+    } )
 
     it( 'returns target when no source keys', () => {
       const expect = [ 1, 2, 3 ]
       const result = expand( {}, expect )
 
       assert.strictEqual( result, expect )
-    })
+    } )
 
     it( 'returns empty object when no source keys', () => {
       const expect = {}
       const result = expand( {} )
 
       assert.deepEqual( result, expect )
-    })
+    } )
 
     it( 'expands to existing object', () => {
       const existing = { a: 1 }
@@ -233,7 +249,7 @@ describe( 'pointer', () => {
       const result = expand( flattened, existing )
 
       assert.deepEqual( result, expect )
-    })
+    } )
 
     it( 'expands to existing array', () => {
       const existing = [ 1 ]
@@ -243,12 +259,12 @@ describe( 'pointer', () => {
 
       assert( is.array( result ) )
       assert.deepEqual( result, expect )
-    })
+    } )
 
     it( 'throws on bad source', () => {
-      assert.throws( () => expand( 'abc' ), inputError )
-    })
-  })
+      assert.throws( () => ( <any>expand )( 'abc' ), inputError )
+    } )
+  } )
 
   describe( 'pointers', () => {
     it( 'gets pointers for an object', () => {
@@ -262,7 +278,7 @@ describe( 'pointer', () => {
       const p = pointers( obj )
 
       assert.deepEqual( p, expect )
-    })
+    } )
 
     it( 'gets pointers for an array', () => {
       const arr = [
@@ -275,22 +291,22 @@ describe( 'pointer', () => {
       const p = pointers( arr )
 
       assert.deepEqual( p, expect )
-    })
+    } )
 
     it( 'not an object or array', () => {
       assert.deepEqual( pointers( 'foo' ), [] )
-    })
+    } )
 
     it( 'throws on bad JSON', () => {
-      const a = { foo: 'bar' }
-      const b = { baz: 'qux' }
+      const a: any = { foo: 'bar' }
+      const b: any = { baz: 'qux' }
 
       a.b = b
       b.a = a
 
       assert.throws( () => pointers( a ) )
-    })
-  })
+    } )
+  } )
 
   describe( 'glob', () => {
     it( 'globs root properties', () => {
@@ -304,7 +320,7 @@ describe( 'pointer', () => {
       const expect = [ 1, [ 2, 3, 4 ] ]
 
       assert.deepEqual( properties, expect )
-    })
+    } )
 
     it( 'globs array range', () => {
       const obj = {
@@ -317,6 +333,137 @@ describe( 'pointer', () => {
       const expect = [ 3, 4 ]
 
       assert.deepEqual( properties, expect )
+    } )
+  } )
+
+  describe( 'pointerValueArray', () => {
+    it( 'pointerValueArray from pointer map', () => {
+      const pointerMap = flatten( Obj() )
+      const pva = pointerValueArray( pointerMap )
+
+      const expect = [
+        {
+          pointer: '/a',
+          value: 1,
+          order: 0
+        },
+        {
+          pointer: '/b/c',
+          value: 2,
+          order: 1
+        },
+        {
+          pointer: '/d/e/0/a',
+          value: 3,
+          order: 2
+        },
+        {
+          pointer: '/d/e/1/b',
+          value: 4,
+          order: 3
+        },
+        {
+          pointer: '/d/e/2/c',
+          value: 5,
+          order: 4
+        }
+      ]
+
+      assert.deepEqual( pva, expect )
+    })
+
+    it( 'pointerValueArrayToPointerMap sorted', () => {
+      const obj = Obj()
+      const pointerMapIn = flatten( obj )
+      const pva = pointerValueArray( pointerMapIn )
+
+      // change array order to test sorting
+      pva.reverse()
+
+      const pointerMap = pointerValueArrayToPointerMap( pva )
+      const expanded = expand( pointerMap )
+
+      assert.equal( JSON.stringify( obj ), JSON.stringify( expanded ) )
+    })
+
+    it( 'pointerValueArrayToPointerMap unsorted', () => {
+      const obj = Obj()
+      const pointerMapIn = flatten( obj )
+      const pva = pointerValueArray( pointerMapIn )
+
+      // change array order to test sorting
+      pva.reverse()
+
+      const pointerMap = pointerValueArrayToPointerMap( pva, false )
+      const expanded = expand( pointerMap )
+
+      // even unsorted, should still be the same aside from key order
+      assert.deepEqual( obj, expanded )
+
+      // not sorted, should be different order
+      assert.notEqual( JSON.stringify( obj ), JSON.stringify( expanded ) )
+    } )
+
+    describe( 'diff', () => {
+      const leftObj = DiffLeft()
+      const rightObj = DiffRight()
+      const left = pointerValueArray( flatten( leftObj ) )
+      const right = pointerValueArray( flatten( rightObj ) )
+      const diffs = diff( left, right )
+
+      const expect = [
+        { pointer: '/unchanged/0', value: [], order: 0 },
+        { pointer: '/unchanged/1', value: {}, order: 1 },
+        { pointer: '/changed', value: 0, order: 2, newValue: 9 },
+        { pointer: '/unchangedArray/0', value: 1, order: 3 },
+        { pointer: '/unchangedArray/1', value: 2, order: 4 },
+        { pointer: '/unchangedArray/2', value: 3, order: 5 },
+        { pointer: '/changedArray/0', value: 4, order: 6, newValue: 6 },
+        { pointer: '/changedArray/1', value: 5, order: 7, newValue: 4 },
+        { pointer: '/changedArray/2', value: 6, order: 8, newValue: 5 },
+        { pointer: '/moved', value: 7, order: 9, newOrder: 10 },
+        { pointer: '/movedAndChanged', value: 8, order: 10, newValue: 11, newOrder: 9 },
+        { pointer: '/removed', value: 9, order: 11, delete: true },
+        { pointer: '/added', value: 8, order: 11, add: true }
+      ]
+
+      it( 'diffs', () => {
+        assert.deepEqual( diffs, expect )
+      } )
+
+      it( 'gets new from diff', () => {
+        const newRight = newFromDiff( diffs )
+        const newRightObj = expand( pointerValueArrayToPointerMap( newRight ) )
+
+        assert.equal( JSON.stringify( newRightObj ), JSON.stringify( rightObj ) )
+      } )
+
+      it( 'gets old from diff', () => {
+        const newLeft = oldFromDiff( diffs )
+        const newLeftObj = expand( pointerValueArrayToPointerMap( newLeft ) )
+
+        assert.equal( JSON.stringify( newLeftObj ), JSON.stringify( leftObj ) )
+      } )
+
+      it( 'throws on unsorted left values', () => {
+        const unsortedLeft = left.slice().reverse()
+
+        assert.throws( () => diff( unsortedLeft, right ) )
+      } )
+
+      it( 'throws on unsorted right values', () => {
+        const unsortedRight = right.slice().reverse()
+
+        assert.throws( () => diff( left, unsortedRight ) )
+      } )
+
+      it( 'diff sorts values', () => {
+        const unsortedLeft = left.slice().reverse()
+        const unsortedRight = right.slice().reverse()
+        const diffs = diff( unsortedLeft, unsortedRight, true )
+
+        assert.deepEqual( diffs, expect )
+      })
     })
   })
 
@@ -339,8 +486,8 @@ describe( 'pointer', () => {
       assert.equal( get( complexKeys, '/01' ), 4 )
       assert.equal( get( complexKeys, '/a/b/c' ), null )
       assert.equal( get( complexKeys, '/~1' ), null )
-    })
-  })
+    } )
+  } )
 
   describe( 'special array rules', () => {
     it( 'follows draft-ietf-appsawg-json-pointer-08', () => {
@@ -349,8 +496,8 @@ describe( 'pointer', () => {
 
       assert.equal( set( ary, '/-', 'three' ), null )
       assert.equal( ary[ 3 ], 'three' )
-    })
-  })
+    } )
+  } )
 
   describe( 'draft examples', () => {
     const example = {
@@ -382,6 +529,6 @@ describe( 'pointer', () => {
       assert.equal( get( example, '/k\'l' ), 6 )
       assert.equal( get( example, '/ ' ), 7 )
       assert.equal( get( example, '/m~0n' ), 8 )
-    })
-  })
-})
+    } )
+  } )
+} )
