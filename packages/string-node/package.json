@@ -1,6 +1,6 @@
 {
   "name": "@mojule/string-node",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Tree nodes where the value is a string",
   "main": "index.js",
   "scripts": {
@@ -22,12 +22,12 @@
   },
   "homepage": "https://github.com/mojule/mojule/packages/string-node#readme",
   "devDependencies": {
-    "@mojule/is": "^0.3.6",
+    "@mojule/is": "^0.3.7",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0"
   },
   "dependencies": {
-    "@mojule/node": "^0.2.3",
-    "@mojule/node-utils": "^0.2.3"
+    "@mojule/node": "^0.2.4",
+    "@mojule/node-utils": "^0.2.4"
   }
 }

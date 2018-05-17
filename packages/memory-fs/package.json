@@ -1,6 +1,6 @@
 {
   "name": "@mojule/memory-fs",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A simple in-memory filesystem. Holds data in a javascript object.",
   "main": "index.js",
   "directories": {
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/mojule/mojule/packages/memory-fs#readme",
   "dependencies": {
-    "@mojule/is": "^0.3.6",
+    "@mojule/is": "^0.3.7",
     "errno": "^0.1.4",
     "readable-stream": "^2.3.3"
   },
