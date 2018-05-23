@@ -172,6 +172,11 @@ exports.pointerValueArray = (pointerMap) => Object.keys(pointerMap).map((pointer
     value: pointerMap[pointer],
     order
 }));
+exports.globPointerValues = (pointerValues, patterns, options) => {
+    const paths = pointerValues.map(pv => pv.pointer);
+    const matches = mm(paths, patterns, options);
+    return pointerValues.filter(pv => matches.includes(pv.pointer));
+};
 exports.sortedPointerValues = (pointerValues) => pointerValues.slice().sort((a, b) => a.order - b.order);
 exports.pointerValueArrayToPointerMap = (pointerValues, sort = true) => {
     if (sort)

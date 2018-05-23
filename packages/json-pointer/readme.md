@@ -90,7 +90,7 @@ const pointer = require( '@mojule/json-pointer' )
 
 const {
   flatten, expand, pointerValueArray, pointerValueArrayToPointerMap, diff,
-  newFromDiff, oldFromDiff, sortedPointerValues
+  newFromDiff, oldFromDiff, sortedPointerValues, globPointerValues
 } = pointer
 
 const obj = {
@@ -185,6 +185,9 @@ const oldObj = expand( pointerValueArrayToPointerMap( oldPointerValues ) )
 // if you modified your pointer value array and it's out of order
 const left2 = left.slice().reverse()
 const sortedLeft2 = sortedPointerValues( left2 )
+
+// filter the pointer values using glob
+const filtered = globPointerValues( values, '/b/**' )
 ```
 
 ## License

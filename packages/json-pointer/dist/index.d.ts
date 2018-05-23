@@ -28,6 +28,7 @@ export declare const expand: (source: PointerMap, target?: any) => any;
 export declare const pointers: (source: any) => string[];
 export declare const glob: (source: any, patterns: string | string[], options?: mm.Options | undefined) => any[];
 export declare const pointerValueArray: (pointerMap: PointerMap) => PointerValue[];
+export declare const globPointerValues: (pointerValues: PointerValue[], patterns: string | string[], options?: mm.Options | undefined) => PointerValue[];
 export declare const sortedPointerValues: (pointerValues: PointerValue[]) => PointerValue[];
 export declare const pointerValueArrayToPointerMap: (pointerValues: PointerValue[], sort?: boolean) => PointerMap;
 export declare const diff: (left: PointerValue[], right: PointerValue[], sort?: boolean) => DiffValue[];

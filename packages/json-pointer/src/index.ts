@@ -252,6 +252,13 @@ export const pointerValueArray = ( pointerMap: PointerMap ): PointerValue[] =>
     } )
   )
 
+export const globPointerValues = ( pointerValues: PointerValue[], patterns: string | string[], options?: mm.Options ) => {
+  const paths = pointerValues.map( pv => pv.pointer )
+  const matches = mm( paths, patterns, options )
+
+  return pointerValues.filter( pv => matches.includes( pv.pointer ) )
+}
+
 export const sortedPointerValues = ( pointerValues: PointerValue[] ) =>
   pointerValues.slice().sort( ( a, b ) => a.order - b.order )
 

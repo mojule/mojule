@@ -1,6 +1,6 @@
 import { is } from '@mojule/is'
 import * as assert from 'assert'
-import { get, set, compile, flatten, expand, pointers, glob, pointerValueArray, pointerValueArrayToPointerMap, diff, newFromDiff, oldFromDiff } from '..'
+import { get, set, compile, flatten, expand, pointers, glob, pointerValueArray, pointerValueArrayToPointerMap, diff, newFromDiff, oldFromDiff, globPointerValues } from '..'
 
 const Obj = () => ( {
   a: 1,
@@ -463,6 +463,25 @@ describe( 'pointer', () => {
         const diffs = diff( unsortedLeft, unsortedRight, true )
 
         assert.deepEqual( diffs, expect )
+      })
+    })
+
+    describe( 'globPointerValues', () => {
+      it( 'globs pointer values', () => {
+        const left = DiffLeft()
+        const pointerMapLeft = flatten( left )
+        const pva = pointerValueArray( pointerMapLeft )
+
+        const globbedPva = globPointerValues( pva, '/un*/**' )
+        const globbedPointerMap = pointerValueArrayToPointerMap( globbedPva )
+        const result = expand( globbedPointerMap )
+
+        const expect = {
+          unchanged: [ [], {} ],
+          unchangedArray: [ 1, 2, 3 ]
+        }
+
+        assert.deepEqual( result, expect )
       })
     })
   })

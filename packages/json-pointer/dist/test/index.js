@@ -364,6 +364,21 @@ describe('pointer', () => {
                 assert.deepEqual(diffs, expect);
             });
         });
+        describe('globPointerValues', () => {
+            it('globs pointer values', () => {
+                const left = DiffLeft();
+                const pointerMapLeft = __1.flatten(left);
+                const pva = __1.pointerValueArray(pointerMapLeft);
+                const globbedPva = __1.globPointerValues(pva, '/un*/**');
+                const globbedPointerMap = __1.pointerValueArrayToPointerMap(globbedPva);
+                const result = __1.expand(globbedPointerMap);
+                const expect = {
+                    unchanged: [[], {}],
+                    unchangedArray: [1, 2, 3]
+                };
+                assert.deepEqual(result, expect);
+            });
+        });
     });
     describe('complex keys', () => {
         const complexKeys = {
