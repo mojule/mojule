@@ -130,7 +130,7 @@ export interface IH {
   menuitem: ( ...args: ElementArg[] ) => HTMLElement
   picture: ( ...args: ElementArg[] ) => HTMLPictureElement
   shadow: ( ...args: ElementArg[] ) => HTMLElement
-  summary: ( ...args: ElementArg[] ) => HTMLSummaryElement
+  summary: ( ...args: ElementArg[] ) => HTMLElement
 }
 
 export type HFactory = ( document: HTMLDocument ) => IH
