@@ -1,6 +1,6 @@
 {
   "name": "@mojule/dom-utils",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "DOM traversal/query/manipulation functions",
   "main": "index.js",
   "directories": {
@@ -26,12 +26,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "@mojule/document": "^0.2.0",
+    "@mojule/document": "^0.2.1",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0"
   },
   "dependencies": {
-    "@mojule/is": "^0.3.8",
-    "@mojule/node-utils": "^0.2.5"
+    "@mojule/is": "^0.3.9",
+    "@mojule/node-utils": "^0.2.6"
   }
 }
